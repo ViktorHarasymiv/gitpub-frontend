@@ -1,0 +1,13 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+.imgRegister {
+  background: url('/leleka.png') right/contain no-repeat;
+}
+
+.imgLogin {
+  background: url('/nest.png') right/contain no-repeat;
+}

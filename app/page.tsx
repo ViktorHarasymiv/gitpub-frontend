@@ -1,5 +1,14 @@
-
-export default function Home() {
+export default function DashboardPage() {
   return (
-    <h1>Hello team</h1>
-  )}
+    <main
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      контент дашборда
+    </main>
+  );
+}
