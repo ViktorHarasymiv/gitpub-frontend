@@ -1,0 +1,27 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+}
+
+.burgerButton {
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileMenu {
+  background-color: var(--color-scheme-background);
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  z-index: 9999;
+}
+
+.overlay {
+  background: var(--opacity-neutral-darkest-50) !important;
+}
