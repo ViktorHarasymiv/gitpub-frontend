@@ -4,7 +4,7 @@ import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { headers } from 'next/headers';
-import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+import BreadcrumbsList from '@/components/Breadcrumbs/Breadcrumbs';
 
 //Fonts----------------------------------------
 
@@ -40,7 +40,7 @@ export default async function RootLayout({
           {!isAuthRoute && <Sidebar />}
           <div className="content">
             {!isAuthRoute && <Header />}
-            {!isAuthRoute && <Breadcrumbs />}
+            {!isAuthRoute && <BreadcrumbsList />}
             <main>{children}</main>
           </div>
         </TanStackProvider>
