@@ -32,7 +32,9 @@ const Sidebar = () => {
                 <Link
                   href={link.href}
                   className={`${css.navItem} ${
-                    pathname === link.href ? css.active : ''
+                    link.href === '/'
+                      ? pathname === '/' && css.active
+                      : pathname.startsWith(link.href) && css.active
                   }`}
                 >
                   <svg width={link.w} height={link.h}>

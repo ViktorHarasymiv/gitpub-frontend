@@ -1,10 +1,18 @@
 .breadcrumbsContainer {
+  display: flex;
+  align-items: center;
+
   width: 100%;
   background-color: var(--color-scheme-background);
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 14px;
-  line-height: 160%;
+  line-height: 1.6;
   color: var(--color-scheme-text);
   padding: 26.5px 32px 18.5px 32px;
+}
+
+.breadcrumbsContainer a,
+.breadcrumbsContainer span {
+  margin-right: 16px;
 }

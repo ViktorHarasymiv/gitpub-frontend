@@ -4,7 +4,6 @@ import css from './Header.module.css';
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import Logo from '../icons/Logo';
 import { slide as Menu } from 'react-burger-menu';
-
 import MobileMenu from '../MobileMenu/MobileMenu';
 
 const Header = () => {
