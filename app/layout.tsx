@@ -27,19 +27,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
 }) {
   return (
     <html lang="uk" className={`${lato.variable} ${comfortaa.variable}`}>
       <body>
         <TanStackProvider>
-          <AuthProvider>
-            {children}
-            {modal}
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </TanStackProvider>
       </body>
     </html>
