@@ -1,7 +1,7 @@
 import React from 'react';
 
-const DiaryPage = () => {
-  return <div>DiaryPage</div>;
-};
+function page() {
+  return <div>Щодденик виконує - Denys Tkachenko</div>;
+}
 
-export default DiaryPage;
+export default page;

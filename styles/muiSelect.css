@@ -1,0 +1,10 @@
+.css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+
+  background: var(--opacity-neutral-darkest-5) !important;
+}
+
+.css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root {
+  border-radius: 12px !important;
+  color: var(--color-neutral) !important;
+}

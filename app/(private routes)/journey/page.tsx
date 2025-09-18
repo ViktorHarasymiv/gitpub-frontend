@@ -1,7 +1,14 @@
-import React from 'react';
+import JourneyDetails from "@/components/JourneyDetails/JourneyDetails";
+import WeekSelector from "@/components/WeekSelector/WeekSelector";
+import React from "react";
 
-const JourneyPage = () => {
-  return <div>JourneyPage</div>;
-};
+function journey() {
+  return (
+    <section>
+      <WeekSelector />
+      <JourneyDetails />
+    </section>
+  );
+}
 
-export default JourneyPage;
+export default journey;
