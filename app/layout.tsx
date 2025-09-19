@@ -1,4 +1,4 @@
-import { Nunito, Comfortaa } from 'next/font/google';
+import { Lato, Comfortaa } from 'next/font/google';
 import './global.css';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 
@@ -12,11 +12,11 @@ export const metadata = {
 
 //Fonts----------------------------------------
 
-const nunito = Nunito({
+const open_sans = Lato({
   subsets: ['latin'],
-  weight: ['300', '400', '700', '900'],
-  variable: '--font-lato',
+  weight: ['100', '300', '400', '700', '900'],
   display: 'swap',
+  variable: '--font-lato',
 });
 
 const comfortaa = Comfortaa({
@@ -36,7 +36,7 @@ export default async function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
+    <html lang="uk" className={`${open_sans.variable} ${comfortaa.variable}`}>
       <body>
         <TanStackProvider>
           <PathnameProvider>
