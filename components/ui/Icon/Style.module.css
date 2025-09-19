@@ -1,0 +1,12 @@
+.icon {
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.icon:hover,
+.icon:active {
+  transform: scale(1.3);
+
+  fill: var(--color-scheme-foreground-alt);
+}
