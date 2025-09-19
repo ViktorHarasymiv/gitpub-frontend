@@ -6,6 +6,11 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import { headers } from 'next/headers';
 import BreadcrumbsList from '@/components/Breadcrumbs/Breadcrumbs';
 
+export const metadata = {
+  title: 'Лелека',
+  description: 'Додаток який допоможе вам в очікуванні малюка',
+};
+
 //Fonts----------------------------------------
 
 const lato = Lato({
@@ -38,11 +43,12 @@ export default async function RootLayout({
       <body>
         <TanStackProvider>
           {!isAuthRoute && <Sidebar />}
-          <div className="content">
+
+          <main className="content">
             {!isAuthRoute && <Header />}
             {!isAuthRoute && <BreadcrumbsList />}
-            <main>{children}</main>
-          </div>
+            <div>{children}</div>
+          </main>
         </TanStackProvider>
       </body>
     </html>
