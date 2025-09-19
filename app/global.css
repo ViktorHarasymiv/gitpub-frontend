@@ -90,7 +90,7 @@ body {
   font-family: var(--font-family), sans-serif;
   background-color: var(--color-scheme-background);
   color: var(--color-scheme-text);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .content {

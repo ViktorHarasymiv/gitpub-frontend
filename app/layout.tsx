@@ -38,16 +38,12 @@ export default async function RootLayout({
   return (
     <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
       <body>
-        <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
-          <body>
-            <TanStackProvider>
-              <PathnameProvider>
-                <LayoutContent>{children}</LayoutContent>
-                {modal}
-              </PathnameProvider>
-            </TanStackProvider>
-          </body>
-        </html>
+        <TanStackProvider>
+          <PathnameProvider>
+            <LayoutContent>{children}</LayoutContent>
+            {modal}
+          </PathnameProvider>
+        </TanStackProvider>
       </body>
     </html>
   );
