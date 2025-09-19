@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import css from './Sidebar.module.css';
 import Logo from '../icons/Logo.js';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 interface SidebarContentProps {
@@ -51,7 +51,7 @@ const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
       </nav>
 
       <div className={css.sidebarFooter}>
-        <Image
+        {/* <Image
           src={'/user.jpg'}
           alt="User photo"
           width={40}
@@ -66,7 +66,16 @@ const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
           <svg width="19" height="20">
             <use href="/sprite.svg#exit" />
           </svg>
-        </button>
+        </button> */}
+
+        <ul className={css.authLinks}>
+          <li className={css.item}>
+            <Link href={'/auth/login'}>Увійти</Link>
+          </li>
+          <li className={css.item}>
+            <Link href={'/auth/register'}>Зареєструватись</Link>
+          </li>
+        </ul>
       </div>
     </aside>
   );

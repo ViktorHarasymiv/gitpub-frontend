@@ -46,6 +46,11 @@ const Header = () => {
           <>
             <div className={css.overlay} onClick={closeMenu} />
             <div className={`${css.menu} ${closing ? css.closing : ''}`}>
+              <button className={css.closeButton} onClick={closeMenu}>
+                <svg width="18" height="18">
+                  <use href="/sprite.svg#close_btn" />
+                </svg>
+              </button>
               <SidebarContent onLinkClick={closeMenu} />
             </div>
           </>

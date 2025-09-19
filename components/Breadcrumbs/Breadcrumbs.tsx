@@ -25,7 +25,13 @@ const Breadcrumbs = () => {
     <ul className={css.breadcrumbsContainer}>
       <li>
         <span>Лелека</span>
-        {<span>{' > '}</span>}
+        {
+          <span className={css.arrow}>
+            <svg width="6" height="11">
+              <use href="/sprite.svg#arrow-right" />
+            </svg>
+          </span>
+        }
       </li>
       {segments.length === 0 && (
         <li>
@@ -35,7 +41,15 @@ const Breadcrumbs = () => {
       {breadcrumbs.map((crumb, index) => (
         <li key={crumb.href}>
           <Link href={crumb.href}>{crumb.label}</Link>
-          {index < breadcrumbs.length - 1 && <span>{' > '}</span>}
+          {index < breadcrumbs.length - 1 && (
+            <span className={css.arrow}>
+              {
+                <svg width="6" height="11">
+                  <use href="/sprite.svg#arrow-right" />
+                </svg>
+              }
+            </span>
+          )}
         </li>
       ))}
     </ul>

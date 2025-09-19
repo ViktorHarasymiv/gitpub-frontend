@@ -73,7 +73,7 @@
   --opacity-neutral-darkest-50: rgba(0, 0, 0, 0.5);
   --opacity-neutral-darkest-60: rgba(0, 0, 0, 0.6);
 
-  --font-family: var(--font-lato);
+  --font-family: var(--font-nunito), sans-serif;
   --second-family: var(--font-comfortaa);
 }
 
@@ -90,6 +90,7 @@ body {
   font-family: var(--font-family), sans-serif;
   background-color: var(--color-scheme-background);
   color: var(--color-scheme-text);
+  overflow-x: hidden;
 }
 
 .content {

@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 32px;
+  background-color: var(--color-scheme-background);
 }
 
 .burgerButton {
@@ -54,4 +55,16 @@
   z-index: 1000;
   opacity: 1;
   transition: opacity 0.3s ease;
+}
+
+.closeButton {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: black;
 }
