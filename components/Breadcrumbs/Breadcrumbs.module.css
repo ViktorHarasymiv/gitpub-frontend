@@ -16,3 +16,10 @@
 .breadcrumbsContainer span {
   margin-right: 16px;
 }
+
+.arrow {
+  display: inline-flex;
+}
+.arrow svg {
+  align-self: flex-end;
+}
