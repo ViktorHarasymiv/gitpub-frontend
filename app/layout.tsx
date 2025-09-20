@@ -30,10 +30,8 @@ const comfortaa = Comfortaa({
 
 export default async function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
@@ -43,7 +41,6 @@ export default async function RootLayout({
             <TanStackProvider>
               <PathnameProvider>
                 <LayoutContent>{children}</LayoutContent>
-                {modal}
               </PathnameProvider>
             </TanStackProvider>
           </body>
