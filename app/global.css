@@ -73,8 +73,8 @@
   --opacity-neutral-darkest-50: rgba(0, 0, 0, 0.5);
   --opacity-neutral-darkest-60: rgba(0, 0, 0, 0.6);
 
-  --font-family: var(--font-nunito), sans-serif;
-  --second-family: var(--font-comfortaa);
+  --font-family: var(--font-lato), sans-serif;
+  --second-family: var(--font-comfortaa), sans-serif;
 }
 
 /* ====== Global Resets & Base Styles ====== */
@@ -87,10 +87,10 @@
 body {
   min-height: 100vh;
   display: flex;
-  font-family: var(--font-family), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   background-color: var(--color-scheme-background);
   color: var(--color-scheme-text);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .content {

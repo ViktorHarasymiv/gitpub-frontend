@@ -5,9 +5,24 @@
 }
 
 .imgRegister {
-  background: url('/leleka.png') right/contain no-repeat;
+  background: url('/leleka.png') right/cover no-repeat;
 }
 
 .imgLogin {
-  background: url('/nest.png') right/contain no-repeat;
+  background: url('/nest.png') right/cover no-repeat;
+}
+
+@media screen and (max-width: 768px) {
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .imgLogin {
+    display: none;
+  }
+
+  .imgRegister {
+    display: none;
+  }
 }
