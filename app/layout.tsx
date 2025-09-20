@@ -30,20 +30,20 @@ const comfortaa = Comfortaa({
 
 export default async function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="uk" className={`${open_sans.variable} ${comfortaa.variable}`}>
       <body>
+
         <TanStackProvider>
           <PathnameProvider>
             <LayoutContent>{children}</LayoutContent>
-            {modal}
+          
           </PathnameProvider>
         </TanStackProvider>
+
       </body>
     </html>
   );

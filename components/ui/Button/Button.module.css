@@ -1,0 +1,65 @@
+/* Сommon */
+
+.button,
+.alternativeButton {
+  width: 480px;
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  line-height: 0;
+
+  border-radius: 100px;
+
+  transition: all 0.2s ease-in;
+
+  font-size: 0.7em;
+
+  font-family: var(--second-family);
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+.button:disabled,
+.alternativeButton:disabled {
+  opacity: 0.3;
+}
+
+/* First variant */
+
+.button:hover,
+.button:focus {
+  border-bottom: 4px solid var(--opacity-neutral-darkest-15);
+  background: var(--color-scheme-accent);
+}
+
+.button:active {
+  border-bottom: 0px solid var(--color-scheme-accent);
+}
+
+.button {
+  background: var(--color-scheme-foreground-alt);
+  border-bottom: 4px solid var(--color-scheme-accent);
+}
+
+/* Alternative */
+
+.alternativeButton {
+  background: var(--opacity-neutral-darkest-5);
+  border-bottom: 4px solid var(--opacity-neutral-darkest-15);
+}
+
+.alternativeButton:hover,
+.alternativeButton:focus {
+  border-bottom: 4px solid var(--color-scheme-border);
+
+  background: var(--color-scheme-background);
+}
+
+.alternativeButton:active {
+  background: var(--color-neutral-light);
+  border-bottom: none;
+}
