@@ -15,18 +15,17 @@ interface ConfirmationModalProps {
 
 export default function ConfirmationModal({
   title,
-  confirmButtonText,
-  cancelButtonText,
   onConfirm,
   onCancel,
   style,
 }: ConfirmationModalProps) {
   return (
-    <Modal title={title} onClose={onCancel} style={style}>
+    <Modal onClose={onCancel} style={style}>
       <div className={css.actions}>
-        <Button action={onConfirm}>{confirmButtonText}</Button>
-        <Button action={onCancel} alternative>
-          {cancelButtonText}
+        <h1>{title}</h1>
+        <Button action={() => onConfirm}>Так</Button>
+        <Button action={() => onCancel} alternative={true}>
+          Ні
         </Button>
       </div>
     </Modal>

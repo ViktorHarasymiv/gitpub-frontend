@@ -5,6 +5,7 @@ import Modal from '@/components/Modal/Modal';
 import Button from '@/components/ui/Button/Button';
 import { Icon } from '@/components/ui/Icon/Icon';
 import Loader from '@/components/ui/Loader/Loader';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 export default function DashboardPage() {
   const [openModal, setOpenModal] = useState(false);
@@ -43,6 +44,10 @@ export default function DashboardPage() {
       <br />
       {/* Loader */}
       <Loader loading={true} />
+
+      {/* Confirm modal */}
+
+      {/* <ConfirmationModal title="Ви точно хочете вийти?" /> */}
     </div>
   );
 }
