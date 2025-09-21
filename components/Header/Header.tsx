@@ -3,41 +3,58 @@ import React, { useState } from 'react';
 import css from './Header.module.css';
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import Logo from '../icons/Logo';
-import { slide as Menu } from 'react-burger-menu';
-import MobileMenu from '../MobileMenu/MobileMenu';
+import SidebarContent from '../Sidebar/SidebarContent';
 
 const Header = () => {
   const isMobile = useIsMobile();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
 
-  const handleStateChange = (state: { isOpen: boolean }) => {
-    setMenuOpen(state.isOpen);
+  const toggleOpen = () => {
+    if (open) {
+      setClosing(true);
+      setTimeout(() => {
+        setOpen(false);
+        setClosing(false);
+      }, 300);
+    } else {
+      setOpen(true);
+    }
   };
 
-  const toggleMenu = () => {
-    setMenuOpen(prev => !prev);
+  const closeMenu = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setOpen(false);
+      setClosing(false);
+    }, 300);
   };
 
   return (
     isMobile && (
       <>
-        <div id="outer-container" className={css.header}>
+        <header className={css.header}>
           <Logo />
-          <button onClick={toggleMenu} className={css.burgerButton}>
+          <button onClick={toggleOpen} className={css.burgerButton}>
             <svg width="22" height="16">
               <use href="/sprite.svg#burger" />
             </svg>
           </button>
-        </div>
-        <Menu
-          isOpen={menuOpen}
-          onStateChange={handleStateChange}
-          customBurgerIcon={false}
-          menuClassName={css.mobileMenu}
-          overlayClassName={css.overlay}
-        >
-          <MobileMenu />
-        </Menu>
+        </header>
+
+        {open && (
+          <>
+            <div className={css.overlay} onClick={closeMenu} />
+            <div className={`${css.menu} ${closing ? css.closing : ''}`}>
+              <button className={css.closeButton} onClick={closeMenu}>
+                <svg width="18" height="18">
+                  <use href="/sprite.svg#close_btn" />
+                </svg>
+              </button>
+              <SidebarContent onLinkClick={closeMenu} />
+            </div>
+          </>
+        )}
       </>
     )
   );

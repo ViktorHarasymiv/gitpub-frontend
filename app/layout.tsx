@@ -1,14 +1,18 @@
-import { Lato, Comfortaa } from 'next/font/google';
+import { Nunito, Comfortaa } from 'next/font/google';
 import './global.css';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
-import Header from '@/components/Header/Header';
-import Sidebar from '@/components/Sidebar/Sidebar';
-import { headers } from 'next/headers';
-import BreadcrumbsList from '@/components/Breadcrumbs/Breadcrumbs';
+
+import { PathnameProvider } from '@/components/PathNameContext/PathNameContext';
+import LayoutContent from '@/components/LayoutContent/LayoutContent';
+
+export const metadata = {
+  title: 'Лелека',
+  description: 'Додаток який допоможе вам в очікуванні малюка',
+};
 
 //Fonts----------------------------------------
 
-const lato = Lato({
+const nunito = Nunito({
   subsets: ['latin'],
   weight: ['300', '400', '700', '900'],
   variable: '--font-lato',
@@ -26,24 +30,24 @@ const comfortaa = Comfortaa({
 
 export default async function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
-  const h = await headers();
-  const pathname = h.get('x-pathname') || '';
-  const isAuthRoute = pathname.startsWith('/auth');
-
   return (
-    <html lang="uk" className={`${lato.variable} ${comfortaa.variable}`}>
+    <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
       <body>
-        <TanStackProvider>
-          {!isAuthRoute && <Sidebar />}
-          <div className="content">
-            {!isAuthRoute && <Header />}
-            {!isAuthRoute && <BreadcrumbsList />}
-            <main>{children}</main>
-          </div>
-        </TanStackProvider>
+        <html lang="uk" className={`${nunito.variable} ${comfortaa.variable}`}>
+          <body>
+            <TanStackProvider>
+              <PathnameProvider>
+                <LayoutContent>{children}</LayoutContent>
+                {modal}
+              </PathnameProvider>
+            </TanStackProvider>
+          </body>
+        </html>
       </body>
     </html>
   );

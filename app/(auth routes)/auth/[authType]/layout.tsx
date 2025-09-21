@@ -9,7 +9,7 @@ const AuthLayout = async ({ children, params }: AuthTypeProps) => {
 
   return (
     <div className={css.layout}>
-      <main className={css.mainContent}>{children}</main>
+      <div className={css.mainContent}>{children}</div>
       {authType === 'register' ? (
         <div className={css.imgRegister} />
       ) : authType === 'login' ? (
