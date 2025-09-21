@@ -87,7 +87,7 @@
 body {
   min-height: 100vh;
   display: flex;
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-family), sans-serif;
   background-color: var(--color-scheme-background);
   color: var(--color-scheme-text);
   overflow: hidden;
