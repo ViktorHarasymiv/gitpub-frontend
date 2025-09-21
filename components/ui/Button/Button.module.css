@@ -20,12 +20,25 @@
 
   font-family: var(--second-family);
   vertical-align: middle;
-  font-weight: 600;
+ 
+font-weight: 500;
+font-size: 14px;
+line-height: 160%;
+color: var(--color-scheme-text);
 }
 
 .button:disabled,
 .alternativeButton:disabled {
   opacity: 0.3;
+}
+
+
+@media screen and (min-width: 1200px) {
+  .button,
+  .alternativeButton {
+    font-size: 16px;
+  }
+
 }
 
 /* First variant */
