@@ -6,25 +6,23 @@ import Button from '../ui/Button/Button';
 
 interface ConfirmationModalProps {
   title: string;
-  confirmButtonText: string;
-  cancelButtonText: string;
-  onConfirm: () => void;
-  onCancel: () => void;
+  onClose: () => void;
   style?: object;
 }
 
+const styleObj = {
+  maxHeight: 338,
+};
+
 export default function ConfirmationModal({
   title,
-  onConfirm,
-  onCancel,
-  style,
+  onClose,
 }: ConfirmationModalProps) {
   return (
-    <Modal onClose={onCancel} style={style}>
+    <Modal title={title} styles={styleObj} onClose={onClose}>
       <div className={css.actions}>
-        <h1>{title}</h1>
-        <Button action={() => onConfirm}>Так</Button>
-        <Button action={() => onCancel} alternative={true}>
+        <Button action={onClose}>Так</Button>
+        <Button action={onClose} alternative={true}>
           Ні
         </Button>
       </div>

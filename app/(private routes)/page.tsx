@@ -10,6 +10,7 @@ import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal'
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
   return (
     <section>
       <div>
@@ -42,14 +43,19 @@ export default function Home() {
       */}
         <Icon name={'close_btn'} width={14} height={14}></Icon>
         <Icon name={'note'} width={14} height={14}></Icon>
-
         <br />
         {/* Loader */}
         <Loader loading={true} />
-
         {/* Confirm modal */}
-
-        {/* <ConfirmationModal title="Ви точно хочете вийти?" /> */}
+        <Button type="button" action={() => setOpenModalConfirm(true)}>
+          Вихід
+        </Button>
+        {openModalConfirm && (
+          <ConfirmationModal
+            title={'Ви точно хочете вийти?'}
+            onClose={() => setOpenModalConfirm(false)}
+          />
+        )}
       </div>
     </section>
   );

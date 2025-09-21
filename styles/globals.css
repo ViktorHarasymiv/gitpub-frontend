@@ -1,5 +1,5 @@
-@import url("./normalize.css");
-@import url("./root.css");
+@import url('./normalize.css');
+@import url('./root.css');
 
 /* BASE */
 
@@ -103,6 +103,8 @@ section {
     padding: 24px 16px;
   }
 }
+
+/* MUI */
 
 .css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
   border-color: transparent !important;

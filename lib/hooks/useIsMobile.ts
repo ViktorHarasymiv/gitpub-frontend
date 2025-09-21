@@ -19,5 +19,5 @@ export function useIsMobile(MOBILE_BREAKPOINT = 769) {
     };
   }, [MOBILE_BREAKPOINT]);
 
-  return !!isMobile;
+  return isMobile;
 }

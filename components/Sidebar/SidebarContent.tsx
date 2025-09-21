@@ -3,9 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 
 import css from './Sidebar.module.css';
-import Logo from '../icons/Logo.js';
+import Logo from '@/public/icons/Logo.svg';
 // import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 interface SidebarContentProps {
   onLinkClick?: () => void;
@@ -23,9 +24,9 @@ const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
 
   return (
     <aside className={css.sidebar}>
-      <div className={css.sidebarLogo}>
-        <Logo width={96} height={30} />
-      </div>
+      <Link href="/" className={css.logo_link}>
+        <Image src={Logo} alt="Logo company" className={css.logo} />
+      </Link>
 
       <nav className={css.sidebarNav}>
         <ul>

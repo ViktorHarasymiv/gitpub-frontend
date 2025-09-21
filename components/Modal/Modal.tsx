@@ -8,11 +8,11 @@ import { Icon } from '../ui/Icon/Icon';
 interface Props {
   children: React.ReactNode;
   title: string;
-  style?: object;
+  styles?: object;
   onClose: () => void;
 }
 
-export default function Modal({ children, title, onClose, style }: Props) {
+export default function Modal({ children, title, onClose, styles }: Props) {
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -41,7 +41,7 @@ export default function Modal({ children, title, onClose, style }: Props) {
       role="dialog"
       aria-modal="true"
     >
-      <div className={css.modal} style={style}>
+      <div className={css.modal} style={styles}>
         <div className={css.icon_wrapper}>
           <Icon
             name={'close_btn'}

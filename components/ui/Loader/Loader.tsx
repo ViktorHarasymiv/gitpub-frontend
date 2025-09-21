@@ -2,7 +2,7 @@ import React from 'react';
 import { ClipLoader } from 'react-spinners';
 
 interface SpinnerProps {
-  loading: boolean;
+  loading?: boolean;
   size?: number;
   color?: string;
   cssOverride?: object;
