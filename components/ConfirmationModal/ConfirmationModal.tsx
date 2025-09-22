@@ -21,8 +21,10 @@ export default function ConfirmationModal({
   return (
     <Modal title={title} styles={styleObj} onClose={onClose}>
       <div className={css.actions}>
-        <Button action={onClose}>Так</Button>
-        <Button action={onClose} alternative={true}>
+        <Button action={onClose} styles={{ maxWidth: 268 }}>
+          Так
+        </Button>
+        <Button action={onClose} styles={{ maxWidth: 268 }} alternative={true}>
           Ні
         </Button>
       </div>
