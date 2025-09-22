@@ -1,0 +1,16 @@
+import { NextResponse } from 'next/server';
+import { api } from '../../api';
+import { AxiosError } from 'axios';
+
+export async function GET() {
+  try {
+    const { data } = await api.get('api/weeks/current/public');
+    if (data) return NextResponse.json(data);
+  } catch (err) {
+    const error = err as AxiosError<{ error: string }>;
+    return NextResponse.json(
+      { error: error.response?.data.error || 'Not found' },
+      { status: error.response?.status || 500 }
+    );
+  }
+}
