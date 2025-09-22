@@ -2,7 +2,8 @@
 
 .button,
 .alternativeButton {
-  width: 480px;
+  max-width: 480px;
+  width: 100%;
   height: 46px;
 
   display: flex;
@@ -18,14 +19,23 @@
 
   font-size: 0.7em;
 
-  font-family: var(--second-family);
   vertical-align: middle;
-  font-weight: 600;
+
+  line-height: 160%;
+  font-weight: 500;
+  color: var(--color-scheme-text);
 }
 
 .button:disabled,
 .alternativeButton:disabled {
   opacity: 0.3;
+}
+
+@media screen and (min-width: 1200px) {
+  .button,
+  .alternativeButton {
+    font-size: 16px;
+  }
 }
 
 /* First variant */

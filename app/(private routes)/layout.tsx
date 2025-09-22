@@ -8,13 +8,21 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import Header from '@/components/Header/Header';
 
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const path = usePathname();
   const isMobile = useIsMobile();
+
+  const pathProfileSetting = () => {
+    if (path.includes('/profile')) return null;
+
+    return true;
+  };
 
   console.log(isMobile);
 
@@ -23,7 +31,7 @@ export default function RootLayout({
       {isMobile === true ? <Header /> : <Sidebar />}
       <main className="main">
         <Breadcrumbs />
-        <GreetingBlock />
+        {pathProfileSetting() && <GreetingBlock />}
         {children}
       </main>
     </>

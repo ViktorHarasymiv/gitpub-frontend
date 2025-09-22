@@ -83,8 +83,11 @@
   background-color: var(--color-scheme-foreground);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767.98px) {
   .sidebar {
-    width: 300px;
+    position: absolute;
+    z-index: 9999;
+
+    background-color: white;
   }
 }

@@ -19,7 +19,7 @@
 
 .modal {
   margin-inline: 1.5rem;
-  padding: 64px;
+  padding: 64px 20px;
 
   position: relative;
 
@@ -40,6 +40,18 @@
   border-radius: 40px;
 }
 
+@media screen and (min-width: 768px) {
+  .modal {
+    padding: 64px 32px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .modal {
+    padding: 64px;
+  }
+}
+
 .icon_wrapper {
   position: absolute;
 
@@ -49,11 +61,13 @@
   max-width: 24px;
   max-height: 24px;
 }
+
 .title {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 48px;
+  font-size: clamp(2.25rem, 1.9859rem + 1.1268vw, 3rem);
   line-height: 120%;
   letter-spacing: 0.01em;
   text-align: center;
+  color: var(--color-scheme-text);
 }

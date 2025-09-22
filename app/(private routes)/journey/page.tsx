@@ -1,7 +1,12 @@
+import TasksReminderCard from '@/components/TasksReminderCard/TasksReminderCard';
 import React from 'react';
 
 const JourneyPage = () => {
-  return <div>JourneyPage</div>;
+  return (
+    <section>
+      <TasksReminderCard />
+    </section>
+  );
 };
 
 export default JourneyPage;

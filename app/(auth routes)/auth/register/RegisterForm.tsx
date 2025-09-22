@@ -62,6 +62,7 @@ export default function RegisterForm() {
       <div className={css.content_wrapper}>
         <Image src={Logo} alt="Leleka" className={css.logo} />
 
+        <h1 className={style.title}>Реєстрація</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -73,7 +74,6 @@ export default function RegisterForm() {
         >
           {({ errors }) => (
             <Form className={css.form_content}>
-              <h1 className={style.title}>Реєстрація</h1>
               {/* Name */}
               <div className={style.input_wrapper}>
                 <label className={style.label}>Ім’я*</label>
