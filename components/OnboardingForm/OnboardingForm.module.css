@@ -1,0 +1,127 @@
+.wrapper {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    animation: loading 0.3s ease-in;
+}
+
+@keyframes loading {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.formCard {
+    max-width: 592px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    overflow: scroll;
+
+}
+
+
+.logoBox {
+    position: relative;
+    width: 105px;
+    aspect-ratio: 112 / 48;
+}
+
+.logoImg {
+    object-fit: contain;
+}
+
+.formContainer {
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    white-space: normal;
+    word-spacing: 9999px;
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 120%;
+    letter-spacing: 0.01em;
+    text-align: center;
+    color: var(--color-scheme-text);
+    margin-bottom: 32px;
+}
+
+.avatarBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.avatar {
+    position: relative;
+    width: 164px;
+    height: 164px;
+    margin-bottom: 24px;
+}
+
+.avatarImg {
+    object-fit: cover;
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-left: 56px;
+    padding-right: 56px;
+    padding-bottom: 56px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-scheme-text);
+}
+
+.input,
+.select {
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    padding: 0 10px;
+    font-size: 15px;
+    background: #f3f4f6;
+}
+
+.input:focus,
+.select:focus {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
+    background: #eef2ff;
+}
+
+
+.illustration {
+    display: block;
+    width: 50%;
+    background: url('/img/onboardimgx2.jpg') center 85% / cover no-repeat;
+    min-height: 600px;
+}
+
+
