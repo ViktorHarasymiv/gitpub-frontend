@@ -19,11 +19,15 @@ function DiaryList({ diaryData }: DiaryListProps) {
           <Icon name="plus" action={() => {}} />
         </div>
       </div>
-      <ul className={css.diaryList}>
-        {diaryData.map(entry => {
-          return <DiaryEntryCard key={entry._id} diaryEntry={entry} />;
-        })}
-      </ul>
+      {diaryData.length === 0 ? (
+        <p>Покищо у вас немає записів.</p>
+      ) : (
+        <ul className={css.diaryList}>
+          {diaryData.map(entry => {
+            return <DiaryEntryCard key={entry._id} diaryEntry={entry} />;
+          })}
+        </ul>
+      )}
     </div>
   );
 }
