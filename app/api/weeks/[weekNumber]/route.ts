@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { AxiosError } from 'axios';
 import { api } from '../api';
@@ -7,7 +7,7 @@ interface WeekNumberProps {
   params: Promise<{ weekNumber: string }>;
 }
 
-export async function GET({ params }: WeekNumberProps) {
+export async function GET(request: NextRequest, { params }: WeekNumberProps) {
   try {
     const cookieStore = await cookies();
     const { weekNumber } = await params;
