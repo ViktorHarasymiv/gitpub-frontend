@@ -20,3 +20,13 @@
     
 }
 
+@media screen and (min-width: 1200px) {
+  .actions {
+    
+    flex-direction: row;
+    margin-top: 48px;
+    gap: 24px;
+   
+  }
+    
+}
