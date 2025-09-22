@@ -102,18 +102,38 @@
 
 .input,
 .select {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-neutral);
+    border-radius: 12px;
+    padding: 8px 12px;
     height: 40px;
     border: none;
-    border-radius: 10px;
-    padding: 0 10px;
-    font-size: 15px;
-    background: #f3f4f6;
+    background: var(--color-neutral-lightest);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+input[type="date"]::-webkit-clear-button {
+    display: none;
 }
 
 .input:focus,
 .select:focus {
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.12);
-    background: #eef2ff;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-neutral-darkest);
 }
 
 
