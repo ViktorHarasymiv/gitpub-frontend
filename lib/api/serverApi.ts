@@ -1,3 +1,4 @@
+import { api } from '@/app/api/api';
 import { User } from '../../types/user';
 
 // INITIAL
@@ -7,6 +8,8 @@ import { serverApi } from './api';
 // COOKIES
 
 import { cookies } from 'next/headers';
+import { FullWeekData, WeekBaby, WeekMom } from '@/types/weeks';
+import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
 
 // PRIVAT USER
 
@@ -38,4 +41,95 @@ export const checkSession = async () => {
     );
     return null;
   }
+};
+
+//====================WeeksApi===================================
+
+//GET CURRENT WEEK INFO
+
+export const getCurrentWeekServer = async (
+  dueDate: string
+): Promise<FullWeekData> => {
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current', {
+    params: { dueDate },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+//GET CURRENT WEEK INFO PUBLIC
+
+export const getCurrentWeekPublicServer = async (): Promise<FullWeekData> => {
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current/public');
+  return data;
+};
+
+//GET CURRENT WEEK MOM INFO
+
+export const getWeekMomServer = async (
+  weekNumber: number
+): Promise<WeekMom> => {
+  const { data } = await api.get<WeekMom>(`/weeks/${weekNumber}/mom`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+//GET CURRENT WEEK BABY INFO
+
+export const getWeekBabyServer = async (
+  weekNumber: number
+): Promise<WeekBaby> => {
+  const { data } = await api.get<WeekBaby>(`/weeks/${weekNumber}/baby`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+//GET CURRENT WEEK WITH FUUL INFO (MOM + BABY)
+
+export const getWeekFullServer = async (
+  weekNumber: number
+): Promise<FullWeekData> => {
+  const { data } = await api.get<FullWeekData>(`/weeks/${weekNumber}`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+};
+
+//========================TASKS API====================================
+
+// GET TASKS
+export const getTasksServer = async (
+  page = 1,
+  limit = 20,
+  status?: 'todo' | 'in_progress' | 'done'
+): Promise<TasksHttpResponse> => {
+  const { data } = await api.get<TasksHttpResponse>('/tasks', {
+    params: { page, limit, status },
+  });
+  return data;
+};
+
+// CREATE TASK
+export const createTaskServer = async (task: NewTask): Promise<Task> => {
+  const { data } = await api.post<Task>('/tasks', task);
+  return data;
+};
+
+// UPDATE TASK
+export const updateTaskStatusServer = async (
+  id: string,
+  patch: patchTask
+): Promise<Task> => {
+  const { data } = await api.patch<Task>(`/tasks/${id}/status`, patch);
+  return data;
 };
