@@ -1,4 +1,3 @@
-import { api } from '@/app/api/api';
 import { User } from '../../types/user';
 
 // INITIAL

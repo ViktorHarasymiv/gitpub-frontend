@@ -1,4 +1,4 @@
-import { api } from '@/app/api/api';
+
 import { WeekMom, WeekBaby, FullWeekData } from '@/types/weeks';
 
 import {
