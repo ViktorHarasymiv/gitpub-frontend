@@ -71,7 +71,7 @@ export const getCurrentWeekPublicServer = async (): Promise<FullWeekData> => {
 export const getWeekMomServer = async (
   weekNumber: number
 ): Promise<WeekMom> => {
-  const { data } = await api.get<WeekMom>(`/weeks/${weekNumber}/mom`, {
+  const { data } = await serverApi.get<WeekMom>(`/weeks/${weekNumber}/mom`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -84,7 +84,7 @@ export const getWeekMomServer = async (
 export const getWeekBabyServer = async (
   weekNumber: number
 ): Promise<WeekBaby> => {
-  const { data } = await api.get<WeekBaby>(`/weeks/${weekNumber}/baby`, {
+  const { data } = await serverApi.get<WeekBaby>(`/weeks/${weekNumber}/baby`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -97,7 +97,7 @@ export const getWeekBabyServer = async (
 export const getWeekFullServer = async (
   weekNumber: number
 ): Promise<FullWeekData> => {
-  const { data } = await api.get<FullWeekData>(`/weeks/${weekNumber}`, {
+  const { data } = await serverApi.get<FullWeekData>(`/weeks/${weekNumber}`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -113,7 +113,7 @@ export const getTasksServer = async (
   limit = 20,
   status?: 'todo' | 'in_progress' | 'done'
 ): Promise<TasksHttpResponse> => {
-  const { data } = await api.get<TasksHttpResponse>('/tasks', {
+  const { data } = await serverApi.get<TasksHttpResponse>('/tasks', {
     params: { page, limit, status },
   });
   return data;
@@ -121,7 +121,7 @@ export const getTasksServer = async (
 
 // CREATE TASK
 export const createTaskServer = async (task: NewTask): Promise<Task> => {
-  const { data } = await api.post<Task>('/tasks', task);
+  const { data } = await serverApi.post<Task>('/tasks', task);
   return data;
 };
 
@@ -130,6 +130,6 @@ export const updateTaskStatusServer = async (
   id: string,
   patch: patchTask
 ): Promise<Task> => {
-  const { data } = await api.patch<Task>(`/tasks/${id}/status`, patch);
+  const { data } = await serverApi.patch<Task>(`/tasks/${id}/status`, patch);
   return data;
 };
