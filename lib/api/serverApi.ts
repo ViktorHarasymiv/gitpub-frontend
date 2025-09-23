@@ -2,7 +2,7 @@ import { User } from '../../types/user';
 
 // INITIAL
 
-import { serverApi } from './api';
+import { api, serverApi } from './api';
 
 // COOKIES
 
@@ -25,11 +25,9 @@ export const getServerMe = async (): Promise<User> => {
 export const checkSession = async () => {
   try {
     const cookieStore = await cookies();
-    const response = await serverApi.post('/auth/refresh', {
+    const response = await api.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
-        Origin: process.env.NEXT_PUBLIC_FRONTEND_ORIGIN,
-        Referer: process.env.NEXT_PUBLIC_FRONTEND_ORIGIN,
       },
     });
     return response;
