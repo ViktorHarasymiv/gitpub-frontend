@@ -13,6 +13,7 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
+  const sessionId = cookieStore.get('sessionId')?.value;
 
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some(route =>
@@ -20,10 +21,11 @@ export async function middleware(request: NextRequest) {
   );
 
   if (!accessToken) {
-    if (refreshToken) {
+    if (refreshToken && sessionId) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
       // адже сесія може залишатися активною, і тоді потрібно заборонити доступ до публічного маршруту.
       const data = await checkSession();
+
       const setCookie = data?.headers['set-cookie'];
 
       if (setCookie) {
@@ -43,6 +45,7 @@ export async function middleware(request: NextRequest) {
             cookieStore.set('refreshToken', parsed.refreshToken, options);
         }
         // Якщо сесія все ще активна:
+
         // для публічного маршруту — виконуємо редірект на головну.
         if (isPublicRoute) {
           return NextResponse.redirect(new URL('/', request.url), {
@@ -69,7 +72,7 @@ export async function middleware(request: NextRequest) {
 
     // приватний маршрут — редірект на сторінку входу
     if (isPrivateRoute) {
-      return NextResponse.redirect(new URL('/auth/login', request.url));
+      return NextResponse.redirect(new URL('/auth/register', request.url));
     }
   }
 
@@ -87,10 +90,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // '/',
-    // '/:path*',
-    // '/journey/:path*',
-    // '/diary/:path*',
-    // '/profile/:path*',
+    '/',
+    '/:path*',
+    '/journey/:path*',
+    '/diary/:path*',
+    '/profile/:path*',
   ],
 };

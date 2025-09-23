@@ -52,10 +52,6 @@ export default function DashboardPage() {
       <br />
       {/* Loader */}
       <Loader loading={true} />
-
-      {/* Confirm modal */}
-
-      {/* <ConfirmationModal title="Ви точно хочете вийти?" /> */}
     </div>
   );
 }
