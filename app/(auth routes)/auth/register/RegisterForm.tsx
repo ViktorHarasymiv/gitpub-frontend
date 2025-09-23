@@ -70,7 +70,7 @@ export default function RegisterForm() {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            // handleSubmit(values);
+            handleSubmit(values);
             setSubmitting(false);
           }}
         >
