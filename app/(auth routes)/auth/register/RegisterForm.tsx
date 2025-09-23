@@ -39,7 +39,7 @@ export default function RegisterForm() {
       .required('Email обов’язковий'),
 
     password: Yup.string()
-      .min(8, 'Пароль має містити щонайменше 6 символів')
+      .min(6, 'Пароль має містити щонайменше 6 символів')
       .required('Пароль обов’язковий'),
   });
 
