@@ -42,3 +42,7 @@ export type UserResponse = {
     dueDate?: string;
   };
 };
+
+export type ServerBoolResponse = {
+  success: boolean;
+};
