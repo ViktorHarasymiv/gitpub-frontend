@@ -1,35 +1,49 @@
-import nextServer from './api';
-
-import type {
-  User,
+import { serverApi } from './api';
+import {
   RegisterRequest,
-  LoginRequest,
+  User,
   CheckSessionRequest,
-} from '../../types/user.ts';
+  LoginRequest,
+} from '@/types/user';
 
-//register
+// REGISTER
 
 export const register = async (data: RegisterRequest) => {
-  const res = await nextServer.post<User>('/auth/register', data);
+  const res = await serverApi.post<User>('/auth/register', data);
   return res.data;
 };
 
-//login
+// LOGIN
 
 export const login = async (data: LoginRequest) => {
-  const res = await nextServer.post<User>('/auth/login', data);
+  const res = await serverApi.post<User>('/auth/login', data);
   return res.data;
 };
 
-//checkSession
-
-export const checkSession = async () => {
-  const res = await nextServer.get<CheckSessionRequest>('/auth/session');
-  return res.data.success;
-};
-
-//logout
+// LOGOUT
 
 export const logout = async (): Promise<void> => {
-  await nextServer.post('/auth/logout');
+  await serverApi.post('/auth/logout');
+};
+
+// AUTH ME
+
+export const getMe = async (): Promise<User> => {
+  const { data } = await serverApi.get('/users/me', {
+    withCredentials: true,
+  });
+
+  return data;
+};
+
+// CHECK SESSION
+
+export const checkSession = async () => {
+  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
+    withCredentials: true,
+  });
+
+  console.log('Session response:', res.data);
+
+  return res.data.success;
 };

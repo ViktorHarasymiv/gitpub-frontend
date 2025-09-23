@@ -1,49 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
-import { cookies } from 'next/headers';
-import { parse } from 'cookie';
-import { isAxiosError } from 'axios';
-import { logErrorResponse } from '../../_utils/utils';
+import { AxiosError } from 'axios';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const apiRes = await api.post('auth/login', body);
+    const apiRes = await api.post('/auth/login', body);
 
-    const cookieStore = await cookies();
-    const setCookie = apiRes.headers['set-cookie'];
+    const { accessToken, refreshToken, sessionId } = apiRes.data.data;
 
-    if (setCookie) {
-      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-      for (const cookieStr of cookieArray) {
-        const parsed = parse(cookieStr);
-        const options = {
-          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path,
-          maxAge: Number(parsed['Max-Age']),
-        };
-        if (parsed.accessToken)
-          cookieStore.set('accessToken', parsed.accessToken, options);
-        if (parsed.refreshToken)
-          cookieStore.set('refreshToken', parsed.refreshToken, options);
-      }
+    const response = NextResponse.json(apiRes.data, { status: apiRes.status });
 
-      return NextResponse.json(apiRes.data, { status: apiRes.status });
-    }
+    // Ставимо куки напряму
+    response.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 7200,
+    });
 
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
-    }
-    logErrorResponse({ message: (error as Error).message });
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    response.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    response.cookies.set('sessionId', sessionId, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    return response;
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+    const status = error.response?.status ?? 500;
+    const message = error.response?.data?.message ?? 'Login failed';
+
+    return NextResponse.json({ error: message }, { status });
   }
 }

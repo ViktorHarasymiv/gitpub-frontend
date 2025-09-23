@@ -1,17 +1,38 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { api } from '../../api';
+import { cookies } from 'next/headers';
+import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export async function POST() {
   const cookieStore = await cookies();
-  await api.post('auth/logout', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
 
-  cookieStore.delete('accessToken');
-  cookieStore.delete('refreshToken');
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
 
-  return NextResponse.json({ message: 'Logged out successfully' });
+  try {
+    await api.post('/auth/logout', null, {
+      headers: {
+        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+      },
+    });
+  } catch (error) {
+    console.warn('Backend logout failed:', error);
+    // навіть якщо бекенд не відповів — все одно чистимо куки
+  }
+
+  const response = NextResponse.json({ message: 'Logged out successfully' });
+
+  const cookieOptions: Partial<ResponseCookie> = {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  };
+
+  response.cookies.set('accessToken', '', cookieOptions);
+  response.cookies.set('refreshToken', '', cookieOptions);
+  response.cookies.set('sessionId', '', cookieOptions);
+
+  return response;
 }

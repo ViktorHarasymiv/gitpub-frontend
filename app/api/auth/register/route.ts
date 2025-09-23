@@ -1,32 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
-import { cookies } from 'next/headers';
-import { parse } from 'cookie';
+
+import { AxiosError } from 'axios';
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const apiRes = await api.post('auth/register', body);
+  try {
+    const body = await req.json();
+    const apiRes = await api.post('auth/register', body);
 
-  const cookieStore = await cookies();
-  const setCookie = apiRes.headers['set-cookie'];
+    const { accessToken, refreshToken } = apiRes.data.data;
 
-  if (setCookie) {
-    const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-    for (const cookieStr of cookieArray) {
-      const parsed = parse(cookieStr);
+    console.log(apiRes.data.data);
 
-      const options = {
-        expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-        path: parsed.Path,
-        maxAge: Number(parsed['Max-Age']),
-      };
-      if (parsed.accessToken)
-        cookieStore.set('accessToken', parsed.accessToken, options);
-      if (parsed.refreshToken)
-        cookieStore.set('refreshToken', parsed.refreshToken, options);
-    }
-    return NextResponse.json(apiRes.data);
+    const response = NextResponse.json(apiRes.data, { status: apiRes.status });
+
+    // Ставимо куки напряму
+    response.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7200,
+    });
+
+    response.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    return response;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ message?: string }>;
+    const status = axiosError.response?.status ?? 500;
+    const message = axiosError.response?.data?.message ?? 'Помилка реєстрації';
+
+    return NextResponse.json({ error: message }, { status });
   }
-
-  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 }
