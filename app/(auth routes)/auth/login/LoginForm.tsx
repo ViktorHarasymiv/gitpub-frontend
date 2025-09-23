@@ -13,8 +13,8 @@ import Logo from '@/public/icons/Logo.svg';
 import Image from 'next/image';
 import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
-import { Icon } from '@/components/ui/Icon/Icon';
-// import { getMe, login } from '@/lib/api/clientApi';
+// import { Icon } from '@/components/ui/Icon/Icon';
+import { getMe, login } from '@/lib/api/clientApi';
 
 import { LoginRequest } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -35,20 +35,20 @@ export default function RegisterForm() {
       .required('Пароль обов’язковий'),
   });
 
-  // const handleSubmit = async (formValues: LoginRequest) => {
-  //   try {
-  //     const res = await login(formValues);
-  //     const userRes = await getMe();
-  //     if (res) {
-  //       console.log(userRes);
+  const handleSubmit = async (formValues: LoginRequest) => {
+    try {
+      const res = await login(formValues);
+      const userRes = await getMe();
+      if (res) {
+        console.log(userRes);
 
-  //       setUser(userRes);
-  //       router.push('/');
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error);
-  //   }
-  // };
+        setUser(userRes);
+        router.push('/');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <div className={css.form_wrapper}>
@@ -60,7 +60,7 @@ export default function RegisterForm() {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            // handleSubmit(values);
+            handleSubmit(values);
             setSubmitting(false);
           }}
         >
@@ -100,10 +100,10 @@ export default function RegisterForm() {
               </div>
 
               <Button type="submit">Увійти</Button>
-              <Button type="button" alternative={true} styles={{ gap: 12 }}>
+              {/* <Button type="button" alternative={true} styles={{ gap: 12 }}>
                 <Icon name="Google" />
                 Увійти через Google
-              </Button>
+              </Button> */}
             </Form>
           )}
         </Formik>

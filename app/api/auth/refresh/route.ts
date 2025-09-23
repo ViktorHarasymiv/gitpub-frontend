@@ -1,38 +1,39 @@
-import { NextResponse } from 'next/server';
-import { api } from '../../api';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { api } from '../../api';
+import { parse } from 'cookie';
 
-export async function POST() {
+export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
-
-  const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
+  const next = request.nextUrl.searchParams.get('next') || '/';
 
-  try {
-    await api.post('/auth/logout', null, {
+  if (refreshToken) {
+    const apiRes = await api.get('api/auth/refresh', {
       headers: {
-        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
+        Cookie: cookieStore.toString(),
       },
     });
-  } catch (error) {
-    console.warn('Backend logout failed:', error);
-    // навіть якщо бекенд не відповів — все одно чистимо куки
+    const setCookie = apiRes.headers['set-cookie'];
+    if (setCookie) {
+      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+      let accessToken = '';
+      let refreshToken = '';
+
+      for (const cookieStr of cookieArray) {
+        const parsed = parse(cookieStr);
+        if (parsed.accessToken) accessToken = parsed.accessToken;
+        if (parsed.refreshToken) refreshToken = parsed.refreshToken;
+      }
+
+      if (accessToken) cookieStore.set('accessToken', accessToken);
+      if (refreshToken) cookieStore.set('refreshToken', refreshToken);
+
+      return NextResponse.redirect(new URL(next, request.url), {
+        headers: {
+          'set-cookie': cookieStore.toString(),
+        },
+      });
+    }
   }
-
-  const response = NextResponse.json({ message: 'Logged out successfully' });
-
-  const cookieOptions: Partial<ResponseCookie> = {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 0,
-  };
-
-  response.cookies.set('accessToken', '', cookieOptions);
-  response.cookies.set('refreshToken', '', cookieOptions);
-  response.cookies.set('sessionId', '', cookieOptions);
-
-  return response;
-}
+  return NextResponse.redirect(new URL('/auth/login', request.url));

@@ -1,12 +1,70 @@
-import { User } from '../../types/user';
-
 // INITIAL
 
-import { serverApi } from './api';
+import { serverApi } from "./api";
 
 // COOKIES
 
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
+
+// TYPES
+
+import { User } from "@/app/types/user";
+
+// GET
+
+export const getServerAllTasks = async (
+  page: number
+): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+  const cookieStore = await cookies();
+
+  const response = await serverApi.get("/task", {
+    params: PARAMS,
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return response.data;
+};
+
+// POST
+
+export const createServerTask = async (newTask: NewTask): Promise<Task> => {
+  const cookieStore = await cookies();
+  const response = await serverApi.post("/task", newTask, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch(`/task/${id}`, payload, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
+
+// EDIT PROFILE
+
+export const editProfile = async (data: FormData) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch("/users/me", data, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
 
 // PRIVAT USER
 
