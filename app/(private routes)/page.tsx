@@ -14,6 +14,7 @@ export default function Home() {
   return (
     <section>
       <div>
+        123
         <Button type="submit">Кнопка 1</Button>
         <br />
         {/* Усі пропси для кнопки можна подивитись в компоненті  */}
