@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon/Icon';
 
 import { RegisterRequest } from '@/types/user';
-// import { register } from "@/lib/api/clientApi";
+import { register } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
@@ -45,17 +45,20 @@ export default function RegisterForm() {
 
   const setUser = useAuthStore(state => state.setUser);
 
-  // const handleSubmit = async (formValues: RegisterRequest) => {
-  //   try {
-  //     const res = await register(formValues);
-  //     if (res) {
-  //       setUser(res);
-  //       router.push('/profile/edit');
-  //     }
-  //   } catch (error) {
-  //     console.error('Помилка реєстрації:', error);
-  //   }
-  // };
+  const handleSubmit = async (formValues: RegisterRequest) => {
+    try {
+      const res = await register(formValues);
+
+      if (res) {
+        console.log(res);
+
+        setUser(res);
+        // router.push('/profile/edit');
+      }
+    } catch (error) {
+      console.error('Помилка реєстрації:', error);
+    }
+  };
 
   return (
     <div className={css.form_wrapper}>
@@ -66,10 +69,9 @@ export default function RegisterForm() {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            // handleSubmit(values);
+          onSubmit={(values, { setSubmitting }) => {
+            handleSubmit(values);
             setSubmitting(false);
-            resetForm();
           }}
         >
           {({ errors }) => (
@@ -124,10 +126,10 @@ export default function RegisterForm() {
               </div>
 
               <Button type="submit">Зареєструватись</Button>
-              <Button type="button" alternative={true} styles={{ gap: 12 }}>
+              {/* <Button type="button" alternative={true} styles={{ gap: 12 }}>
                 <Icon name="Google" />
                 Зареєструватись через Google
-              </Button>
+              </Button> */}
             </Form>
           )}
         </Formik>

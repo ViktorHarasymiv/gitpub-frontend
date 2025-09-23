@@ -17,8 +17,6 @@ body {
 body {
   position: relative;
 
-  overflow: hidden;
-
   display: flex;
 
   flex-direction: column;
@@ -36,15 +34,10 @@ body {
 }
 
 main {
-  overflow: hidden;
   width: 100%;
 
   display: flex;
   flex-direction: column;
-}
-
-section {
-  overflow: auto;
 }
 
 .main {

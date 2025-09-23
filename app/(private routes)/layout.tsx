@@ -24,8 +24,6 @@ export default function RootLayout({
     return true;
   };
 
-  console.log(isMobile);
-
   return (
     <>
       {isMobile === true ? <Header /> : <Sidebar />}
