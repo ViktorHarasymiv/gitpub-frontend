@@ -1,3 +1,4 @@
+import { api } from '@/app/api/api';
 import { User } from '../../types/user';
 
 // INITIAL
@@ -12,7 +13,7 @@ import { cookies } from 'next/headers';
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await serverApi.get('/users/me', {
+  const { data } = await api.get('/users/me', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -25,7 +26,7 @@ export const getServerMe = async (): Promise<User> => {
 export const checkSession = async () => {
   try {
     const cookieStore = await cookies();
-    const response = await serverApi.post('/auth/refresh', {
+    const response = await api.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
       },

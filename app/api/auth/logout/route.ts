@@ -25,7 +25,7 @@ export async function POST() {
   const cookieOptions: Partial<ResponseCookie> = {
     httpOnly: true,
     secure: false,
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
     maxAge: 0,
   };
