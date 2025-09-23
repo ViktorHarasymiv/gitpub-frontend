@@ -19,7 +19,6 @@ export default function DashboardPage() {
 
   return (
     <div>
-      просто текст так треба
       <Button type="submit">Кнопка 1</Button>
       <br />
       {/* Усі пропси для кнопки можна подивитись в компоненті  */}
@@ -50,6 +49,7 @@ export default function DashboardPage() {
       <Icon name={'close_btn'} width={14} height={14}></Icon>
       <Icon name={'note'} width={14} height={14}></Icon>
       <br />
+      Новий коміт проба
       {/* Loader */}
       <Loader loading={true} />
     </div>
