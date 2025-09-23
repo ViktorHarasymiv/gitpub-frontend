@@ -19,7 +19,7 @@ export default function DashboardPage() {
 
   return (
     <div>
-      нове шось
+      просто текст так треба
       <Button type="submit">Кнопка 1</Button>
       <br />
       {/* Усі пропси для кнопки можна подивитись в компоненті  */}
