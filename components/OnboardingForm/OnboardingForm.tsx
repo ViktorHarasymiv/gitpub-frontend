@@ -19,7 +19,7 @@ export default function OnboardingForm() {
             className={styles.logoImg}
           />
         </div>
-        <div className="formContainer">
+        <div className={styles.formContainer}>
           <h1 className={styles.title}>Давайте познайомимося ближче</h1>
           <div className={styles.avatarBlock}>
             <div className={styles.avatar}>
@@ -55,7 +55,15 @@ export default function OnboardingForm() {
               <label htmlFor="birthday" className={styles.label}>Планова дата пологів</label>
               <input id="birthday" type="date" className={styles.input} />
             </div>
-            <Button type="submit">Зберегти</Button>
+            <div className={styles.submitWrap}>
+              <Button
+                type="submit"
+                styles={{ width: '100%' }}
+                aria-label="Зберегти"
+              >
+                Зберегти
+              </Button>
+            </div>
           </form>
         </div>
       </div>
