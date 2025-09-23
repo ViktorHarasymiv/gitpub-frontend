@@ -1,7 +1,10 @@
-import React from 'react';
+import ProfileEditForm from "@/components/ProfileEditForm/ProfileEditForm";
+import "./profile.css";
 
-const ProfilePage = () => {
-  return <div>ProfilePage</div>;
-};
-
-export default ProfilePage;
+export default function ProfilePage() {
+  return (
+    <div className="container-profile">
+      <ProfileEditForm />
+    </div>
+  );
+}
