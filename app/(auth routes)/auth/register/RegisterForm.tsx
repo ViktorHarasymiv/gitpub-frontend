@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon/Icon';
 
 import { RegisterRequest } from '@/types/user';
-import { register } from '@/lib/api/clientApi';
+// import { register } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
@@ -45,20 +45,20 @@ export default function RegisterForm() {
 
   const setUser = useAuthStore(state => state.setUser);
 
-  const handleSubmit = async (formValues: RegisterRequest) => {
-    try {
-      const res = await register(formValues);
+  // const handleSubmit = async (formValues: RegisterRequest) => {
+  //   try {
+  //     const res = await register(formValues);
 
-      if (res) {
-        console.log(res);
+  //     if (res) {
+  //       console.log(res);
 
-        setUser(res);
-        // router.push('/profile/edit');
-      }
-    } catch (error) {
-      console.error('Помилка реєстрації:', error);
-    }
-  };
+  //       setUser(res);
+  //       router.push('/profile/edit');
+  //     }
+  //   } catch (error) {
+  //     console.error('Помилка реєстрації:', error);
+  //   }
+  // };
 
   return (
     <div className={css.form_wrapper}>
@@ -70,7 +70,7 @@ export default function RegisterForm() {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            handleSubmit(values);
+            // handleSubmit(values);
             setSubmitting(false);
           }}
         >
