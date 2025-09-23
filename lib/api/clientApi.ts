@@ -1,4 +1,4 @@
-import { serverApi } from './api';
+import { api, serverApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -39,7 +39,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
+  const res = await api.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
