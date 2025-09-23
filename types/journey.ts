@@ -16,8 +16,10 @@ type ComfortTip = {
 };
 
 export type JourneyMom = {
-    feelings: string[];
-    sensationDescr: string;
+    feelings: {
+        states: string[];
+        sensationDescr: string;
+    };
     comfortTips: ComfortTip[];
 };
 

@@ -79,15 +79,15 @@ const JourneyDetails = ({
                     <div className={css.momContainer}>
                         <h2 className={css.momTitle}>Як ви можете почуватись</h2>
                         <ul className={css.feelings}>
-                            {data.feelings.map(( feeling ) => (
-                                <li key={feeling} 
+                            {data.feelings.states.map(( state ) => (
+                                <li key={state} 
                                 className={css.feeling}
                                 >
-                                    {feeling}
+                                    {state}
                                 </li>
                             ))}
                         </ul>
-                        <p className={css.text}>{data.sensationDescr}</p>
+                        <p className={css.text}>{data.feelings.sensationDescr}</p>
                     </div>
                     <div className={`${css.momContainer} ${css.tip}`}>
                         <h2 className={css.momTitle}>Поради для вашого комфорту</h2>

@@ -17,7 +17,7 @@ const JourneyPageClient = ({ currentWeek }: JourneyPageClientProps) => {
     const [selectedWeek, setSelectedWeek] = useState<number>(currentWeek);
     const [activeTab, setActiveTab] = useState<Tab>("baby");
     
-    const { data, isLoading, error } = useQuery<JourneyBaby | JourneyMom>({
+    const { data, isLoading,} = useQuery<JourneyBaby | JourneyMom>({
         queryKey: ['journey', selectedWeek, activeTab],
         queryFn: () => getJourneyByWeekNumberAndTab(selectedWeek, activeTab),
         refetchOnMount: false,

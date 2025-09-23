@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon/Icon';
 
 import { RegisterRequest } from '@/types/user';
-// import { register } from "@/lib/api/clientApi";
+// import { register } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
@@ -48,7 +48,10 @@ export default function RegisterForm() {
   // const handleSubmit = async (formValues: RegisterRequest) => {
   //   try {
   //     const res = await register(formValues);
+
   //     if (res) {
+  //       console.log(res);
+
   //       setUser(res);
   //       router.push('/profile/edit');
   //     }
@@ -62,18 +65,17 @@ export default function RegisterForm() {
       <div className={css.content_wrapper}>
         <Image src={Logo} alt="Leleka" className={css.logo} />
 
+        <h1 className={style.title}>Реєстрація</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
+          onSubmit={(values, { setSubmitting }) => {
             // handleSubmit(values);
             setSubmitting(false);
-            resetForm();
           }}
         >
           {({ errors }) => (
             <Form className={css.form_content}>
-              <h1 className={style.title}>Реєстрація</h1>
               {/* Name */}
               <div className={style.input_wrapper}>
                 <label className={style.label}>Ім’я*</label>
@@ -124,10 +126,10 @@ export default function RegisterForm() {
               </div>
 
               <Button type="submit">Зареєструватись</Button>
-              <Button type="button" alternative={true} styles={{ gap: 12 }}>
+              {/* <Button type="button" alternative={true} styles={{ gap: 12 }}>
                 <Icon name="Google" />
                 Зареєструватись через Google
-              </Button>
+              </Button> */}
             </Form>
           )}
         </Formik>

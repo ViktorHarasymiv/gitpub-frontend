@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 interface ConfirmationModalProps {
   title: string;
+  handler?: () => void;
   onClose: () => void;
   style?: object;
 }
@@ -16,6 +17,7 @@ const styleObjBtn = {
 };
 export default function ConfirmationModal({
   title,
+  handler,
   onClose,
 }: ConfirmationModalProps) {
   const [modalStyle, setModalStyle] = useState({
@@ -40,7 +42,7 @@ export default function ConfirmationModal({
   return (
     <Modal title={title} styles={modalStyle} onClose={onClose}>
       <div className={css.actions}>
-        <Button styles={styleObjBtn} action={onClose}>
+        <Button styles={styleObjBtn} action={handler}>
           Так
         </Button>
         <Button styles={styleObjBtn} action={onClose} alternative={true}>

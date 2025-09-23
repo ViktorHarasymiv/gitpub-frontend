@@ -3,6 +3,10 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import css from './Breadcrumbs.module.css';
+import { Icon } from '../ui/Icon/Icon';
+
+import Arrow from '@/public/icons/arrowRight.png';
+import Image from 'next/image';
 
 const routeNames: Record<string, string> = {
   '': 'Мій день',
@@ -24,31 +28,30 @@ const Breadcrumbs = () => {
   return (
     <ul className={css.breadcrumbsContainer}>
       <li>
-        <span>Лелека</span>
-        {
-          <span className={css.arrow}>
-            <svg width="6" height="11">
-              <use href="/sprite.svg#arrow-right" />
-            </svg>
-          </span>
-        }
+        <span className={css.path_label}>Лелека</span>
+        <Image className={css.arrow} src={Arrow} alt="" />
       </li>
       {segments.length === 0 && (
-        <li>
+        <li
+          style={{
+            color: `${path.includes('/') && 'var(--color-neutral)'}`,
+          }}
+        >
           <span>Мій день</span>
         </li>
       )}
       {breadcrumbs.map((crumb, index) => (
-        <li key={crumb.href}>
+        <li
+          key={crumb.href}
+          style={{
+            color: path.includes(crumb.href)
+              ? 'var(--color-neutral)'
+              : 'inherit',
+          }}
+        >
           <Link href={crumb.href}>{crumb.label}</Link>
           {index < breadcrumbs.length - 1 && (
-            <span className={css.arrow}>
-              {
-                <svg width="6" height="11">
-                  <use href="/sprite.svg#arrow-right" />
-                </svg>
-              }
-            </span>
+            <Image className={css.arrow} src={Arrow} alt="" />
           )}
         </li>
       ))}
