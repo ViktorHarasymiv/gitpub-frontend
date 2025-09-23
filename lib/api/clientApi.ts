@@ -1,4 +1,4 @@
-import { serverApi } from './api';
+import { serverApi, vercelApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -9,27 +9,27 @@ import {
 // REGISTER
 
 export const register = async (data: RegisterRequest) => {
-  const res = await serverApi.post<User>('/auth/register', data);
+  const res = await vercelApi.post<User>('/auth/register', data);
   return res.data;
 };
 
 // LOGIN
 
 export const login = async (data: LoginRequest) => {
-  const res = await serverApi.post<User>('/auth/login', data);
+  const res = await vercelApi.post<User>('/auth/login', data);
   return res.data;
 };
 
 // LOGOUT
 
 export const logout = async (): Promise<void> => {
-  await serverApi.post('/auth/logout');
+  await vercelApi.post('/auth/logout');
 };
 
 // AUTH ME
 
 export const getMe = async (): Promise<User> => {
-  const { data } = await serverApi.get('/users/me', {
+  const { data } = await vercelApi.get('/users/me', {
     withCredentials: true,
   });
 
@@ -39,7 +39,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
+  const res = await vercelApi.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
