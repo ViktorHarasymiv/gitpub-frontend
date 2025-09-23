@@ -19,7 +19,7 @@ export default function DashboardPage() {
 
   return (
     <div>
-      12345 dsff3
+      нове шось
       <Button type="submit">Кнопка 1</Button>
       <br />
       {/* Усі пропси для кнопки можна подивитись в компоненті  */}
