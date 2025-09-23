@@ -108,7 +108,7 @@ export const getWeekFullServer = async (
 //========================TASKS API====================================
 
 // GET TASKS
-export const getTasksServer = async (
+export const getAllTasksServer = async (
   page = 1,
   limit = 20,
   status?: 'todo' | 'in_progress' | 'done'
@@ -126,7 +126,7 @@ export const createTaskServer = async (task: NewTask): Promise<Task> => {
 };
 
 // UPDATE TASK
-export const updateTaskStatusServer = async (
+export const patchActiveTaskServer = async (
   id: string,
   patch: patchTask
 ): Promise<Task> => {

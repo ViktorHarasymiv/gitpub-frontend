@@ -99,7 +99,7 @@ export const getWeekFull = async (
 //========================TASKS API====================================
 
 // GET TASKS
-export const getTasksServer = async (
+export const getAllTasks = async (
   page = 1,
   limit = 20,
   status?: 'todo' | 'in_progress' | 'done'
@@ -112,7 +112,7 @@ export const getTasksServer = async (
 };
 
 // CREATE TASK
-export const createTaskServer = async (task: NewTask): Promise<Task> => {
+export const createTask = async (task: NewTask): Promise<Task> => {
   const { data } = await serverApi.post<Task>('/tasks', task, {
     headers: { Cookie: cookieStore.toString() },
   });
@@ -120,7 +120,7 @@ export const createTaskServer = async (task: NewTask): Promise<Task> => {
 };
 
 // UPDATE TASK
-export const updateTaskStatusServer = async (
+export const patchActiveTask = async (
   id: string,
   patch: patchTask
 ): Promise<Task> => {
