@@ -115,13 +115,16 @@ export const getAllTasksServer = async (
 ): Promise<TasksHttpResponse> => {
   const { data } = await serverApi.get<TasksHttpResponse>('/tasks', {
     params: { page, limit, status },
+    headers: { Cookie: cookieStore.toString() },
   });
   return data;
 };
 
 // CREATE TASK
 export const createTaskServer = async (task: NewTask): Promise<Task> => {
-  const { data } = await serverApi.post<Task>('/tasks', task);
+  const { data } = await serverApi.post<Task>('/tasks', task, {
+    headers: { Cookie: cookieStore.toString() },
+  });
   return data;
 };
 
@@ -130,6 +133,8 @@ export const patchActiveTaskServer = async (
   id: string,
   patch: patchTask
 ): Promise<Task> => {
-  const { data } = await serverApi.patch<Task>(`/tasks/${id}/status`, patch);
+  const { data } = await serverApi.patch<Task>(`/tasks/${id}/status`, patch, {
+    headers: { Cookie: cookieStore.toString() },
+  });
   return data;
 };
