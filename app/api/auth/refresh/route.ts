@@ -1,5 +1,8 @@
+// app/api/auth/session/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+
 import { api } from '../../api';
 import { parse } from 'cookie';
 
@@ -9,7 +12,7 @@ export async function GET(request: NextRequest) {
   const next = request.nextUrl.searchParams.get('next') || '/';
 
   if (refreshToken) {
-    const apiRes = await api.get('api/auth/refresh', {
+    const apiRes = await api.get('auth/session', {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -36,5 +39,5 @@ export async function GET(request: NextRequest) {
       });
     }
   }
-  return NextResponse.redirect(new URL('/auth/login', request.url));
+  return NextResponse.redirect(new URL('auth/login', request.url));
 }
