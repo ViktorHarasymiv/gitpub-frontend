@@ -1,17 +1,17 @@
 // INITIAL
 
-import { serverApi } from "./api";
+import { serverApi } from './api';
 
 // COOKIES
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 // TYPES
 
 // import { Note, NewNote } from "@/app/types/note";
 
-import { Task, NewTask, patchTask } from "@/app/types/task";
-import { User } from "@/app/types/user";
+import { Task, NewTask, patchTask } from '@/types/task';
+import { User } from '@/types/user';
 
 interface TasksHttpResponse {
   tasks: Task[];
@@ -52,7 +52,7 @@ export const getServerAllTasks = async (
   });
   const cookieStore = await cookies();
 
-  const response = await serverApi.get("/task", {
+  const response = await serverApi.get('/task', {
     params: PARAMS,
     headers: {
       Cookie: cookieStore.toString(),
@@ -66,7 +66,7 @@ export const getServerAllTasks = async (
 
 export const createServerTask = async (newTask: NewTask): Promise<Task> => {
   const cookieStore = await cookies();
-  const response = await serverApi.post("/task", newTask, {
+  const response = await serverApi.post('/task', newTask, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -114,7 +114,7 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
 
 export const editProfile = async (data: FormData) => {
   const cookieStore = await cookies();
-  const res = await serverApi.patch("/users/me", data, {
+  const res = await serverApi.patch('/users/me', data, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -126,7 +126,7 @@ export const editProfile = async (data: FormData) => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await serverApi.get("/users/me", {
+  const { data } = await serverApi.get('/users/me', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -139,7 +139,7 @@ export const getServerMe = async (): Promise<User> => {
 export const checkSession = async () => {
   try {
     const cookieStore = await cookies();
-    const response = await serverApi.post("/auth/refresh", {
+    const response = await serverApi.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -147,7 +147,7 @@ export const checkSession = async () => {
     return response;
   } catch (error: unknown) {
     console.error(
-      "Session refresh failed:",
+      'Session refresh failed:',
       error instanceof Error ? error.message : error
     );
     return null;
