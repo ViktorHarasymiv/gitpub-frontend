@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 interface ConfirmationModalProps {
   title: string;
-  handler: () => void;
+  handler?: () => void;
   onClose: () => void;
   style?: object;
 }
