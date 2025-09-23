@@ -14,15 +14,15 @@ import Image from 'next/image';
 import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon/Icon';
-// import { login } from '@/lib/api/clientApi';
+// import { getMe, login } from '@/lib/api/clientApi';
 
-// import { LoginReques } from '@/types/user';
-// import { useAuthStore } from '@/lib/store/authStore';
-// import { useRouter } from 'next/navigation';
+import { LoginRequest } from '@/types/user';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
-  // const router = useRouter();
-  // const setUser = useAuthStore(state => state.setUser);
+  const router = useRouter();
+  const setUser = useAuthStore(state => state.setUser);
 
   const initialValues = { email: '', password: '' };
 
@@ -38,8 +38,11 @@ export default function RegisterForm() {
   // const handleSubmit = async (formValues: LoginRequest) => {
   //   try {
   //     const res = await login(formValues);
+  //     const userRes = await getMe();
   //     if (res) {
-  //       setUser(res);
+  //       console.log(userRes);
+
+  //       setUser(userRes);
   //       router.push('/');
   //     }
   //   } catch (error) {
@@ -52,6 +55,7 @@ export default function RegisterForm() {
       <div className={css.content_wrapper}>
         <Image src={Logo} alt="Leleka" className={css.logo} />
 
+        <h1 className={style.title}>Вхід</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -62,7 +66,6 @@ export default function RegisterForm() {
         >
           {({ errors }) => (
             <Form className={css.form_content}>
-              <h1 className={style.title}>Вхід</h1>
               {/* E-MAIL */}
               <div className={style.input_wrapper}>
                 <label className={style.label}>Пошта*</label>

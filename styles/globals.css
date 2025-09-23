@@ -15,9 +15,11 @@ body {
 }
 
 body {
-  overflow: scroll;
+  position: relative;
 
   display: flex;
+
+  flex-direction: column;
 
   flex: 1;
 
@@ -33,12 +35,9 @@ body {
 
 main {
   width: 100%;
-  height: 100vh;
 
   display: flex;
   flex-direction: column;
-
-  overflow-y: auto;
 }
 
 .main {
@@ -75,9 +74,11 @@ section {
   height: 100%;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1439.98px) {
   body {
     overflow: hidden;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
   .container {
     padding: 16px 32px;
@@ -89,11 +90,6 @@ section {
 }
 
 @media screen and (min-width: 1440px) {
-  body {
-    flex-direction: row;
-    flex-wrap: nowrap;
-  }
-
   .main {
     padding-block: 24px;
   }
@@ -106,7 +102,7 @@ section {
 
 /* MUI */
 
-.css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
+/* .css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
   border-color: transparent !important;
 
   background: var(--opacity-neutral-darkest-5) !important;
@@ -125,4 +121,4 @@ section {
 .css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer,
 .css-1y4gq5a-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer {
   padding: 9.5px !important;
-}
+} */
