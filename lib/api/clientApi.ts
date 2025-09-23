@@ -29,7 +29,7 @@ export const logout = async (): Promise<void> => {
 // AUTH ME
 
 export const getMe = async (): Promise<User> => {
-  const { data } = await serverApi.get('/users/me', {
+  const { data } = await api.get('/users/me', {
     withCredentials: true,
   });
 
