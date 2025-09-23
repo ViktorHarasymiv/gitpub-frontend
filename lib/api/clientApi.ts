@@ -1,4 +1,4 @@
-import { hostingApi, serverApi } from './api';
+import { hostApi, serverApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -9,21 +9,21 @@ import {
 // REGISTER
 
 export const register = async (data: RegisterRequest) => {
-  const res = await hostingApi.post<User>('/auth/register', data);
+  const res = await hostApi.post<User>('/auth/register', data);
   return res.data;
 };
 
 // LOGIN
 
 export const login = async (data: LoginRequest) => {
-  const res = await hostingApi.post<User>('/auth/login', data);
+  const res = await hostApi.post<User>('/auth/login', data);
   return res.data;
 };
 
 // LOGOUT
 
 export const logout = async (): Promise<void> => {
-  await hostingApi.post('/auth/logout');
+  await hostApi.post('/auth/logout');
 };
 
 // AUTH ME

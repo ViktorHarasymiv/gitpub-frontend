@@ -5,7 +5,7 @@ export const serverApi = axios.create({
   withCredentials: true,
 });
 
-export const hostingApi = axios.create({
+export const hostApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_VERCEL + '/api',
   withCredentials: true,
 });
