@@ -28,6 +28,8 @@ export const checkSession = async () => {
     const response = await serverApi.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
+        Origin: process.env.NEXT_PUBLIC_FRONTEND_ORIGIN,
+        Referer: process.env.NEXT_PUBLIC_FRONTEND_ORIGIN,
       },
     });
     return response;
