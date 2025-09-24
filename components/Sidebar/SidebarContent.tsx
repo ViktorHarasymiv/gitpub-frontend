@@ -7,6 +7,7 @@ import Logo from '@/public/icons/Logo.svg';
 // import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import FooterAction from './FooterAction';
 
 interface SidebarContentProps {
   onLinkClick?: () => void;
@@ -51,33 +52,9 @@ const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
         </ul>
       </nav>
 
-      <div className={css.sidebarFooter}>
-        {/* <Image
-          src={'/user.jpg'}
-          alt="User photo"
-          width={40}
-          height={40}
-          className={css.image}
-        />
-        <ul>
-          <li>Unknown User</li>
-          <li>user1@gur.mo</li>
-        </ul>
-        <button className={css.logoutButton}>
-          <svg width="19" height="20">
-            <use href="/sprite.svg#exit" />
-          </svg>
-        </button> */}
+      {/* FOOTER */}
 
-        <ul className={css.authLinks}>
-          <li className={css.item}>
-            <Link href={'/auth/login'}>Увійти</Link>
-          </li>
-          <li className={css.item}>
-            <Link href={'/auth/register'}>Зареєструватись</Link>
-          </li>
-        </ul>
-      </div>
+      <FooterAction />
     </aside>
   );
 };

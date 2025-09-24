@@ -43,7 +43,7 @@ function GreetingBlock() {
     <h1 className={css.title}>Loading...</h1>
   ) : (
     <h1 className={css.title}>
-      {values}, {user ? user?.name : 'Користувач'} !
+      {values}, {user ? user?.name : 'Користувач'}
     </h1>
   );
 }

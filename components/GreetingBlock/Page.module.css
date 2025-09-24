@@ -8,4 +8,12 @@
   letter-spacing: 0.01em;
 
   margin-bottom: 16px;
+
+  margin-left: 12px;
+}
+
+@media screen and (min-width: 767.98px) {
+  .title {
+    margin-left: 0;
+  }
 }

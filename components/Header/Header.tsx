@@ -1,14 +1,12 @@
 'use client';
 import React, { useState } from 'react';
 import css from './Header.module.css';
-import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import Logo from '@/public/icons/Logo.svg';
 import SidebarContent from '../Sidebar/SidebarContent';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Header = () => {
-  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
 

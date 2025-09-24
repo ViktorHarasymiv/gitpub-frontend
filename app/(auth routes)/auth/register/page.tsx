@@ -1,17 +1,21 @@
-"use client";
+'use client';
 
-import Decor from "../../Decor";
-import Form from "./RegisterForm";
+import Decor from '../../Decor';
+import Form from './RegisterForm';
 
-import css from "../Page.module.css";
+import css from '../Page.module.css';
 
-import image from "@/public/img/regx2.jpg";
+import image from '@/public/img/regx2.jpg';
+
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export default function RegisterPage() {
+  const usePageWidth = useWindowWidth();
+
   return (
     <main className={css.wrapper}>
       <Form />
-      <Decor image={image} />
+      {usePageWidth >= 920 && <Decor image={image} />}
     </main>
   );
 }
