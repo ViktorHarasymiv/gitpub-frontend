@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { AxiosError } from 'axios';
-import { api } from '@/lib/api/api';
+import { api } from '@/app/api/api';
 
 export async function GET() {
   try {

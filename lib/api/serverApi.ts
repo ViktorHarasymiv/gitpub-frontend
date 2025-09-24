@@ -49,6 +49,7 @@ export const checkSession = async () => {
 export const getCurrentWeekServer = async (
   dueDate: string
 ): Promise<FullWeekData> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.get<FullWeekData>('/weeks/current', {
     params: { dueDate },
     headers: {
@@ -70,6 +71,7 @@ export const getCurrentWeekPublicServer = async (): Promise<FullWeekData> => {
 export const getWeekMomServer = async (
   weekNumber: number
 ): Promise<WeekMom> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.get<WeekMom>(`/weeks/${weekNumber}/mom`, {
     headers: {
       Cookie: cookieStore.toString(),
@@ -83,6 +85,7 @@ export const getWeekMomServer = async (
 export const getWeekBabyServer = async (
   weekNumber: number
 ): Promise<WeekBaby> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.get<WeekBaby>(`/weeks/${weekNumber}/baby`, {
     headers: {
       Cookie: cookieStore.toString(),
@@ -96,6 +99,7 @@ export const getWeekBabyServer = async (
 export const getWeekFullServer = async (
   weekNumber: number
 ): Promise<FullWeekData> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.get<FullWeekData>(`/weeks/${weekNumber}`, {
     headers: {
       Cookie: cookieStore.toString(),
@@ -112,6 +116,7 @@ export const getAllTasksServer = async (
   limit = 20,
   status?: 'todo' | 'in_progress' | 'done'
 ): Promise<TasksHttpResponse> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.get<TasksHttpResponse>('/tasks', {
     params: { page, limit, status },
     headers: { Cookie: cookieStore.toString() },
@@ -121,6 +126,7 @@ export const getAllTasksServer = async (
 
 // CREATE TASK
 export const createTaskServer = async (task: NewTask): Promise<Task> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.post<Task>('/tasks', task, {
     headers: { Cookie: cookieStore.toString() },
   });
@@ -132,6 +138,7 @@ export const patchActiveTaskServer = async (
   id: string,
   patch: patchTask
 ): Promise<Task> => {
+  const cookieStore = await cookies();
   const { data } = await serverApi.patch<Task>(`/tasks/${id}/status`, patch, {
     headers: { Cookie: cookieStore.toString() },
   });
