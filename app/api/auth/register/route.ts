@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
       maxAge: 7200,
     });
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     response.cookies.set('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
       maxAge: 7 * 24 * 3600,
     });
