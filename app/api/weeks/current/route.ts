@@ -6,12 +6,16 @@ import { api } from '../../api';
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const dueDate = request.nextUrl.searchParams.get('dueDate');
+    const accessToken = cookieStore.get('accessToken')?.value;
+    console.log('accessToken:', accessToken);
 
     const { data } = await api.get('/api/weeks/current', {
       params: { dueDate },
-      headers: { Cookie: cookieStore.toString() },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     return NextResponse.json(data);

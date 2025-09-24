@@ -5,16 +5,17 @@ import { api } from '../api';
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const { searchParams } = request.nextUrl;
     const status = searchParams.get('status');
     const page = searchParams.get('page');
     const limit = searchParams.get('limit');
+    const accessToken = cookieStore.get('accessToken')?.value;
 
     const { data } = await api.get('/api/tasks', {
       params: { status, page, limit },
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -32,12 +33,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const body = await request.json();
+    const accessToken = cookieStore.get('accessToken')?.value;
 
     const { data } = await api.post('/api/tasks', body, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 

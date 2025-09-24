@@ -7,7 +7,8 @@ import {
   LoginRequest,
 } from '@/types/user';
 import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
-import { api, serverApi } from './api';
+import { serverApi } from './api';
+import { api } from '@/app/api/api';
 
 // REGISTER
 
@@ -42,7 +43,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>('/auth/session', {
+  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
@@ -57,7 +58,7 @@ export const checkSession = async () => {
 export const getCurrentWeek = async (
   dueDate: string
 ): Promise<FullWeekData> => {
-  const { data } = await serverApi.get<FullWeekData>('/api/weeks/current', {
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current', {
     params: { dueDate },
   });
   return data;
@@ -65,23 +66,19 @@ export const getCurrentWeek = async (
 
 //GET CURRENT WEEK INFO PUBLIC
 export const getCurrentWeekPublic = async (): Promise<FullWeekData> => {
-  const { data } = await serverApi.get<FullWeekData>(
-    '/api/weeks/current/public'
-  );
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current/public');
   return data;
 };
 
 //GET CURRENT WEEK MOM INFO
 export const getWeekMom = async (weekNumber: number): Promise<WeekMom> => {
-  const { data } = await serverApi.get<WeekMom>(`/api/weeks/${weekNumber}/mom`);
+  const { data } = await serverApi.get<WeekMom>(`/weeks/${weekNumber}/mom`);
   return data;
 };
 
 //GET CURRENT WEEK BABY INFO
 export const getWeekBaby = async (weekNumber: number): Promise<WeekBaby> => {
-  const { data } = await serverApi.get<WeekBaby>(
-    `/api/weeks/${weekNumber}/baby`
-  );
+  const { data } = await serverApi.get<WeekBaby>(`/weeks/${weekNumber}/baby`);
   return data;
 };
 
@@ -89,9 +86,7 @@ export const getWeekBaby = async (weekNumber: number): Promise<WeekBaby> => {
 export const getWeekFull = async (
   weekNumber: number
 ): Promise<FullWeekData> => {
-  const { data } = await serverApi.get<FullWeekData>(
-    `/api/weeks/${weekNumber}`
-  );
+  const { data } = await serverApi.get<FullWeekData>(`/weeks/${weekNumber}`);
   return data;
 };
 

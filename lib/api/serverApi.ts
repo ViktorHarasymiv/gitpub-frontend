@@ -56,6 +56,8 @@ export const getCurrentWeekServer = async (
       Cookie: cookieStore.toString(),
     },
   });
+  console.log(cookieStore);
+
   return data;
 };
 

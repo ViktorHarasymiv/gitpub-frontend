@@ -11,9 +11,10 @@ export async function GET(request: NextRequest, { params }: WeekNumberProps) {
   try {
     const cookieStore = await cookies();
     const { weekNumber } = await params;
+    const accessToken = cookieStore.get('accessToken')?.value;
     const { data } = await api.get(`/api/weeks/${weekNumber}/baby`, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     if (data) {

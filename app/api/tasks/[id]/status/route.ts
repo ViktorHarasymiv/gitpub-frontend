@@ -9,13 +9,14 @@ interface StatusProps {
 
 export async function PATCH(request: NextRequest, { params }: StatusProps) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const body = await request.json();
     const { id } = await params;
+    const accessToken = cookieStore.get('accessToken')?.value;
 
     const { data } = await api.patch(`/api/tasks/${id}/status`, body, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
