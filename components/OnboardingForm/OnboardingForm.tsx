@@ -1,12 +1,48 @@
 'use client';
 
+import React from 'react';
+import { Formik, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
 import styles from './OnboardingForm.module.css';
 import Button from '@/components/ui/Button/Button';
 import Logo from '@/public/icons/Logo.svg';
 import Image from 'next/image';
-import React from 'react';
+import { AvatarPicker } from '@/components/AvatarPicker/AvatarPicker';
+import FormikSelect from '@/components/FormikSelect/FormikSelect';
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
+
+type FormValues = {
+  gender: string;
+  dueDate: string;
+  avatar: File | null;
+};
 
 export default function OnboardingForm() {
+  const initialValues: FormValues = {
+    gender: '',
+    dueDate: '',
+    avatar: null,
+  };
+
+  const validationSchema = Yup.object({
+    gender: Yup.string().required('Оберіть стать'),
+    dueDate: Yup.string().required('Вкажіть дату'),
+  });
+
+  const genderOptions = [
+    { label: 'хлопчик', value: 'boy' },
+    { label: 'дівчинка', value: 'girl' },
+    { label: 'Ще не знаю', value: 'unknown' },
+  ];
+
+  const handleSubmit = (values: FormValues) => {
+    console.log('Форма отправлена:', values);
+  };
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.formCard}>
@@ -21,50 +57,54 @@ export default function OnboardingForm() {
         </div>
         <div className={styles.formContainer}>
           <h1 className={styles.title}>Давайте познайомимося ближче</h1>
-          <div className={styles.avatarBlock}>
-            <div className={styles.avatar}>
-              <Image
-                src="/img/avatarimagex2.png"
-                alt="Аватар"
-                fill
-                sizes="(min-width: 1440px) 179px, 164px"
-                className={styles.avatarImg}
-              />
-            </div>
-            <Button
-              type="button"
-              alternative={true}
-              styles={{ width: 220 }}
-            >
-              Завантажити фото
-            </Button>
-          </div>
 
-          <form className={styles.form}>
-            <div className={styles.field}>
-              <label htmlFor="gender" className={styles.label}>Стать дитини</label>
-              <select id="gender" className={styles.select} defaultValue="">
-                <option value="">Оберіть стать</option>
-                <option value="boy">Хлопчик</option>
-                <option value="girl">Дівчинка</option>
-                <option value="unknown">Ще не знаю</option>
-              </select>
-            </div>
-
-            <div className={styles.field}>
-              <label htmlFor="birthday" className={styles.label}>Планова дата пологів</label>
-              <input id="birthday" type="date" className={styles.input} />
-            </div>
-            <div className={styles.submitWrap}>
-              <Button
-                type="submit"
-                styles={{ width: '100%' }}
-                aria-label="Зберегти"
-              >
-                Зберегти
-              </Button>
-            </div>
-          </form>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {() => (
+              <Form className={styles.form}>
+                <AvatarPicker
+                  name="avatar"
+                  btnTitle="Завантажити фото"
+                />
+                <div className={styles.field}>
+                  <label htmlFor="gender" className={styles.label}>
+                    Стать дитини
+                  </label>
+                  <FormikSelect name="gender" options={genderOptions} />
+                  <ErrorMessage
+                    name="gender"
+                    component="div"
+                    className={styles.error}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="dueDate" className={styles.label}>
+                    Планова дата пологів
+                  </label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <FormikDatePickerBirthday name="dueDate" />
+                  </LocalizationProvider>
+                  <ErrorMessage
+                    name="dueDate"
+                    component="div"
+                    className={styles.error}
+                  />
+                </div>
+                <div className={styles.submitWrap}>
+                  <Button
+                    type="submit"
+                    styles={{ width: '100%' }}
+                    aria-label="Зберегти"
+                  >
+                    Зберегти
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
 
