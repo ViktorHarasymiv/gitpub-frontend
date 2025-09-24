@@ -1,5 +1,5 @@
-import { WeekMom, WeekBaby, FullWeekData } from '@/types/weeks';
-
+import { FullWeekData, WeekBaby, WeekMom } from '@/types/weeks';
+import { api, serverApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -7,8 +7,6 @@ import {
   LoginRequest,
 } from '@/types/user';
 import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
-import { serverApi } from './api';
-import { api } from '@/app/api/api';
 
 // REGISTER
 
@@ -43,7 +41,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
+  const res = await api.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 

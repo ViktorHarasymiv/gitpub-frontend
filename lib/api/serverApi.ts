@@ -1,3 +1,5 @@
+import { TasksHttpResponse, NewTask, Task, patchTask } from '@/types/task';
+import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 import { User } from '../../types/user';
 
 // INITIAL
@@ -7,8 +9,6 @@ import { api, serverApi } from './api';
 // COOKIES
 
 import { cookies } from 'next/headers';
-import { FullWeekData, WeekBaby, WeekMom } from '@/types/weeks';
-import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
 
 // PRIVAT USER
 
