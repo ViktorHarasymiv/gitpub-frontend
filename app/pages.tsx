@@ -49,7 +49,6 @@ export default function DashboardPage() {
       <Icon name={'close_btn'} width={14} height={14}></Icon>
       <Icon name={'note'} width={14} height={14}></Icon>
       <br />
-      Новий коміт проба
       {/* Loader */}
       <Loader loading={true} />
     </div>

@@ -90,10 +90,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/',
-    '/:path*',
-    '/journey/:path*',
-    '/diary/:path*',
-    '/profile/:path*',
+    // '/',
+    // '/:path*',
+    // '/journey/:path*',
+    // '/diary/:path*',
+    // '/profile/:path*',
   ],
 };

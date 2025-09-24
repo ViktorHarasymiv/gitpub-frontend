@@ -1,9 +1,11 @@
-import { api, serverApi } from './api';
+import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
+import { serverApi } from './api';
 import {
   RegisterRequest,
   User,
   CheckSessionRequest,
   LoginRequest,
+  UserResponse,
 } from '@/types/user';
 
 // REGISTER
@@ -17,6 +19,13 @@ export const register = async (data: RegisterRequest) => {
 
 export const login = async (data: LoginRequest) => {
   const res = await serverApi.post<User>('/auth/login', data);
+  return res.data;
+};
+
+// PATCH
+
+export const editProfile = async (data: FormData) => {
+  const res = await serverApi.patch<UserResponse>('/users', data);
   return res.data;
 };
 
@@ -39,11 +48,31 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>('/auth/session', {
+  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
   console.log('Session response:', res.data);
 
   return res.data.success;
+};
+
+export const getAllTasks = async (): Promise<TasksHttpResponse> => {
+  const response = await serverApi.get<TasksHttpResponse>('/tasks');
+
+  return response.data;
+};
+
+// POST
+
+export const createTask = async (newTask: NewTask): Promise<Task> => {
+  const response = await serverApi.post('/tasks', newTask);
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const res = await serverApi.patch<TasksHttpResponse>(`/tasks/${id}`, payload);
+  return res.data;
 };

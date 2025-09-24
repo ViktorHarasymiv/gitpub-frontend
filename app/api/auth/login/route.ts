@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json(apiRes.data, { status: apiRes.status });
 
     // Ставимо куки напряму
+
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
       secure: true,

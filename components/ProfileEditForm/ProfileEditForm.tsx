@@ -1,166 +1,226 @@
-"use client";
+'use client';
+import React, { useState } from 'react';
 
-import { useState, useRef } from "react";
-import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
-interface UserData {
+import { AvatarPicker } from '@/components/AvatarPicker/AvatarPicker';
+import { editProfile } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
+
+import css from './Style.module.css';
+import style from '@/styles/Form.module.css';
+import Modal from '@/components/Modal/Modal';
+import Button from '@/components/ui/Button/Button';
+import FormikSelect from '@/components/FormikSelect/FormikSelect';
+
+/* MUI DATA */
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
+
+type FormValues = {
   name: string;
   email: string;
   gender: string;
   dueDate: string;
-  avatar: string | null;
-}
+  avatar: File | null;
+};
 
-export default function ProfileEditForm() {
-  const initialData: UserData = {
-    name: "Unknown User",
-    email: "user1@gur.mo",
-    gender: "",
-    dueDate: "",
-    avatar: "/img/avatar.jpg",
+const Profile = () => {
+  const [succsess, setSuccsess] = useState(false);
+
+  // STATE
+
+  const { user } = useAuthStore();
+  const setUser = useAuthStore(state => state.setUser);
+
+  // FORMIK
+
+  const initialValues = {
+    name: user?.name || '',
+    email: user?.email || '',
+    gender: user?.gender || '',
+    dueDate: user?.dueDate || '',
+    avatar: null,
   };
 
-  const [formData, setFormData] = useState<UserData>(initialData);
-  const [errors, setErrors] = useState<{ name?: boolean; email?: boolean }>({});
-  const dateInputRef = useRef<HTMLInputElement | null>(null);
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(2, 'Ім’я має містити щонайменше 2 символи')
+      .required('Ім’я обов’язкове'),
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    email: Yup.string()
+      .email('Невірний формат email')
+      .required('Email обов’язковий'),
+    gender: Yup.string().required('Email обов’язковий'),
+    dueDate: Yup.string().required('Пароль обов’язковий'),
+  });
 
-    setErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  const options = [
+    { label: 'хлопчик' },
+    { label: 'дівчинка' },
+    { label: 'Оберіть стать' },
+  ];
 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const newPhoto = URL.createObjectURL(e.target.files[0]);
-      setFormData((prev) => ({ ...prev, avatar: newPhoto }));
+  const handleSubmit = async (formValues: FormValues) => {
+    try {
+      const formData = new FormData();
+
+      if (formValues.avatar) {
+        formData.append('avatar', formValues.avatar);
+      }
+      formData.append('name', formValues.name);
+      formData.append('email', formValues.email);
+      formData.append('gender', formValues.gender);
+      formData.append('dueDate', formValues.dueDate);
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const res = await editProfile(formData);
+
+      if (res) {
+        setSuccsess(true);
+        return res;
+      }
+    } catch (error) {
+      console.log('error', error);
     }
   };
 
-  const handleCancel = () => {
-    setFormData(initialData);
-    setErrors({});
-  };
-
-  const handleSave = () => {
-    const newErrors: { name?: boolean; email?: boolean } = {};
-    if (!formData.name.trim()) newErrors.name = true;
-    if (!formData.email.trim()) newErrors.email = true;
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    console.log("Збережені дані:", formData);
-    alert("Зміни збережено!");
-  };
-
-  const handleOpenDatePicker = () => {
-    dateInputRef.current?.showPicker();
+  const styles = {
+    marginBottom: '32px',
+    flexDirection: 'row',
+    alignItems: 'start',
   };
 
   return (
-    <div className="profileContainer">
-      <form>
-        <ProfileAvatar
-          avatar={formData.avatar}
-          name={formData.name}
-          email={formData.email}
-          onUpload={handleUpload}
-        />
-
-        {/* Ім’я */}
-        <div className="name">
-          <span className="user">Ім’я</span>
-          <input
-            className={`inputUser ${errors.name ? "inputError" : ""}`}
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Unknown User"
-          />
-          {errors.name && (
-            <p className="errorText">
-              Будь ласка, заповніть всі обов&apos;язкові поля!
-            </p>
-          )}
-        </div>
-
-        {/* Пошта */}
-        <div className="name">
-          <span className="user">Пошта</span>
-          <input
-            className={`inputUser ${errors.email ? "inputError" : ""}`}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="user1@gur.mo"
-          />
-          {errors.email && (
-            <p className="errorText">
-              Будь ласка, заповніть всі обов&apos;язкові поля!
-            </p>
-          )}
-        </div>
-
-        {/* Стать */}
-        <div className="genderOption">
-          <label className="name">
-            <span className="user">Стать дитини</span>
-            <div className="inputWrapper">
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="inputSelection"
-              >
-                <option value="">Оберіть стать</option>
-                <option value="boy">Хлопчик</option>
-                <option value="girl">Дівчинка</option>
-                <option value="not specified">Не вказано стать</option>
-              </select>
-              <svg className="iconGender">
-                <use href="/sprite.svg#arrow_down" />
-              </svg>
-            </div>
-          </label>
-        </div>
-
-        {/* Дата пологів */}
-        <div className="dateOption">
-          <label className="name">
-            <span className="user">Планова дата пологів</span>
-            <div className="inputWrapper">
-              <input
-                ref={dateInputRef}
-                className="inputUser"
-                type="date"
-                name="dueDate"
-                value={formData.dueDate}
-                onChange={handleChange}
+    <>
+      <div className={css.content_wrapper}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          enableReinitialize
+          onSubmit={(values, { setSubmitting }) => {
+            handleSubmit(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, resetForm }) => (
+            <Form className={css.form_content}>
+              {/* Photo */}
+              <AvatarPicker
+                name="avatar"
+                initialPhoto={user?.avatar || null}
+                btnTitle={'Завантажити нове фото'}
+                isContent={true}
+                styles={styles}
               />
-              <svg className="iconProfile" onClick={handleOpenDatePicker}>
-                <use href="/sprite.svg#arrow_down" />
-              </svg>
-            </div>
-          </label>
-        </div>
 
-        {/* Кнопки */}
-        <div className="buttons">
-          <button type="button" className="firstButton" onClick={handleCancel}>
-            <span className="textButton">Відмінити зміни</span>
-          </button>
-          <button type="button" className="lastButton" onClick={handleSave}>
-            <span className="textButton">Зберегти зміни</span>
-          </button>
-        </div>
-      </form>
-    </div>
+              {/* E-MAIL */}
+
+              <div className={style.input_wrapper}>
+                <label className={style.label}>Пошта</label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="hello@leleka.com"
+                  className={style.custom_input}
+                  style={{ color: errors.email && 'var(--color-red)' }}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className={style.error}
+                />
+              </div>
+
+              {/* Name */}
+
+              <div className={style.input_wrapper}>
+                <label className={style.label}>Ім’я</label>
+                <Field
+                  type="text"
+                  name="name"
+                  placeholder="hello@leleka.com"
+                  className={style.custom_input}
+                  style={{ color: errors.name && 'var(--color-red)' }}
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className={style.error}
+                />
+              </div>
+
+              {/* Gender */}
+              <div className={style.input_wrapper}>
+                <label className={style.label}>Стать дитини</label>
+                <FormikSelect name="gender" options={options} />
+                <ErrorMessage
+                  name="gender"
+                  component="div"
+                  className={style.error}
+                />
+              </div>
+
+              {/* Date */}
+              <div className={style.input_wrapper}>
+                <label className={style.label}>Планова дата пологів</label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormikDatePickerBirthday name="dueDate" />
+                </LocalizationProvider>
+
+                <ErrorMessage
+                  name="date"
+                  component="div"
+                  className={style.error}
+                />
+              </div>
+
+              {/* Actions */}
+              <div className={css.form_actions}>
+                <Button
+                  type="button"
+                  action={() => resetForm()}
+                  styles={{ maxWidth: 165 }}
+                  alternative={true}
+                >
+                  Відмінити зміни
+                </Button>
+                <Button type="submit" styles={{ maxWidth: 165 }}>
+                  Зберегти зміни
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+      {/* Modal */}
+      {succsess && (
+        <Modal
+          title="Дані успішно змінено"
+          onClose={() => setSuccsess(false)}
+          styles={{
+            justifyContent: 'center',
+            gap: 25,
+            padding: 25,
+            maxHeight: 250,
+          }}
+        >
+          <Button
+            type="button"
+            styles={{ maxWidth: 144, height: 44 }}
+            action={() => window.location.reload()}
+          >
+            Готово
+          </Button>
+        </Modal>
+      )}
+    </>
   );
-}
+};
+export default Profile;

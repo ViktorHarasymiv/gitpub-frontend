@@ -12,36 +12,35 @@ import Icon from '@/public/icons/circle.svg';
 import Image from 'next/image';
 import Button from '../ui/Button/Button';
 import ModalTask from './ModalTask';
-// import { getAllTasks, patchActiveTask } from '@/lib/api/clientApi';
-// import { Task } from '@/app/types/task';
+import { getAllTasks, patchActiveTask } from '@/lib/api/clientApi';
+import { Task } from '@/types/task';
 
 function TasksReminderCard() {
   const [switchModal, setSwitchModal] = useState(false);
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ['tasks'],
-  //   queryFn: () => getAllTasks(1),
-  // });
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: () => getAllTasks(),
+  });
 
-  // const tasks: Task[] = data?.result?.data ?? [];
-
+  const tasks: Task[] = data?.result?.data ?? [];
   // PATCH
 
-  // const mutation = useMutation({
-  //   mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) =>
-  //     patchActiveTask(id, { isActive }),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ['tasks'] });
-  //   },
-  //   onError: error => {
-  //     console.error('Помилка при оновленні задачі:', error);
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) =>
+      patchActiveTask(id, { isActive }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+    onError: error => {
+      console.error('Помилка при оновленні задачі:', error);
+    },
+  });
 
-  // const handleToggleActive = (id: string, currentState: boolean) => {
-  //   mutation.mutate({ id, isActive: !currentState });
-  // };
+  const handleToggleActive = (id: string, currentState: boolean) => {
+    mutation.mutate({ id, isActive: !currentState });
+  };
 
   // DATA FORMATED
 
@@ -64,13 +63,13 @@ function TasksReminderCard() {
             className={iconStyle.icon}
           />
         </div>
-        {/* {data ? (
+        {data ? (
           <ul className={css.list}>
             {tasks.map((item, index) => {
               return (
                 <li key={index} className={css.item}>
                   <input
-                    // onChange={() => handleToggleActive(item._id, item.isActive)}
+                    onChange={() => handleToggleActive(item._id, item.isActive)}
                     type="checkbox"
                     checked={item.isActive}
                     name={item.text}
@@ -89,19 +88,19 @@ function TasksReminderCard() {
               );
             })}
           </ul>
-        ) : ( */}
-        <div className={css.greating_block}>
-          <b>Наразі немає жодних завдань</b>
-          <p className={css.about_text}>Створіть мершій нове завдання!</p>
-          <Button
-            type={'button'}
-            styles={{ maxWidth: 191 }}
-            action={() => setSwitchModal(true)}
-          >
-            {'Створити завдання'}
-          </Button>
-        </div>
-        {/* )} */}
+        ) : (
+          <div className={css.greating_block}>
+            <b>Наразі немає жодних завдань</b>
+            <p className={css.about_text}>Створіть мершій нове завдання!</p>
+            <Button
+              type={'button'}
+              styles={{ maxWidth: 191 }}
+              action={() => setSwitchModal(true)}
+            >
+              {'Створити завдання'}
+            </Button>
+          </div>
+        )}
       </div>
       {/* Modal */}
       {switchModal && <ModalTask switchModal={setSwitchModal} />}
