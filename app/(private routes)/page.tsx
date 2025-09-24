@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import Modal from '@/components/Modal/Modal';
 import Button from '@/components/ui/Button/Button';
 import { Icon } from '@/components/ui/Icon/Icon';
 import Loader from '@/components/ui/Loader/Loader';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -14,7 +17,6 @@ export default function Home() {
   return (
     <section>
       <div>
-        123
         <Button type="submit">Кнопка 1</Button>
         <br />
         {/* Усі пропси для кнопки можна подивитись в компоненті  */}

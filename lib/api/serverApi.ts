@@ -1,8 +1,9 @@
+import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
 import { User } from '../../types/user';
 
 // INITIAL
 
-import { api, serverApi } from './api';
+import { serverApi } from './api';
 
 // COOKIES
 
@@ -20,12 +21,24 @@ export const getServerMe = async (): Promise<User> => {
   return data;
 };
 
+// PATCH ME
+
+export const editProfile = async (data: FormData) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch('/users', data, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
+
 // CHECK SESSION
 
 export const checkSession = async () => {
   try {
     const cookieStore = await cookies();
-    const response = await api.post('/auth/refresh', {
+    const response = await serverApi.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -38,4 +51,42 @@ export const checkSession = async () => {
     );
     return null;
   }
+};
+
+// GET
+
+export const getServerAllTasks = async (): Promise<TasksHttpResponse> => {
+  const cookieStore = await cookies();
+
+  const response = await serverApi.get('/tasks', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return response.data;
+};
+
+// POST
+
+export const createServerTask = async (newTask: NewTask): Promise<Task> => {
+  const cookieStore = await cookies();
+  const response = await serverApi.post('/tasks', newTask, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch(`/tasks/${id}`, payload, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
 };
