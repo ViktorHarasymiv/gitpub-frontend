@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import type { AxiosError } from 'axios';
-import { api } from '@/app/api/weeks/api';
+import { api } from '@/lib/api/api';
 
 interface StatusProps {
   params: Promise<{ id: string }>;

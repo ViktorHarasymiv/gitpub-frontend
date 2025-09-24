@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import type { AxiosError } from 'axios';
-import { api } from '../weeks/api';
+import { api } from '../api';
 
 export async function GET(request: NextRequest) {
   try {

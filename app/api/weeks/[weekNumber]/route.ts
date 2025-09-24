@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { AxiosError } from 'axios';
-import { api } from '../api';
+import { api } from '../../api';
 
 interface WeekNumberProps {
   params: Promise<{ weekNumber: string }>;
