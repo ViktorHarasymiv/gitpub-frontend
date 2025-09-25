@@ -90,29 +90,4 @@ export const getWeekFull = async (
 
 //========================TASKS API====================================
 
-// GET TASKS
-export const getAllTasks = async (
-  page = 1,
-  limit = 20,
-  status?: 'todo' | 'in_progress' | 'done'
-): Promise<TasksHttpResponse> => {
-  const { data } = await serverApi.get<TasksHttpResponse>('/tasks', {
-    params: { page, limit, status },
-  });
-  return data;
-};
 
-// CREATE TASK
-export const createTask = async (task: NewTask): Promise<Task> => {
-  const { data } = await serverApi.post<Task>('/tasks', task);
-  return data;
-};
-
-// UPDATE TASK
-export const patchActiveTask = async (
-  id: string,
-  patch: patchTask
-): Promise<Task> => {
-  const { data } = await serverApi.patch<Task>(`/tasks/${id}/status`, patch);
-  return data;
-};
