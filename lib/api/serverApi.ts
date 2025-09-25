@@ -1,4 +1,4 @@
-import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
+import { NewTask, patchTask, Task } from '@/types/task';
 import { User } from '../../types/user';
 
 // INITIAL
@@ -8,6 +8,13 @@ import { serverApi } from './api';
 // COOKIES
 
 import { cookies } from 'next/headers';
+
+interface TasksHttpResponse {
+  result: {
+    data: Task[];
+    totalPages: number;
+  };
+}
 
 // PRIVAT USER
 
@@ -55,10 +62,16 @@ export const checkSession = async () => {
 
 // GET
 
-export const getServerAllTasks = async (): Promise<TasksHttpResponse> => {
+export const getServerAllTasks = async (
+  page: number
+): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
   const cookieStore = await cookies();
 
-  const response = await serverApi.get('/tasks', {
+  const response = await serverApi.get('/task', {
+    params: PARAMS,
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -71,7 +84,7 @@ export const getServerAllTasks = async (): Promise<TasksHttpResponse> => {
 
 export const createServerTask = async (newTask: NewTask): Promise<Task> => {
   const cookieStore = await cookies();
-  const response = await serverApi.post('/tasks', newTask, {
+  const response = await serverApi.post('/task', newTask, {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -83,7 +96,7 @@ export const createServerTask = async (newTask: NewTask): Promise<Task> => {
 
 export const patchActiveTask = async (id: string, payload: patchTask) => {
   const cookieStore = await cookies();
-  const res = await serverApi.patch(`/tasks/${id}`, payload, {
+  const res = await serverApi.patch(`/task/${id}`, payload, {
     headers: {
       Cookie: cookieStore.toString(),
     },

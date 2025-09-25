@@ -25,7 +25,6 @@ type Props = {
 
 function ModalTask({ switchModal }: Props) {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const [succsess, setSuccsess] = useState(false);
 
@@ -48,20 +47,15 @@ function ModalTask({ switchModal }: Props) {
   const mutation = useMutation({
     mutationFn: createTask,
     onSuccess: () => {
-      alert('Завдання успішно створено!');
-
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
-
-      router.push('/');
     },
   });
 
   const handleSubmit = async (values: NewTask) => {
-    const res = await createTask(values);
-    console.log(res);
     mutation.mutate(values, {
       onSuccess: () => {
-        console.log('Success, you created a new task !');
+        switchModal(false);
+        setSuccsess(true);
       },
     });
   };
@@ -82,7 +76,7 @@ function ModalTask({ switchModal }: Props) {
               setSubmitting(false);
             }}
           >
-            {({ errors, resetForm }) => (
+            {({ errors }) => (
               <Form className={css.form_content}>
                 {/* Name */}
 
@@ -138,7 +132,7 @@ function ModalTask({ switchModal }: Props) {
 
       {succsess && (
         <Modal
-          title="Дані успішно змінено"
+          title="Завдання успішно додано"
           onClose={() => setSuccsess(false)}
           styles={{
             justifyContent: 'center',

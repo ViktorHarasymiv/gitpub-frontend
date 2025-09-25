@@ -1,4 +1,4 @@
-import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
+import { NewTask, patchTask, Task } from '@/types/task';
 import { serverApi } from './api';
 import {
   RegisterRequest,
@@ -7,6 +7,13 @@ import {
   LoginRequest,
   UserResponse,
 } from '@/types/user';
+
+interface TasksHttpResponse {
+  result: {
+    data: Task[];
+    totalPages: number;
+  };
+}
 
 // REGISTER
 
@@ -57,8 +64,16 @@ export const checkSession = async () => {
   return res.data.success;
 };
 
-export const getAllTasks = async (): Promise<TasksHttpResponse> => {
-  const response = await serverApi.get<TasksHttpResponse>('/tasks');
+// GET
+
+export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  const response = await serverApi.get<TasksHttpResponse>('/task', {
+    params: PARAMS,
+  });
 
   return response.data;
 };
@@ -66,13 +81,13 @@ export const getAllTasks = async (): Promise<TasksHttpResponse> => {
 // POST
 
 export const createTask = async (newTask: NewTask): Promise<Task> => {
-  const response = await serverApi.post('/tasks', newTask);
+  const response = await serverApi.post('/task', newTask);
   return response.data;
 };
 
 // PATCH
 
 export const patchActiveTask = async (id: string, payload: patchTask) => {
-  const res = await serverApi.patch<TasksHttpResponse>(`/tasks/${id}`, payload);
+  const res = await serverApi.patch<TasksHttpResponse>(`/task/${id}`, payload);
   return res.data;
 };
