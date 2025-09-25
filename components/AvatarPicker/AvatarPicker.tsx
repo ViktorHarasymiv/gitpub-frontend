@@ -17,12 +17,14 @@ export const AvatarPicker = ({
   initialPhoto,
   styles,
   isContent,
+  buttonStyles,
 }: {
   name: string;
   initialPhoto?: string | null;
   btnTitle: string;
   styles?: object | null;
   isContent?: boolean | null;
+  buttonStyles?: React.CSSProperties;
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
@@ -92,7 +94,7 @@ export const AvatarPicker = ({
         <Button
           type="button"
           alternative={true}
-          styles={{ maxWidth: 218, zIndex: 1, position: 'relative' }}
+          styles={{ maxWidth: 218, zIndex: 1, position: 'relative', ...(buttonStyles || {}), }}
           action={handleClick}
         >
           {btnTitle}

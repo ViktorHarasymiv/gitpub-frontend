@@ -14,6 +14,7 @@ import FormikSelect from '@/components/FormikSelect/FormikSelect';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
+import { useMediaQuery } from '@mui/system';
 
 type FormValues = {
   gender: string;
@@ -22,6 +23,12 @@ type FormValues = {
 };
 
 export default function OnboardingForm() {
+  const genderOptions = [
+    { label: 'хлопчик' },
+    { label: 'дівчинка' },
+    { label: 'Ще не знаю' },
+  ];
+
   const initialValues: FormValues = {
     gender: '',
     dueDate: '',
@@ -29,15 +36,18 @@ export default function OnboardingForm() {
   };
 
   const validationSchema = Yup.object({
-    gender: Yup.string().required('Оберіть стать'),
+    gender: Yup.string()
+      .oneOf(
+        genderOptions.map(o => o.label),
+        'Оберіть стать',
+      )
+      .required('Оберіть стать'),
     dueDate: Yup.string().required('Вкажіть дату'),
   });
 
-  const genderOptions = [
-    { label: 'хлопчик', value: 'boy' },
-    { label: 'дівчинка', value: 'girl' },
-    { label: 'Ще не знаю', value: 'unknown' },
-  ];
+
+  const isDesktop = useMediaQuery('(min-width: 1440px)');
+  const downloadBtnWidth = isDesktop ? 179 : 162;
 
   const handleSubmit = (values: FormValues) => {
     console.log('Форма отправлена:', values);
@@ -68,6 +78,7 @@ export default function OnboardingForm() {
                 <AvatarPicker
                   name="avatar"
                   btnTitle="Завантажити фото"
+                  buttonStyles={{ width: downloadBtnWidth }}
                 />
                 <div className={styles.field}>
                   <label htmlFor="gender" className={styles.label}>
