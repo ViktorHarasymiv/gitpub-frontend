@@ -1,10 +1,11 @@
-import '@/styles/globals.css';
-
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
+import PageLoader from '@/components/PageLoader/PageLoader';
+import ThemeBodyWrapper from '@/components/ThemeBodyWrapper/ThemeBodyWrapper';
 
 const lato = Lato({
   subsets: ['latin'],
@@ -32,11 +33,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="uk" className={`${lato.variable} ${comfortaa.variable}`}>
-      <body>
+      <ThemeBodyWrapper>
         <TanStackProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <PageLoader>{children}</PageLoader>
+          </AuthProvider>
         </TanStackProvider>
-      </body>
+      </ThemeBodyWrapper>
     </html>
   );
 }

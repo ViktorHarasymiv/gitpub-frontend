@@ -6,7 +6,5 @@
 
 .icon:hover,
 .icon:active {
-  transform: scale(1.3);
-
-  fill: var(--color-scheme-foreground-alt);
+  transform: scale(1.1);
 }
