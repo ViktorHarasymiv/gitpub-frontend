@@ -1,5 +1,3 @@
-'use client';
-
 import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
 import { DiaryEntry } from '@/types/diary';
 import { Icon } from '../ui/Icon/Icon';

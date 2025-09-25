@@ -1,3 +1,4 @@
+'use client';
 import { DiaryEntry } from '@/types/diary';
 import css from './DiaryEntryCard.module.css';
 

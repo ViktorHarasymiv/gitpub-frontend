@@ -14,3 +14,5 @@ export interface NewDiaryData {
   description: string;
   emotions: string[];
 }
+
+export type Emotion = { _id: string; title: string };

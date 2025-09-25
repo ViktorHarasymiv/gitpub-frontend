@@ -1,13 +1,20 @@
 'use client';
+import { getEmotions } from '@/lib/api/clientApi';
 import { Icon } from '../ui/Icon/Icon';
 import css from './DiaryEntryDetails.module.css';
 import { DiaryEntry } from '@/types/diary';
+import { useQuery } from '@tanstack/react-query';
 
 interface DiaryEntryDetailsProps {
   entryData?: DiaryEntry;
 }
 
 function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
+  const emotions = useQuery({
+    queryKey: ['emotions'],
+    queryFn: getEmotions,
+  });
+
   return entryData ? (
     <div className={css.diary_noteWrapper}>
       <div className={css.diary_note_header}>

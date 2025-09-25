@@ -8,7 +8,7 @@ import {
 } from '@/types/user';
 
 import { serverApi } from './api';
-import { DiaryEntry, NewDiaryData } from '@/types/diary';
+import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 
 export interface FetchDiaryResponse {
   data: DiaryEntry[];
@@ -118,5 +118,10 @@ export async function patchDiary(newDiary: NewDiaryData) {
 
 export async function deleteDiary(_id: string) {
   const resp = await serverApi.delete<DiaryEntry>(`/diaries/${_id}`);
+  return resp.data;
+}
+
+export async function getEmotions() {
+  const resp = await serverApi.get<Emotion[]>('/emotions');
   return resp.data;
 }
