@@ -100,13 +100,18 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
 
 //diary CRUD
 
-export async function fetchDiary() {
+export async function getDiaries() {
   const resp = await serverApi.get<FetchDiaryResponse>('/diaries', {});
 
   return resp.data;
 }
 
 export async function createDiary(newDiary: NewDiaryData) {
+  const resp = await serverApi.post<DiaryEntry>('/diaries', newDiary);
+  return resp.data;
+}
+
+export async function patchDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diaries', newDiary);
   return resp.data;
 }

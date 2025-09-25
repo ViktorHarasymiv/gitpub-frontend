@@ -6,7 +6,7 @@ import { Icon } from '../ui/Icon/Icon';
 import css from './DiaryList.module.css';
 
 interface DiaryListProps {
-  diaryData: DiaryEntry[];
+  diaryData?: DiaryEntry[];
 }
 
 function DiaryList({ diaryData }: DiaryListProps) {
@@ -19,11 +19,11 @@ function DiaryList({ diaryData }: DiaryListProps) {
           <Icon name="plus" action={() => {}} />
         </div>
       </div>
-      {diaryData.length === 0 ? (
+      {diaryData?.length === 0 ? (
         <p>Покищо у вас немає записів.</p>
       ) : (
         <ul className={css.diaryList}>
-          {diaryData.map(entry => {
+          {diaryData?.map(entry => {
             return <DiaryEntryCard key={entry._id} diaryEntry={entry} />;
           })}
         </ul>

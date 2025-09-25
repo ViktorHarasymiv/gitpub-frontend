@@ -107,7 +107,7 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
   return res.data;
 };
 
-export async function fetchDiary() {
+export async function getDiaries() {
   const cookieStore = await cookies();
   const resp = await serverApi.get<FetchDiaryResponse>('/diaries', {
     headers: {
