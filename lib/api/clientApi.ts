@@ -5,6 +5,7 @@ import {
   User,
   CheckSessionRequest,
   LoginRequest,
+  UserResponse,
 } from '@/types/user';
 import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
 
@@ -19,6 +20,13 @@ export const register = async (data: RegisterRequest) => {
 
 export const login = async (data: LoginRequest) => {
   const res = await serverApi.post<User>('/auth/login', data);
+  return res.data;
+};
+
+// PATCH
+
+export const editProfile = async (data: FormData) => {
+  const res = await serverApi.patch<UserResponse>('/users', data);
   return res.data;
 };
 
@@ -41,7 +49,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>('/auth/session', {
+  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
@@ -89,5 +97,3 @@ export const getWeekFull = async (
 };
 
 //========================TASKS API====================================
-
-

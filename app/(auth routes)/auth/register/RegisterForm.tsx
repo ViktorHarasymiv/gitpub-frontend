@@ -47,13 +47,14 @@ export default function RegisterForm() {
 
   const handleSubmit = async (formValues: RegisterRequest) => {
     try {
+      console.log(formValues);
       const res = await register(formValues);
 
       if (res) {
         console.log(res);
 
         setUser(res);
-        router.push('/profile/edit');
+        // router.push('/profile/edit');
       }
     } catch (error) {
       console.error('Помилка реєстрації:', error);

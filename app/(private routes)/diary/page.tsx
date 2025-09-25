@@ -1,11 +1,11 @@
-import { getCurrentWeekPublicServer } from '@/lib/api/serverApi';
 import React from 'react';
 
-const DiaryPage = async () => {
-  const test = await getCurrentWeekPublicServer();
-  console.log('test', test);
-
-  return <div>DiaryPage</div>;
+const DiaryPage = () => {
+  return (
+    <section>
+      <div>Дедлай для секції 28.09</div>
+    </section>
+  );
 };
 
 export default DiaryPage;

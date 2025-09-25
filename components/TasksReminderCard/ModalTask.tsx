@@ -15,7 +15,7 @@ import style from '@/styles/Form.module.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
-// import { createTask } from "@/lib/api/clientApi";
+import { createTask } from '@/lib/api/clientApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { NewTask } from '@/types/task';
 
@@ -25,7 +25,6 @@ type Props = {
 
 function ModalTask({ switchModal }: Props) {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const [succsess, setSuccsess] = useState(false);
 
@@ -45,25 +44,20 @@ function ModalTask({ switchModal }: Props) {
     isActive: Yup.boolean(),
   });
 
-  // const mutation = useMutation({
-  //   mutationFn: createTask,
-  //   onSuccess: () => {
-  //     alert('Завдання успішно створено!');
-
-  //     queryClient.invalidateQueries({ queryKey: ['tasks'] });
-
-  //     router.push('/');
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
 
   const handleSubmit = async (values: NewTask) => {
-    // const res = await createTask(values);
-    // console.log(res);
-    // mutation.mutate(values, {
-    //   onSuccess: () => {
-    //     console.log('Success, you created a new task !');
-    //   },
-    // });
+    mutation.mutate(values, {
+      onSuccess: () => {
+        switchModal(false);
+        setSuccsess(true);
+      },
+    });
   };
   return (
     <>
@@ -82,7 +76,7 @@ function ModalTask({ switchModal }: Props) {
               setSubmitting(false);
             }}
           >
-            {({ errors, resetForm }) => (
+            {({ errors }) => (
               <Form className={css.form_content}>
                 {/* Name */}
 
@@ -138,7 +132,7 @@ function ModalTask({ switchModal }: Props) {
 
       {succsess && (
         <Modal
-          title="Дані успішно змінено"
+          title="Завдання успішно додано"
           onClose={() => setSuccsess(false)}
           styles={{
             justifyContent: 'center',

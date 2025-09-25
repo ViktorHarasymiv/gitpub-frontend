@@ -4,11 +4,18 @@ import { User } from '../../types/user';
 
 // INITIAL
 
-import { api, serverApi } from './api';
+import { serverApi } from './api';
 
 // COOKIES
 
 import { cookies } from 'next/headers';
+
+interface TasksHttpResponse {
+  result: {
+    data: Task[];
+    totalPages: number;
+  };
+}
 
 // PRIVAT USER
 
@@ -22,12 +29,24 @@ export const getServerMe = async (): Promise<User> => {
   return data;
 };
 
+// PATCH ME
+
+export const editProfile = async (data: FormData) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch('/users', data, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
+
 // CHECK SESSION
 
 export const checkSession = async () => {
   try {
     const cookieStore = await cookies();
-    const response = await api.post('/auth/refresh', {
+    const response = await serverApi.post('/auth/refresh', {
       headers: {
         Cookie: cookieStore.toString(),
       },

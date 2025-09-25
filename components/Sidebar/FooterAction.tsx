@@ -43,7 +43,7 @@ function FooterAction() {
     <>
       <div className={css.user_wrapper}>
         <Image
-          src={user?.photo || Avatar}
+          src={user?.avatar || Avatar}
           alt="Avatar"
           width={40}
           height={40}

@@ -3,7 +3,7 @@
 export type User = {
   email?: string;
   name?: string;
-  photo?: string;
+  avatar?: string;
   gender?: string;
   dueDate?: string;
 };
@@ -32,12 +32,12 @@ export type CheckSessionRequest = {
 export type UpdateUserRequest = {
   gender?: string;
   dueDate?: string;
-  photo?: string;
+  avatar?: string;
 };
 
 export type UserResponse = {
   user: {
-    photo?: string;
+    avatar?: string;
     gender?: string;
     dueDate?: string;
   };
