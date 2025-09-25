@@ -92,7 +92,7 @@ export const AvatarPicker = ({
         <Button
           type="button"
           alternative={true}
-          styles={{ maxWidth: 179, zIndex: 1, position: 'relative' }}
+          styles={{ maxWidth: 218, zIndex: 1, position: 'relative' }}
           action={handleClick}
         >
           {btnTitle}

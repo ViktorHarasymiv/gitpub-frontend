@@ -41,7 +41,6 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
           sx: {
             maxWidth: mxWidth,
             width: '100%',
-            background: 'var(--opacity-neutral-darkest-5)',
             borderColor: 'transparent',
             '& .MuiOutlinedInput-notchedOutline': {
               outline: 'none',

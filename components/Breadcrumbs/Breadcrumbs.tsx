@@ -3,7 +3,6 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import css from './Breadcrumbs.module.css';
-import { Icon } from '../ui/Icon/Icon';
 
 import Arrow from '@/public/icons/arrowRight.png';
 import Image from 'next/image';
