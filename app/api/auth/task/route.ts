@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '../api';
+import { api } from '../../api';
 import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
@@ -14,10 +14,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data);
   }
 
-  return NextResponse.json(
-    { error: 'Failed to fetch tasks 1' },
-    { status: 500 }
-  );
+  return NextResponse.json({ error: 'Failed to fetch notes' }, { status: 500 });
 }
 
 export async function POST(request: NextRequest) {
@@ -28,6 +25,7 @@ export async function POST(request: NextRequest) {
     const { data } = await api.post('/task', body, {
       headers: {
         Cookie: cookieStore.toString(),
+        'Content-Type': 'application/json',
       },
     });
 

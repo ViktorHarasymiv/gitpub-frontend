@@ -55,6 +55,8 @@
 }
 
 .list {
+  overflow-y: auto;
+  max-height: 410px;
   display: flex;
   flex-direction: column;
 
