@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Ставимо куки напряму
     response.cookies.set('accessToken', accessToken, {
-      httpOnly: true,
+      // httpOnly: true,
       secure: true,
       sameSite: 'none',
       path: '/',
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     });
 
     response.cookies.set('refreshToken', refreshToken, {
-      httpOnly: true,
+      // httpOnly: true,
       secure: true,
       sameSite: 'none',
       path: '/',

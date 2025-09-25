@@ -94,6 +94,6 @@ export const config = {
     // '/:path*',
     // '/journey/:path*',
     // '/diary/:path*',
-    //  '/profile/:path*',
+    // '/profile/:path*',
   ],
 };

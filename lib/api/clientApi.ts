@@ -1,9 +1,11 @@
-import { api, serverApi } from './api';
+import { NewTask, patchTask, Task } from '@/types/task';
+import { serverApi } from './api';
 import {
   RegisterRequest,
   User,
   CheckSessionRequest,
   LoginRequest,
+  UserResponse,
 } from '@/types/user';
 
 import { 
@@ -11,6 +13,13 @@ import {
     JourneyMom, 
     JourneyBaby 
 } from '@/types/journey';
+
+interface TasksHttpResponse {
+  result: {
+    data: Task[];
+    totalPages: number;
+  };
+}
 
 // REGISTER
 
@@ -22,7 +31,14 @@ export const register = async (data: RegisterRequest) => {
 // LOGIN
 
 export const login = async (data: LoginRequest) => {
-  const res = await api.post<User>('/auth/login', data);
+  const res = await serverApi.post<User>('/auth/login', data);
+  return res.data;
+};
+
+// PATCH
+
+export const editProfile = async (data: FormData) => {
+  const res = await serverApi.patch<UserResponse>('/users', data);
   return res.data;
 };
 
@@ -45,7 +61,7 @@ export const getMe = async (): Promise<User> => {
 // CHECK SESSION
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>('/auth/session', {
+  const res = await serverApi.get<CheckSessionRequest>('/auth/session', {
     withCredentials: true,
   });
 
@@ -55,7 +71,7 @@ export const checkSession = async () => {
 };
 
 export const fetchCurrentWeek = async() => {
-    const response = await api.get<Journey>(`/weeks/current`);
+    const response = await serverApi.get<Journey>(`/weeks/current`);
     return response.data.weekNumber;
 };
 
@@ -65,4 +81,31 @@ export const getJourneyByWeekNumberAndTab = async (
 ) => {
     const res = await serverApi.get<JourneyBaby | JourneyMom>(`/weeks/${weekNumber}/${activeTab}`);
     return res.data;
+};
+// GET
+
+export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  const response = await serverApi.get<TasksHttpResponse>('/task', {
+    params: PARAMS,
+  });
+
+  return response.data;
+};
+
+// POST
+
+export const createTask = async (newTask: NewTask): Promise<Task> => {
+  const response = await serverApi.post('/task', newTask);
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const res = await serverApi.patch<TasksHttpResponse>(`/task/${id}`, payload);
+  return res.data;
 };

@@ -22,6 +22,6 @@ export type TasksHttpResponse = {
   message: string;
   result: {
     data: Task[];
-    totalPage: number;
+    totalPage: string;
   };
 };
