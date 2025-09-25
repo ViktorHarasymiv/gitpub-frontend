@@ -6,9 +6,17 @@ import Button from '@/components/ui/Button/Button';
 import { Icon } from '@/components/ui/Icon/Icon';
 import Loader from '@/components/ui/Loader/Loader';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function DashboardPage() {
   const [openModal, setOpenModal] = useState(false);
+
+  // STATE
+
+  const { user } = useAuthStore();
+
+  console.log(user);
+
   return (
     <div>
       <Button type="submit">Кнопка 1</Button>
@@ -40,14 +48,9 @@ export default function DashboardPage() {
       */}
       <Icon name={'close_btn'} width={14} height={14}></Icon>
       <Icon name={'note'} width={14} height={14}></Icon>
-
       <br />
       {/* Loader */}
       <Loader loading={true} />
-
-      {/* Confirm modal */}
-
-      {/* <ConfirmationModal title="Ви точно хочете вийти?" /> */}
     </div>
   );
 }

@@ -13,16 +13,16 @@ import Logo from '@/public/icons/Logo.svg';
 import Image from 'next/image';
 import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
-import { Icon } from '@/components/ui/Icon/Icon';
-// import { login } from '@/lib/api/clientApi';
+// import { Icon } from '@/components/ui/Icon/Icon';
+import { getMe, login } from '@/lib/api/clientApi';
 
-// import { LoginReques } from '@/types/user';
-// import { useAuthStore } from '@/lib/store/authStore';
-// import { useRouter } from 'next/navigation';
+import { LoginRequest } from '@/types/user';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
-  // const router = useRouter();
-  // const setUser = useAuthStore(state => state.setUser);
+  const router = useRouter();
+  const setUser = useAuthStore(state => state.setUser);
 
   const initialValues = { email: '', password: '' };
 
@@ -35,34 +35,37 @@ export default function RegisterForm() {
       .required('Пароль обов’язковий'),
   });
 
-  // const handleSubmit = async (formValues: LoginRequest) => {
-  //   try {
-  //     const res = await login(formValues);
-  //     if (res) {
-  //       setUser(res);
-  //       router.push('/');
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error);
-  //   }
-  // };
+  const handleSubmit = async (formValues: LoginRequest) => {
+    try {
+      const res = await login(formValues);
+      const userRes = await getMe();
+      if (res) {
+        console.log(userRes);
+
+        setUser(userRes);
+        router.push('/');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <div className={css.form_wrapper}>
       <div className={css.content_wrapper}>
         <Image src={Logo} alt="Leleka" className={css.logo} />
 
+        <h1 className={style.title}>Вхід</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            // handleSubmit(values);
+            handleSubmit(values);
             setSubmitting(false);
           }}
         >
           {({ errors }) => (
             <Form className={css.form_content}>
-              <h1 className={style.title}>Вхід</h1>
               {/* E-MAIL */}
               <div className={style.input_wrapper}>
                 <label className={style.label}>Пошта*</label>
@@ -97,10 +100,10 @@ export default function RegisterForm() {
               </div>
 
               <Button type="submit">Увійти</Button>
-              <Button type="button" alternative={true} styles={{ gap: 12 }}>
+              {/* <Button type="button" alternative={true} styles={{ gap: 12 }}>
                 <Icon name="Google" />
                 Увійти через Google
-              </Button>
+              </Button> */}
             </Form>
           )}
         </Formik>
