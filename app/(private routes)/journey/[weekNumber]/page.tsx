@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { fetchCurrentWeek, getJourneyByWeekNumberAndTabServer } from '@/lib/api/serverApi';
+import { getJourneyByWeekNumberAndTabServer } from '@/lib/api/serverApi';
 import JourneyPageClient from './JourneyPage.client';
 import { JourneyBaby, JourneyMom } from '@/types/journey';
 
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props) {
 };
 
 const JourneyPage = async () => {
-    const currentWeek = 28; // await fetchCurrentWeek();
+    const currentWeek = 28; // Zustand;
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery({

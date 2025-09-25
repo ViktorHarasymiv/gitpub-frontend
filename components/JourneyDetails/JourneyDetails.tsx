@@ -4,6 +4,7 @@ import Image from "next/image";
 import { JourneyBaby, Tab } from "@/types/journey";
 import { JourneyMom } from "@/types/journey";
 import { Icon } from "../ui/Icon/Icon";
+import TasksReminderCard from '../TasksReminderCard/TasksReminderCard';
 
 interface JourneyDetailsProps {
     activeTab: Tab;
@@ -106,7 +107,7 @@ const JourneyDetails = ({
                         </ul>
                     </div>
                 </div>
-                {/*tasks*/}
+                <TasksReminderCard />
             </div>
             ) : null}
         </div>
