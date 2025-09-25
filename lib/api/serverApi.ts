@@ -1,5 +1,4 @@
-import { TasksHttpResponse, NewTask, Task, patchTask } from '@/types/task';
-import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
+import { NewTask, patchTask, Task } from '@/types/task';
 import { User } from '../../types/user';
 
 // INITIAL
@@ -9,6 +8,7 @@ import { serverApi } from './api';
 // COOKIES
 
 import { cookies } from 'next/headers';
+import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 
 interface TasksHttpResponse {
   result: {
@@ -59,6 +59,50 @@ export const checkSession = async () => {
     );
     return null;
   }
+};
+
+// GET
+
+export const getServerAllTasks = async (
+  page: number
+): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+  const cookieStore = await cookies();
+
+  const response = await serverApi.get('/task', {
+    params: PARAMS,
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return response.data;
+};
+
+// POST
+
+export const createServerTask = async (newTask: NewTask): Promise<Task> => {
+  const cookieStore = await cookies();
+  const response = await serverApi.post('/task', newTask, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch(`/task/${id}`, payload, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
 };
 
 //====================WeeksApi===================================

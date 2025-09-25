@@ -1,5 +1,5 @@
-import { FullWeekData, WeekBaby, WeekMom } from '@/types/weeks';
-import { api, serverApi } from './api';
+import { NewTask, patchTask, Task } from '@/types/task';
+import { serverApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -7,7 +7,14 @@ import {
   LoginRequest,
   UserResponse,
 } from '@/types/user';
-import { NewTask, patchTask, Task, TasksHttpResponse } from '@/types/task';
+import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
+
+interface TasksHttpResponse {
+  result: {
+    data: Task[];
+    totalPages: number;
+  };
+}
 
 // REGISTER
 
@@ -56,6 +63,34 @@ export const checkSession = async () => {
   console.log('Session response:', res.data);
 
   return res.data.success;
+};
+
+// GET
+
+export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  const response = await serverApi.get<TasksHttpResponse>('/task', {
+    params: PARAMS,
+  });
+
+  return response.data;
+};
+
+// POST
+
+export const createTask = async (newTask: NewTask): Promise<Task> => {
+  const response = await serverApi.post('/task', newTask);
+  return response.data;
+};
+
+// PATCH
+
+export const patchActiveTask = async (id: string, payload: patchTask) => {
+  const res = await serverApi.patch<TasksHttpResponse>(`/task/${id}`, payload);
+  return res.data;
 };
 
 //===========================WEEKS API==================================
