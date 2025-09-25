@@ -16,7 +16,7 @@ const WeekSelector = ({ currentWeek, onSelectedWeek }: WeekSelectorProps) => {
                  <li key={weekNumber}>
                     <button 
                     className={clsx(css.weekButton, {
-                        [css.current]: currentWeek,
+                        [css.current]: weekNumber === currentWeek,
                         [css.disabled]: weekNumber > currentWeek,
                     })}
                     type="button"

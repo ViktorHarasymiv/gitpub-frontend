@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { fetchCurrentWeek, getJourneyByWeekNumberAndTab } from '@/lib/api/clientApi';
+import { fetchCurrentWeek, getJourneyByWeekNumberAndTabServer } from '@/lib/api/serverApi';
 import JourneyPageClient from './JourneyPage.client';
 import { JourneyBaby, JourneyMom } from '@/types/journey';
 
@@ -11,8 +11,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
     const { selectedWeek } = await params;
-    const momPack = await getJourneyByWeekNumberAndTab(selectedWeek, "mom") as JourneyMom;
-    const babyPack = await getJourneyByWeekNumberAndTab(selectedWeek, "baby") as JourneyBaby;
+    const momPack = await getJourneyByWeekNumberAndTabServer(selectedWeek, "mom") as JourneyMom;
+    const babyPack = await getJourneyByWeekNumberAndTabServer(selectedWeek, "baby") as JourneyBaby;
 
     const babySize = babyPack?.analogy || "a tiny miracle";
     const babyHighlight = babyPack?.babyActivity?.split(".")[0] || "";
@@ -45,17 +45,19 @@ export async function generateMetadata({ params }: Props) {
     }
 };
 
-const JourneyPage = async ({ params }: Props) => {
-    const selectedWeekString = await params;
-    const selectedWeek = Number(selectedWeekString);
-    const currentWeek = await fetchCurrentWeek();
+const JourneyPage = async () => {
+    const currentWeek = 28; // await fetchCurrentWeek();
     const queryClient = new QueryClient();
-    const activeTab = "baby";
 
     await queryClient.prefetchQuery({
-        queryKey: ['journey', selectedWeek, activeTab],
-        queryFn: () => getJourneyByWeekNumberAndTab(selectedWeek, activeTab),
+        queryKey: ['journey', currentWeek, 'baby'],
+        queryFn: () => getJourneyByWeekNumberAndTabServer(currentWeek, 'baby'),
     });
+    await queryClient.prefetchQuery({
+    queryKey: ['journey', currentWeek, 'mom'],
+    queryFn: () => getJourneyByWeekNumberAndTabServer(currentWeek, 'mom'),
+  });
+
     return(
         <HydrationBoundary state={dehydrate(queryClient)}>
             <JourneyPageClient currentWeek={currentWeek} />

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './Sidebar.module.css';
 
-// import { logout } from '@/lib/api/clientApi';
+import { logout } from '@/lib/api/clientApi';
 import Image from 'next/image';
 
 import Avatar from '@/public/img/avatarPreview.png';
@@ -24,7 +24,7 @@ function FooterAction() {
   );
 
   const handleLogout = async () => {
-    // await logout();
+    await logout();
     clearIsAuthenticated();
     router.push('/auth/login');
   };
