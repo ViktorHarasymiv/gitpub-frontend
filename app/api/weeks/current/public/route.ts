@@ -5,7 +5,7 @@ import { api } from '@/app/api/api';
 
 export async function GET() {
   try {
-    const { data } = await api.get('api/weeks/current/public');
+    const { data } = await api.get('weeks/current/public');
     if (data) return NextResponse.json(data);
   } catch (err) {
     const error = err as AxiosError<{ error: string }>;

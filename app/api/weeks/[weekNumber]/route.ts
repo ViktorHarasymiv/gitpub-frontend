@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: WeekNumberProps) {
     const cookieStore = await cookies();
     const { weekNumber } = await params;
     const accessToken = cookieStore.get('accessToken')?.value;
-    const { data } = await api.get(`/api/weeks/${weekNumber}`, {
+    const { data } = await api.get(`weeks/${weekNumber}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

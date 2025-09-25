@@ -7,12 +7,13 @@ import { api } from '../../api';
 export async function GET(request: NextRequest) {
   try {
     const cookieStore = await cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
     const dueDate = request.nextUrl.searchParams.get('dueDate');
 
-    const { data } = await api.get('/api/weeks/current', {
+    const { data } = await api.get('weeks/current', {
       params: { dueDate },
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
