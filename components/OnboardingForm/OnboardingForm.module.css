@@ -97,36 +97,6 @@
     color: var(--color-scheme-text);
 }
 
-.input, .select {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-neutral);
-    border-radius: 12px;
-    padding: 8px 12px;
-    height: 40px;
-    border: none;
-    background: var(--color-neutral-lightest);
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
-
-input[type="date"]::-webkit-inner-spin-button {
-    display: none;
-}
-
-input[type="date"]::-webkit-clear-button {
-    display: none;
-}
-
-.input:focus, .select:focus {
-    color: var(--color-neutral-darkest);
-}
-
 .illustration {
     display: none;
     background: url('/img/onboardimgx2.jpg') center 85% / cover no-repeat;
