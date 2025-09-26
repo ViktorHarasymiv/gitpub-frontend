@@ -47,12 +47,10 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
             '& .MuiOutlinedInput-notchedOutline': {},
             '& .MuiOutlinedInput-root': {
               borderRadius: '12px',
-              color: 'var(--color-neutral)',
-              paddingLeft: '3px',
-              paddingRight: '9px',
             },
             '& .MuiPickersSectionList-root': {
-              padding: '9.5px',
+              color: 'var(--color-neutral)',
+              padding: '10px 0',
             },
             '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: 'transparent',
