@@ -13,7 +13,6 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
   const refreshToken = cookieStore.get('refreshToken')?.value;
-  const sessionId = cookieStore.get('sessionId')?.value;
 
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some(route =>
@@ -21,7 +20,7 @@ export async function middleware(request: NextRequest) {
   );
 
   if (!accessToken) {
-    if (refreshToken && sessionId) {
+    if (refreshToken) {
       // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для публічного маршруту,
       // адже сесія може залишатися активною, і тоді потрібно заборонити доступ до публічного маршруту.
       const data = await checkSession();
