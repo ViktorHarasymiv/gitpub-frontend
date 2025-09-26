@@ -1,20 +1,30 @@
 'use client';
 import DiaryList from '@/components/DiaryList/DiaryList';
-import React from 'react';
+import React, { useEffect } from 'react';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
-import { getDiaries } from '@/lib/api/clientApi';
-import { useQuery } from '@tanstack/react-query';
+import { DiaryEntry } from '@/types/diary';
+import { useDiaryStore } from '@/lib/store/diaryStore';
+import { useEmotionsStore } from '@/lib/store/emotionStore';
 
-const DiaryPageClient = () => {
-  const diary = useQuery({
-    queryKey: ['diaries'],
-    queryFn: getDiaries,
-  });
+interface Props {
+  initialDiaries: DiaryEntry[];
+}
+
+const DiaryPageClient = ({ initialDiaries }: Props) => {
+  const { diaries, setDiaries } = useDiaryStore();
+  useEffect(() => {
+    if (initialDiaries.length > 0) setDiaries(initialDiaries);
+  }, [initialDiaries, setDiaries]);
+
+  const { fetchEmotions } = useEmotionsStore();
+  useEffect(() => {
+    fetchEmotions();
+  }, [fetchEmotions]);
 
   return (
     <>
-      <DiaryList diaryData={diary.data?.data} />
-      <DiaryEntryDetails entryData={diary.data?.data[0]} />
+      <DiaryList diaryData={diaries} />
+      <DiaryEntryDetails entryData={diaries[0]} />
     </>
   );
 };

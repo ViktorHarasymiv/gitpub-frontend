@@ -1,12 +1,15 @@
 'use client';
 import { DiaryEntry } from '@/types/diary';
 import css from './DiaryEntryCard.module.css';
+import { useEmotionsStore } from '@/lib/store/emotionStore';
 
 interface DiaryEntryCardProps {
   diaryEntry: DiaryEntry;
 }
 
 function DiaryEntryCard({ diaryEntry }: DiaryEntryCardProps) {
+  const { emotions } = useEmotionsStore();
+
   return (
     <li className={css.diaryList_item}>
       <div className={css.diaryItem_header}>
