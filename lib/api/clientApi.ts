@@ -141,23 +141,23 @@ export const getWeekFull = async (
 //diary CRUD
 
 export async function getDiaries() {
-  const resp = await serverApi.get<FetchDiaryResponse>('/diaries', {});
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {});
 
   return resp.data;
 }
 
 export async function createDiary(newDiary: NewDiaryData) {
-  const resp = await serverApi.post<DiaryEntry>('/diaries', newDiary);
+  const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
   return resp.data;
 }
 
 export async function patchDiary(newDiary: NewDiaryData) {
-  const resp = await serverApi.post<DiaryEntry>('/diaries', newDiary);
+  const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
   return resp.data;
 }
 
 export async function deleteDiary(_id: string) {
-  const resp = await serverApi.delete<DiaryEntry>(`/diaries/${_id}`);
+  const resp = await serverApi.delete<DiaryEntry>(`/diary/${_id}`);
   return resp.data;
 }
 

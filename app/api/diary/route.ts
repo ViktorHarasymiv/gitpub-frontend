@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../api';
 import { cookies } from 'next/headers';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   const resp = await api('/diaries', {
-    headers: { Cookie: cookieStore.toString() },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
 
   if (resp.data) {

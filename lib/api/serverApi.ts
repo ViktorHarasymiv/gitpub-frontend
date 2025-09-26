@@ -178,7 +178,7 @@ export const getWeekFullServer = async (
 
 export async function getDiaries() {
   const cookieStore = await cookies();
-  const resp = await serverApi.get<FetchDiaryResponse>('/diaries', {
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -188,7 +188,7 @@ export async function getDiaries() {
 
 export async function createDiary(newDiary: NewDiaryData) {
   const cookieStore = await cookies();
-  const resp = await serverApi.post('/diaries', newDiary, {
+  const resp = await serverApi.post('/diary', newDiary, {
     headers: {
       Cookie: cookieStore.toString(),
     },

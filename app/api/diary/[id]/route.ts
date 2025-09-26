@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { api } from '../../api';
 import { cookies } from 'next/headers';
-import { error } from 'console';
 
 type Props = {
   params: Promise<{ _id: string }>;
