@@ -17,8 +17,6 @@ import WeekSelector from '@/components/WeekSelector/WeekSelector';
 import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 import Loader from '@/components/ui/Loader/Loader';
 
-import css from './JourneyPage.module.css';
-
 const JourneyPageClient = () => {
   // STORE
 
