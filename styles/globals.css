@@ -122,9 +122,10 @@ section {
 .css-1y4gq5a-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer {
   padding: 9.5px !important;
 }
+*/
 
-.css-lqwr9g-MuiPickersOutlinedInput-notchedOutline {
+.MuiPickersOutlinedInput-notchedOutline {
   border-style: none !important;
   border-width: 1px !important;
   border-color: transparent !important;
-} */
+}

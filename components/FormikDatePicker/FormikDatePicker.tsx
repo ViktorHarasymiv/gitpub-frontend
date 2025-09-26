@@ -39,27 +39,23 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
       slotProps={{
         textField: {
           sx: {
-            width: '100%',
             maxWidth: mxWidth,
-            // Стилізація рамки
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'transparent',
-              borderStyle: 'none',
-              borderWidth: '1px',
-              background: 'var(--opacity-neutral-darkest-5)',
-            },
-
-            // Стилізація інпуту
+            width: '100%',
+            borderColor: 'transparent',
+            background: 'var(--color-neutral-lightest)',
+            borderRadius: '12px',
+            '& .MuiOutlinedInput-notchedOutline': {},
             '& .MuiOutlinedInput-root': {
               borderRadius: '12px',
               color: 'var(--color-neutral)',
               paddingLeft: '3px',
               paddingRight: '9px',
             },
-
-            // Стилізація контейнера секцій (для input mode = 'sections')
-            '& .MuiPickersOutlinedInput-sectionsContainer': {
+            '& .MuiPickersSectionList-root': {
               padding: '9.5px',
+            },
+            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'transparent',
             },
           },
         },
