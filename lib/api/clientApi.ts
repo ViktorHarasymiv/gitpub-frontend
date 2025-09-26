@@ -7,6 +7,7 @@ import {
   LoginRequest,
   UserResponse,
 } from '@/types/user';
+import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 
 interface TasksHttpResponse {
   result: {
@@ -91,3 +92,43 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
   const res = await serverApi.patch<TasksHttpResponse>(`/task/${id}`, payload);
   return res.data;
 };
+
+//===========================WEEKS API==================================
+
+//GET CURRENT WEEK INFO
+export const getCurrentWeek = async (
+  dueDate: string
+): Promise<FullWeekData> => {
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current', {
+    params: { dueDate },
+  });
+  return data;
+};
+
+//GET CURRENT WEEK INFO PUBLIC
+export const getCurrentWeekPublic = async (): Promise<FullWeekData> => {
+  const { data } = await serverApi.get<FullWeekData>('/weeks/current/public');
+  return data;
+};
+
+//GET CURRENT WEEK MOM INFO
+export const getWeekMom = async (weekNumber: number): Promise<WeekMom> => {
+  const { data } = await serverApi.get<WeekMom>(`/weeks/${weekNumber}/mom`);
+  return data;
+};
+
+//GET CURRENT WEEK BABY INFO
+export const getWeekBaby = async (weekNumber: number): Promise<WeekBaby> => {
+  const { data } = await serverApi.get<WeekBaby>(`/weeks/${weekNumber}/baby`);
+  return data;
+};
+
+//GET CURRENT WEEK WITH FUUL INFO (MOM + BABY)
+export const getWeekFull = async (
+  weekNumber: number
+): Promise<FullWeekData> => {
+  const { data } = await serverApi.get<FullWeekData>(`/weeks/${weekNumber}`);
+  return data;
+};
+
+//========================TASKS API====================================
