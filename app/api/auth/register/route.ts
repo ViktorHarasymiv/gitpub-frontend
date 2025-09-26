@@ -6,25 +6,31 @@ import { AxiosError } from 'axios';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const apiRes = await api.post('auth/register', body);
+    const apiRes = await api.post('/auth/register', body);
 
-    const { accessToken, refreshToken } = apiRes.data.data;
-
-    console.log(apiRes.data.data);
+    const { accessToken, refreshToken, sessionId } = apiRes.data.data;
 
     const response = NextResponse.json(apiRes.data, { status: apiRes.status });
 
     // Ставимо куки напряму
     response.cookies.set('accessToken', accessToken, {
-      // httpOnly: true,
+      httpOnly: true,
       secure: true,
       sameSite: 'none',
       path: '/',
-      maxAge: 7200,
+      maxAge: 15600,
     });
 
     response.cookies.set('refreshToken', refreshToken, {
-      // httpOnly: true,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 7 * 24 * 3600,
+    });
+
+    response.cookies.set('sessionId', sessionId, {
+      httpOnly: true,
       secure: true,
       sameSite: 'none',
       path: '/',

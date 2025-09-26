@@ -34,6 +34,7 @@ body {
 }
 
 main {
+  overflow: hidden;
   width: 100%;
 
   display: flex;
@@ -41,7 +42,7 @@ main {
 }
 
 .main {
-  padding: 24px 20px;
+  padding: 0px 16px 16px;
 }
 
 b {
@@ -91,7 +92,7 @@ section {
 
 @media screen and (min-width: 1440px) {
   .main {
-    padding-block: 24px;
+    padding: 24px 16px;
   }
 
   .container {
@@ -121,4 +122,11 @@ section {
 .css-1fb7els-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer,
 .css-1y4gq5a-MuiPickersSectionList-root-MuiPickersInputBase-sectionsContainer-MuiPickersOutlinedInput-sectionsContainer {
   padding: 9.5px !important;
-} */
+}
+*/
+
+.MuiPickersOutlinedInput-notchedOutline {
+  border-style: none !important;
+  border-width: 1px !important;
+  border-color: transparent !important;
+}

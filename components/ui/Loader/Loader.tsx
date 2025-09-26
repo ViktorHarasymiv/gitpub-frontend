@@ -1,5 +1,7 @@
 import React from 'react';
-import { ClipLoader } from 'react-spinners';
+import { PropagateLoader } from 'react-spinners';
+
+import css from './Loader.module.css';
 
 interface SpinnerProps {
   loading?: boolean;
@@ -8,15 +10,17 @@ interface SpinnerProps {
   cssOverride?: object;
 }
 
-function Loader({ loading }: SpinnerProps) {
+function Loader({ loading, size }: SpinnerProps) {
   return (
-    <ClipLoader
-      color="var(--color-scheme-accent)"
-      loading={loading}
-      size={24}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
+    <div className={css.wrapper}>
+      <PropagateLoader
+        color="var(--color-scheme-accent)"
+        loading={loading}
+        size={size}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </div>
   );
 }
 

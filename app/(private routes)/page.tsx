@@ -1,65 +1,64 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-import Modal from '@/components/Modal/Modal';
-import Button from '@/components/ui/Button/Button';
-import { Icon } from '@/components/ui/Icon/Icon';
 import Loader from '@/components/ui/Loader/Loader';
-import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
-import { useAuthStore } from '@/lib/store/authStore';
-import { logout } from '@/lib/api/clientApi';
+import { useJourneyStore } from '@/lib/store/weeksDataStore';
 
 export default function Home() {
-  const [openModal, setOpenModal] = useState(false);
-  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+  const currentWeek = useJourneyStore(s => s.currentWeek);
+  const daysToDue = useJourneyStore(s => s.daysToDue);
+  const mom = useJourneyStore(s => s.mom);
+  const baby = useJourneyStore(s => s.baby);
+
+  const isLoaded = useJourneyStore(s => s.isLoaded);
+  console.log(baby);
+
   return (
     <section>
-      <div>
-        <Button type="submit">Кнопка 1</Button>
-        <br />
-        {/* Усі пропси для кнопки можна подивитись в компоненті  */}
-        <Button type="submit" alternative={true}>
-          Кнопка 2
-        </Button>
-        <br />
-        {/* Модальне вікно , контент наповнювати індивідуально */}
-        <Button
-          type="submit"
-          alternative={true}
-          action={() => setOpenModal(true)}
-        >
-          Відкрити модалку
-        </Button>
-        {openModal && (
-          <Modal
-            onClose={() => setOpenModal(false)}
-            title="Загаловок для модального вікна"
-          >
-            <Button type="submit">Зберегти</Button>
-          </Modal>
-        )}
-        {/* 
-      Компонент для іконок з спрайту , заходимо в спрайт копіюємо ім'я іконки і вставляємо в name пропсом.
-      Приклад навів , усі інші пропси подивитись самостійно в компоненті 
-      */}
-        <Icon name={'close_btn'} width={14} height={14}></Icon>
-        <Icon name={'note'} width={14} height={14}></Icon>
-        <br />
-        {/* Loader */}
-        <Loader loading={true} />
-        {/* Confirm modal */}
-        <Button type="button" action={() => setOpenModalConfirm(true)}>
-          Вихід
-        </Button>
-        {openModalConfirm && (
-          <ConfirmationModal
-            title={'Ви точно хочете вийти?'}
-            onClose={() => setOpenModalConfirm(false)}
+      <div>Дедлай для секції 26.09</div>
+      <br />
+      <br />
+
+      <p>Тиждень - {currentWeek}</p>
+      <br />
+      <p>День - {daysToDue}</p>
+
+      {baby && isLoaded ? (
+        <div>
+          <h2>Тиждень №{baby.weekNumber}</h2>
+          <img
+            src={baby.image}
+            alt={baby.analogy}
+            style={{ maxWidth: '300px' }}
           />
-        )}
-      </div>
+
+          <h3>Аналогія:</h3>
+          <p>{baby.analogy}</p>
+
+          <h3>Розвиток дитини:</h3>
+          <p>{baby.babyDevelopment}</p>
+
+          <h3>Активність дитини:</h3>
+          <p>{baby.babyActivity}</p>
+
+          <h3>Цікавий факт:</h3>
+          <p>{baby.interestingFact}</p>
+
+          <h3>Розміри:</h3>
+          <ul>
+            <li>Вага: {baby.babyWeight} г</li>
+            <li>Розмір: {baby.babySize} см</li>
+          </ul>
+
+          <h3>Поради для мами:</h3>
+          <ul>
+            {baby.momDailyTips.map((tip, index) => (
+              <li key={index}>{tip}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <></>
+      )}
     </section>
   );
 }
