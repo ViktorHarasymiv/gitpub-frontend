@@ -1,8 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+
+import { useAuthStore } from '@/lib/store/authStore';
+import { useRouter } from 'next/navigation';
+
+import { editProfile } from '@/lib/api/clientApi';
 
 import styles from './OnboardingForm.module.css';
 import Button from '@/components/ui/Button/Button';
@@ -14,6 +20,8 @@ import FormikSelect from '@/components/FormikSelect/FormikSelect';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
+import { useMediaQuery } from '@mui/system';
+import Modal from '@/components/Modal/Modal';
 
 type FormValues = {
   gender: string;
@@ -22,25 +30,60 @@ type FormValues = {
 };
 
 export default function OnboardingForm() {
+  const router = useRouter();
+  const [succsess, setSuccsess] = useState(false);
+
+  // STATE
+
+  const setUser = useAuthStore(state => state.setUser);
+
+  const genderOptions = [
+    { label: 'хлопчик' },
+    { label: 'дівчинка' },
+    { label: 'Оберіть стать' },
+  ];
+
   const initialValues: FormValues = {
-    gender: '',
+    gender: 'Оберіть стать',
     dueDate: '',
     avatar: null,
   };
 
   const validationSchema = Yup.object({
-    gender: Yup.string().required('Оберіть стать'),
+    gender: Yup.string()
+      .oneOf(
+        genderOptions.map(o => o.label),
+        'Оберіть стать'
+      )
+      .required('Оберіть стать'),
     dueDate: Yup.string().required('Вкажіть дату'),
   });
 
-  const genderOptions = [
-    { label: 'хлопчик', value: 'boy' },
-    { label: 'дівчинка', value: 'girl' },
-    { label: 'Ще не знаю', value: 'unknown' },
-  ];
+  const isDesktop = useMediaQuery('(min-width: 1440px)');
+  const downloadBtnWidth = isDesktop ? 179 : 162;
 
-  const handleSubmit = (values: FormValues) => {
-    console.log('Форма отправлена:', values);
+  const handleSubmit = async (formValues: FormValues) => {
+    try {
+      const formData = new FormData();
+
+      if (formValues.avatar) {
+        formData.append('avatar', formValues.avatar);
+      }
+
+      formData.append('gender', formValues.gender);
+      formData.append('dueDate', formValues.dueDate);
+
+      const res = await editProfile(formData);
+
+      console.log(res);
+
+      if (res) {
+        setSuccsess(true);
+        return res;
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   return (
@@ -68,6 +111,7 @@ export default function OnboardingForm() {
                 <AvatarPicker
                   name="avatar"
                   btnTitle="Завантажити фото"
+                  buttonStyles={{ width: downloadBtnWidth }}
                 />
                 <div className={styles.field}>
                   <label htmlFor="gender" className={styles.label}>
@@ -106,6 +150,27 @@ export default function OnboardingForm() {
             )}
           </Formik>
         </div>
+        {/* Modal */}
+        {succsess && (
+          <Modal
+            title="Реєстрацію завершено"
+            onClose={() => setSuccsess(false)}
+            styles={{
+              justifyContent: 'center',
+              gap: 25,
+              padding: 25,
+              maxHeight: 250,
+            }}
+          >
+            <Button
+              type="button"
+              styles={{ maxWidth: 144, height: 44 }}
+              action={() => (window.location.href = '/')}
+            >
+              Готово
+            </Button>
+          </Modal>
+        )}
       </div>
 
       <aside className={styles.illustration} aria-hidden="true" />

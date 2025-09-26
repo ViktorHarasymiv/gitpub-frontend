@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import { api } from '../../api';
 import { parse } from 'cookie';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get('refreshToken')?.value;
   const next = request.nextUrl.searchParams.get('next') || '/';
@@ -39,5 +39,5 @@ export async function GET(request: NextRequest) {
       });
     }
   }
-  return NextResponse.redirect(new URL('auth/login', request.url));
+  return NextResponse.redirect(new URL('/auth/login', request.url));
 }
