@@ -8,6 +8,7 @@ interface DiaryListProps {
 }
 
 function DiaryList({ diaryData }: DiaryListProps) {
+  console.log(diaryData);
   return (
     <div className={css.diaryNoteListWrapper}>
       <div className={css.diaryNoteList_header}>
@@ -17,7 +18,7 @@ function DiaryList({ diaryData }: DiaryListProps) {
           <Icon name="plus" action={() => {}} />
         </div>
       </div>
-      {diaryData?.length === 0 ? (
+      {diaryData === undefined || diaryData?.length === 0 ? (
         <p>Покищо у вас немає записів.</p>
       ) : (
         <ul className={css.diaryList}>

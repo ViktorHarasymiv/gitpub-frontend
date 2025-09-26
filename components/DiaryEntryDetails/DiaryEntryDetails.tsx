@@ -14,6 +14,7 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
     queryKey: ['emotions'],
     queryFn: getEmotions,
   });
+  console.log(emotions);
 
   return entryData ? (
     <div className={css.diary_noteWrapper}>
@@ -40,7 +41,7 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
       </ul>
     </div>
   ) : (
-    <h2 className={css.diary_noteList_title}>Щоденників поки що немає.</h2>
+    <h2 className={css.diary_noteList_noNote}>Щоденників поки що немає.</h2>
   );
 }
 

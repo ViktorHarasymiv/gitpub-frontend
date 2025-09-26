@@ -28,6 +28,19 @@
     font-size: 20px;
   }
 }
+.diary_noteList_noNote {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.01em;
+  margin-top: 24px;
+  margin-left: 16px;
+  color: var(--color-scheme-text);
+  @media screen and (width >= 1280px) {
+    font-size: 20px;
+  }
+}
 .diary_note_date {
   display: flex;
   align-items: center;
