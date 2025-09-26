@@ -5,8 +5,8 @@ import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails'
 import { DiaryEntry } from '@/types/diary';
 import { useDiaryStore } from '@/lib/store/diaryStore';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
-import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import Loader from '@/components/ui/Loader/Loader';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface Props {
   initialDiaries: DiaryEntry[];

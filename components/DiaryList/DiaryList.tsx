@@ -3,8 +3,8 @@ import { Icon } from '../ui/Icon/Icon';
 import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
 import { DiaryEntry } from '@/types/diary';
 import { useDiaryStore } from '@/lib/store/diaryStore';
-import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import css from './DiaryList.module.css';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface DiaryListProps {
   diaryData?: DiaryEntry[];
