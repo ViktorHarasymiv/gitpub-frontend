@@ -10,13 +10,11 @@ import { serverApi } from './api';
 import { cookies } from 'next/headers';
 import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 
+import { NewDiaryData } from '@/types/diary';
+import { FetchDiaryResponse } from './clientApi';
 // TYPES
 
-import { 
-  Journey, 
-  JourneyMom, 
-  JourneyBaby 
-} from "@/types/journey";
+import { Journey, JourneyMom, JourneyBaby } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -69,30 +67,30 @@ export const checkSession = async () => {
   }
 };
 
-
-export const fetchCurrentWeekServer = async() => {
-    const cookieStore = await cookies();
-    const response = await serverApi.get<Journey>('/weeks/current',
-        {
-        headers: {
-            Cookie: cookieStore.toString(),
-        },
-});
-    return response.data.weekNumber;
+export const fetchCurrentWeekServer = async () => {
+  const cookieStore = await cookies();
+  const response = await serverApi.get<Journey>('/weeks/current', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return response.data.weekNumber;
 };
 
 export const getJourneyByWeekNumberAndTabServer = async (
-    weekNumber: number,
-    activeTab: string = "baby",
+  weekNumber: number,
+  activeTab: string = 'baby'
 ) => {
-    const cookieStore = await cookies();
-    const res = await serverApi.get<JourneyBaby | JourneyMom>(`/weeks/journej/${weekNumber}/${activeTab}`,
-        {
-        headers: {
-            Cookie: cookieStore.toString(),
-        },
-});
-    return res.data;
+  const cookieStore = await cookies();
+  const res = await serverApi.get<JourneyBaby | JourneyMom>(
+    `/weeks/journej/${weekNumber}/${activeTab}`,
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    }
+  );
+  return res.data;
 };
 // GET
 
@@ -205,3 +203,23 @@ export const getWeekFullServer = async (
   });
   return data;
 };
+
+export async function getDiaries() {
+  const cookieStore = await cookies();
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return resp.data;
+}
+
+export async function createDiary(newDiary: NewDiaryData) {
+  const cookieStore = await cookies();
+  const resp = await serverApi.post('/diary', newDiary, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return resp.data;
+}

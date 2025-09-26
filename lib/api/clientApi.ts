@@ -1,5 +1,4 @@
 import { NewTask, patchTask, Task } from '@/types/task';
-import { serverApi } from './api';
 import {
   RegisterRequest,
   User,
@@ -9,6 +8,12 @@ import {
 } from '@/types/user';
 import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 
+import { serverApi } from './api';
+import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
+
+export interface FetchDiaryResponse {
+  data: DiaryEntry[];
+}
 import { Journey, JourneyMom, JourneyBaby } from '@/types/journey';
 
 interface TasksHttpResponse {
@@ -148,3 +153,34 @@ export const getWeekFull = async (
 };
 
 //========================TASKS API====================================
+//diary CRUD
+
+export async function getDiaries() {
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {});
+
+  return resp.data;
+}
+
+export async function createDiary(newDiary: NewDiaryData) {
+  const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
+  return resp.data;
+}
+
+export async function patchDiary(newDiary: NewDiaryData) {
+  const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
+  return resp.data;
+}
+
+export async function deleteDiary(_id: string) {
+  const resp = await serverApi.delete<DiaryEntry>(`/diary/${_id}`);
+  return resp.data;
+}
+
+interface getEmotionsResponse {
+  data: Emotion[];
+}
+
+export async function getEmotions() {
+  const resp = await serverApi.get<getEmotionsResponse>('/emotions');
+  return resp.data;
+}
