@@ -1,0 +1,10 @@
+@media (min-width: 1440px) {
+  .dashboardContainer {
+    max-height: 790px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0 32px;
+  }
+}
+

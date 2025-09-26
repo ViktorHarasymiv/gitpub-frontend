@@ -1,5 +1,6 @@
 import { NewTask, patchTask, Task } from '@/types/task';
 import { User } from '../../types/user';
+import { CurrentWeekDetailed } from '../../types/week';
 
 // INITIAL
 
@@ -103,3 +104,19 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
   });
   return res.data;
 };
+
+
+export const getWeekCurrentPublic = async (): Promise<CurrentWeekDetailed> => {
+  const { data } = await serverApi.get<CurrentWeekDetailed>('/weeks/current/public');
+  return data;
+};
+
+export const getWeekCurrentPrivate = async (): Promise<CurrentWeekDetailed> => {
+  const cookieStore = await cookies();
+  const { data } = await serverApi.get<CurrentWeekDetailed>('/weeks/current', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    }
+  });
+  return data;
+}
