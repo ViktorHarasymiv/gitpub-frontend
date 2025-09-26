@@ -8,9 +8,9 @@ type EmotionStore = {
 };
 
 export const useEmotionsStore = create<EmotionStore>(set => ({
-  emotions: [],
+  emotions: [] as Emotion[],
   fetchEmotions: async () => {
     const res = await getEmotions();
-    set({ emotions: res });
+    set({ emotions: res.data });
   },
 }));

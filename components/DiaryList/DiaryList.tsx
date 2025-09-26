@@ -1,6 +1,9 @@
+import Link from 'next/link';
+import { Icon } from '../ui/Icon/Icon';
 import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
 import { DiaryEntry } from '@/types/diary';
-import { Icon } from '../ui/Icon/Icon';
+import { useDiaryStore } from '@/lib/store/diaryStore';
+import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import css from './DiaryList.module.css';
 
 interface DiaryListProps {
@@ -8,6 +11,9 @@ interface DiaryListProps {
 }
 
 function DiaryList({ diaryData }: DiaryListProps) {
+  const { setSelectedDiary } = useDiaryStore();
+  const isMobile = useIsMobile();
+
   console.log(diaryData);
   return (
     <div className={css.diaryNoteListWrapper}>
@@ -23,7 +29,22 @@ function DiaryList({ diaryData }: DiaryListProps) {
       ) : (
         <ul className={css.diaryList}>
           {diaryData?.map(entry => {
-            return <DiaryEntryCard key={entry._id} diaryEntry={entry} />;
+            return (
+              <li key={entry._id} className={css.diaryList_item}>
+                {isMobile ? (
+                  <Link
+                    href={`/diary/${entry.title}`}
+                    onClick={() => setSelectedDiary(entry)}
+                  >
+                    <DiaryEntryCard diaryEntry={entry} />
+                  </Link>
+                ) : (
+                  <div onClick={() => setSelectedDiary(entry)}>
+                    <DiaryEntryCard diaryEntry={entry} />
+                  </div>
+                )}
+              </li>
+            );
           })}
         </ul>
       )}

@@ -161,7 +161,11 @@ export async function deleteDiary(_id: string) {
   return resp.data;
 }
 
+interface getEmotionsResponse {
+  data: Emotion[];
+}
+
 export async function getEmotions() {
-  const resp = await serverApi.get<Emotion[]>('/emotions');
+  const resp = await serverApi.get<getEmotionsResponse>('/emotions');
   return resp.data;
 }

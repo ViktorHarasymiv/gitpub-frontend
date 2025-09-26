@@ -1,7 +1,7 @@
 'use client';
 import { DiaryEntry } from '@/types/diary';
-import css from './DiaryEntryCard.module.css';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
+import css from './DiaryEntryCard.module.css';
 
 interface DiaryEntryCardProps {
   diaryEntry: DiaryEntry;
@@ -16,10 +16,16 @@ function DiaryEntryCard({ diaryEntry }: DiaryEntryCardProps) {
     .filter(Boolean);
 
   return (
-    <li className={css.diaryList_item}>
+    <>
       <div className={css.diaryItem_header}>
         <h3 className={css.diaryItemHeader_Title}>{diaryEntry.title}</h3>
-        <span className={css.diaryItemHeader_date}>{diaryEntry.createdAt}</span>
+        <span className={css.diaryItemHeader_date}>
+          {new Date(diaryEntry.updatedAt).toLocaleDateString('uk-UA', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          })}
+        </span>
       </div>
       <ul className={css.diaryItem_tagList}>
         {emotionsTags.map((title, index) => {
@@ -33,7 +39,7 @@ function DiaryEntryCard({ diaryEntry }: DiaryEntryCardProps) {
           );
         })}
       </ul>
-    </li>
+    </>
   );
 }
 export default DiaryEntryCard;

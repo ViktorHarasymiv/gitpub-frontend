@@ -7,10 +7,12 @@ type Props = {
 };
 export async function GET(request: Request, { params }: Props) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
   const { _id } = await params;
   const resp = await api(`/diaries/${_id}`, {
     headers: {
-      Cookie: cookieStore.toString(),
+      Authorization: `Bearer ${accessToken}`,
+      //   Cookie: cookieStore.toString(),
     },
   });
 
@@ -26,12 +28,15 @@ export async function GET(request: Request, { params }: Props) {
 
 export async function DELETE(request: Request, { params }: Props) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
   const { _id } = await params;
 
   try {
     await api.delete(`/diaries/${_id}`, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        //   Cookie: cookieStore.toString(),
       },
     });
     return NextResponse.json(
@@ -49,6 +54,7 @@ export async function DELETE(request: Request, { params }: Props) {
 
 export async function PATCH(request: Request, { params }: Props) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
   const { _id } = await params;
 
   try {
@@ -56,8 +62,8 @@ export async function PATCH(request: Request, { params }: Props) {
 
     const resp = await api.patch(`/diaries/${_id}`, body, {
       headers: {
-        Cookie: cookieStore.toString(),
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        //   Cookie: cookieStore.toString(),
       },
     });
 
