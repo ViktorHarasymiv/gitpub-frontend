@@ -3,14 +3,14 @@ import { api } from '../../api';
 import { cookies } from 'next/headers';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ title: string }>;
 };
 
 export async function GET(request: NextRequest, { params }: Props) {
-  const { id } = await params;
+  const { title } = await params;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
-  const resp = await api(`/diaries/${id}`, {
+  const resp = await api(`/diaries/${title}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       //   Cookie: cookieStore.toString(),
@@ -30,10 +30,10 @@ export async function GET(request: NextRequest, { params }: Props) {
 export async function DELETE(request: NextRequest, { params }: Props) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
-  const { id } = await params;
+  const { title } = await params;
 
   try {
-    await api.delete(`/diaries/${id}`, {
+    await api.delete(`/diaries/${title}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
@@ -56,12 +56,12 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 export async function PATCH(request: NextRequest, { params }: Props) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
-  const { id } = await params;
+  const { title } = await params;
 
   try {
     const body = await request.json();
 
-    const resp = await api.patch(`/diaries/${id}`, body, {
+    const resp = await api.patch(`/diaries/${title}`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         //   Cookie: cookieStore.toString(),

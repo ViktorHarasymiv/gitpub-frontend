@@ -33,7 +33,9 @@ function DiaryList({ diaryData }: DiaryListProps) {
               <li key={entry._id} className={css.diaryList_item}>
                 {isMobile ? (
                   <Link
-                    href={`/diary/${entry.title}`}
+                    href={`/diary/${encodeURIComponent(entry.title)}?id=${
+                      entry._id
+                    }`}
                     onClick={() => setSelectedDiary(entry)}
                   >
                     <DiaryEntryCard diaryEntry={entry} />

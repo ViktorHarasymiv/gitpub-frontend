@@ -2,12 +2,15 @@
 import { useDiaryStore } from '@/lib/store/diaryStore';
 import css from './page.module.css';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Loader from '@/components/ui/Loader/Loader';
 
 export default function DiaryDetailsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { title } = useParams<{ title: string }>();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
   const { diaries, selectedDiary, setSelectedDiary, fetchDiaries } =
     useDiaryStore();
   const [loading, setLoading] = useState(true);
@@ -22,8 +25,7 @@ export default function DiaryDetailsPage() {
 
   useEffect(() => {
     if (!loading) {
-      const decodedTitle = decodeURIComponent(id || '');
-      const diary = diaries.find(d => d.title === decodedTitle) || null;
+      const diary = diaries.find(d => d._id === id) || null;
       setSelectedDiary(diary);
     }
   }, [loading, diaries, id, setSelectedDiary]);
