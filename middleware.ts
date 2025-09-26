@@ -72,7 +72,7 @@ export async function middleware(request: NextRequest) {
 
     // приватний маршрут — редірект на сторінку входу
     if (isPrivateRoute) {
-      return NextResponse.redirect(new URL('/auth/register', request.url));
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
   }
 
@@ -90,10 +90,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // '/',
-    // '/:path*',
-    // '/journey/:path*',
-    // '/diary/:path*',
-    // '/profile/:path*',
+    '/',
+    '/:path*',
+    '/journey/:path*',
+    '/diary/:path*',
+    '/profile/:path*',
   ],
 };

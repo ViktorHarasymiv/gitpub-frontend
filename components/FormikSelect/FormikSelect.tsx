@@ -39,6 +39,7 @@ export default function FormikSelect({ options, name }: FormikSelectProps) {
           color: 'var(--color-neutral)',
           borderRadius: 3,
           margin: 0,
+          textTransform: 'capitalize',
           '& .MuiSelect-select': {
             padding: '10px 12px',
           },
@@ -65,6 +66,7 @@ export default function FormikSelect({ options, name }: FormikSelectProps) {
               maxWidth: 540,
               maxHeight: 200,
               overflowY: 'auto',
+              textTransform: 'capitalize',
             },
           },
         }}
@@ -72,9 +74,10 @@ export default function FormikSelect({ options, name }: FormikSelectProps) {
         onChange={handleChange}
         IconComponent={KeyboardArrowDownIcon}
       >
-        <MenuItem value={name}>
+        <MenuItem disabled value="">
           <em>Оберіть стать</em>
         </MenuItem>
+
         {options.map((item, index) => {
           return (
             <MenuItem key={index} value={item.label}>

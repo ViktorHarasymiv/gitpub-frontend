@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
     const apiRes = await api.post('/auth/login', body);
 
     const { accessToken, refreshToken, sessionId } = apiRes.data.data;
-    console.log(apiRes.data);
 
     const response = NextResponse.json(apiRes.data, { status: apiRes.status });
 
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest) {
       secure: true,
       sameSite: 'none',
       path: '/',
-      maxAge: 7200,
+      maxAge: 15600,
     });
 
     response.cookies.set('refreshToken', refreshToken, {
@@ -36,6 +35,7 @@ export async function POST(req: NextRequest) {
       path: '/',
       maxAge: 7 * 24 * 3600,
     });
+
     return response;
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
