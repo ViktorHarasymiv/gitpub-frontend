@@ -34,6 +34,7 @@ body {
 }
 
 main {
+  overflow: hidden;
   width: 100%;
 
   display: flex;

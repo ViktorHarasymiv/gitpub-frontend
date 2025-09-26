@@ -14,6 +14,7 @@ import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 export interface FetchDiaryResponse {
   data: DiaryEntry[];
 }
+import { Journey, JourneyMom, JourneyBaby } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -71,6 +72,20 @@ export const checkSession = async () => {
   return res.data.success;
 };
 
+export const fetchCurrentWeek = async () => {
+  const response = await serverApi.get<Journey>(`/weeks/current`);
+  return response.data.weekNumber;
+};
+
+export const getJourneyByWeekNumberAndTab = async (
+  weekNumber: number,
+  activeTab: string
+) => {
+  const res = await serverApi.get<JourneyBaby | JourneyMom>(
+    `/weeks/${weekNumber}/${activeTab}`
+  );
+  return res.data;
+};
 // GET
 
 export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
@@ -103,7 +118,7 @@ export const patchActiveTask = async (id: string, payload: patchTask) => {
 
 //GET CURRENT WEEK INFO
 export const getCurrentWeek = async (
-  dueDate: string
+  dueDate: string | undefined
 ): Promise<FullWeekData> => {
   const { data } = await serverApi.get<FullWeekData>('/weeks/current', {
     params: { dueDate },
