@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 
 import css from './Page.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
-// import { useAuthStore } from "@/lib/store/authStore";
 
 function GreetingBlock() {
   const [time, setTime] = useState<{ hours: number | null }>({ hours: null });

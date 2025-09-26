@@ -10,6 +10,14 @@ import { serverApi } from './api';
 import { cookies } from 'next/headers';
 import { FullWeekData, WeekMom, WeekBaby } from '@/types/weeks';
 
+// TYPES
+
+import { 
+  Journey, 
+  JourneyMom, 
+  JourneyBaby 
+} from "@/types/journey";
+
 interface TasksHttpResponse {
   result: {
     data: Task[];
@@ -61,6 +69,31 @@ export const checkSession = async () => {
   }
 };
 
+
+export const fetchCurrentWeekServer = async() => {
+    const cookieStore = await cookies();
+    const response = await serverApi.get<Journey>('/weeks/current',
+        {
+        headers: {
+            Cookie: cookieStore.toString(),
+        },
+});
+    return response.data.weekNumber;
+};
+
+export const getJourneyByWeekNumberAndTabServer = async (
+    weekNumber: number,
+    activeTab: string = "baby",
+) => {
+    const cookieStore = await cookies();
+    const res = await serverApi.get<JourneyBaby | JourneyMom>(`/weeks/journej/${weekNumber}/${activeTab}`,
+        {
+        headers: {
+            Cookie: cookieStore.toString(),
+        },
+});
+    return res.data;
+};
 // GET
 
 export const getServerAllTasks = async (

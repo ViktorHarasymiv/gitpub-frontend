@@ -1,7 +1,10 @@
 export interface FullWeekData {
   week: number;
-  baby: BabyInfo;
-  mom: MomInfo;
+  pack: {
+    baby: BabyInfo;
+    mom: MomInfo;
+  };
+  daysToDue: number;
 }
 
 export interface WeekBaby {
