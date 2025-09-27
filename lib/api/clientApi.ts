@@ -14,7 +14,7 @@ import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 export interface FetchDiaryResponse {
   data: DiaryEntry[];
 }
-import { Journey, JourneyData } from '@/types/journey';
+import { Journey } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -69,7 +69,7 @@ export const checkSession = async () => {
 
   console.log('Session response:', res.data);
 
-  return res.data.success;
+  return res;
 };
 
 export const fetchCurrentWeek = async () => {
@@ -81,9 +81,7 @@ export const getJourneyByWeekNumberAndTab = async (
   weekNumber: number,
   activeTab: string
 ) => {
-  const res = await serverApi.get<JourneyData>(
-    `/weeks/${weekNumber}/${activeTab}`
-  );
+  const res = await serverApi.get(`/weeks/${weekNumber}/${activeTab}`);
   return res.data;
 };
 // GET

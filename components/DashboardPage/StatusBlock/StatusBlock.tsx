@@ -1,8 +1,8 @@
-import css from './StatusBlock.module.css'
+import css from './StatusBlock.module.css';
 
-export type PregnancyStatus = { weeks: number; days: number | null };
+export type PregnancyStatus = { weeks: number | null; days: number | null };
 
-export default function StatusBlock({weeks, days}: PregnancyStatus) {
+export default function StatusBlock({ weeks, days }: PregnancyStatus) {
   return (
     <div className={css.statusBlockContainer}>
       <div className={css.statusBlockWrapper}>
