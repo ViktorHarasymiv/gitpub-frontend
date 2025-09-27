@@ -111,7 +111,9 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
               options={emotions}
               getOptionLabel={option => option.title}
               isOptionEqualToValue={(option, value) => option._id === value._id}
-              value={emotions.filter(e => values.emotions.includes(e._id))}
+              value={emotions.filter(e =>
+                (values.emotions as unknown as string[]).includes(e._id)
+              )}
               onChange={(_, newValue) =>
                 setFieldValue(
                   'emotions',
