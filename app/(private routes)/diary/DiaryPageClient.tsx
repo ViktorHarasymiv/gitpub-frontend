@@ -8,36 +8,17 @@ import { useEmotionsStore } from '@/lib/store/emotionStore';
 import Loader from '@/components/ui/Loader/Loader';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
-interface Props {
-  initialDiaries: DiaryEntry[];
-}
-const DiaryPageClient = ({ initialDiaries }: Props) => {
-  const { diaries, setDiaries, selectedDiary, setSelectedDiary } =
-    useDiaryStore();
+const DiaryPageClient = () => {
+  const { diaries, fetchDiaries, selectedDiary } = useDiaryStore();
   const { fetchEmotions } = useEmotionsStore();
   const isMobile = useIsMobile();
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    const load = async () => {
-      if (initialDiaries.length > 0) setDiaries(initialDiaries);
-      await fetchEmotions();
-      if (!selectedDiary && initialDiaries.length > 0) {
-        setSelectedDiary(initialDiaries[0]);
-      }
-      setLoading(false);
-    };
-    load();
-  }, [
-    initialDiaries,
-    setDiaries,
-    selectedDiary,
-    setSelectedDiary,
-    fetchEmotions,
-  ]);
+    fetchDiaries();
+    fetchEmotions();
+  }, [fetchDiaries, fetchEmotions]);
 
-  if (loading) return <Loader />;
+  if (!diaries || diaries.length === 0) return <Loader />;
 
   return (
     <>
