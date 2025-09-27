@@ -147,6 +147,16 @@
   text-overflow: ellipsis;
 }
 
+.closeButton {
+  width: 20px;
+  height: 20px;
+
+  position: absolute;
+
+  top: 25px;
+  right: 23px;
+}
+
 @media screen and (max-width: 1439.98px) {
   .sidebar {
     position: absolute;

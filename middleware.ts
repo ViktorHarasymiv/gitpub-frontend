@@ -61,6 +61,8 @@ export async function middleware(request: NextRequest) {
             },
           });
         }
+        // Якщо ні accessToken, ні refreshToken, і маршрут не публічний/приватний — редірект на логін
+        return NextResponse.redirect(new URL('/auth/login', request.url));
       }
     }
     // Якщо refreshToken або сесії немає:
@@ -88,11 +90,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/',
-    '/:path*',
-    '/journey/:path*',
-    '/diary/:path*',
-    '/profile/:path*',
-  ],
+  matcher: ['/', '/:path*', '/journey/:path*', '/diary', '/profile/:path*'],
 };

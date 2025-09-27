@@ -59,8 +59,8 @@
 
 .theme-girl {
   --color-scheme-foreground: #fff4f6;
-  --color-scheme-foreground-alt: #fff4f6;
-  --color-scheme-accent: #ffdae0;
+  --color-scheme-foreground-alt: #ffdae0;
+  --color-scheme-accent: #ffcbd3;
 }
 .theme-boy {
   /* Основний фон */
