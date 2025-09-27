@@ -56,6 +56,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 export async function PATCH(request: NextRequest, { params }: Props) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
+
   const { title } = await params;
 
   try {
@@ -64,7 +65,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     const resp = await api.patch(`/diaries/${title}`, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        //   Cookie: cookieStore.toString(),
+        Cookie: cookieStore.toString(),
       },
     });
 

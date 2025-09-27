@@ -1,12 +1,16 @@
 'use client';
 import { Icon } from '../ui/Icon/Icon';
-import { DiaryEntry } from '@/types/diary';
+import { DiaryEntry, NewDiaryData } from '@/types/diary';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
 import css from './DiaryEntryDetails.module.css';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { useState } from 'react';
 import { deleteDiary } from '@/lib/api/clientApi';
 import { useDiaryStore } from '@/lib/store/diaryStore';
+import dayjs from 'dayjs';
+
+import Modal from '../Modal/Modal';
+import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
 
 interface DiaryEntryDetailsProps {
   entryData: DiaryEntry | null;
@@ -15,12 +19,22 @@ interface DiaryEntryDetailsProps {
 function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
   const { emotions } = useEmotionsStore();
   const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isPatchModal, setPatchModal] = useState(false);
   const { fetchDiaries } = useDiaryStore();
 
   const emotionMap = new Map(emotions.map(e => [e._id, e.title]));
   const emotionsTags = entryData?.emotions
     .map(id => emotionMap.get(id))
     .filter(Boolean);
+
+  const curDate = dayjs().format('YYYY-MM-DD');
+
+  const initialValues: NewDiaryData = {
+    title: entryData?.title ?? '',
+    description: entryData?.description ?? '',
+    emotions: entryData?.emotions ?? [],
+    date: entryData ? dayjs(entryData.date).format('YYYY-MM-DD') : curDate,
+  };
 
   const handleDeleteDiary = async () => {
     if (!entryData?._id) return;
@@ -44,9 +58,18 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
       <div className={css.diary_note_header}>
         <div className={css.diary_noteHeader_titleBox}>
           <h2 className={css.diary_noteList_title}>{entryData?.title}</h2>
-          <Icon name="note" />
+          <Icon name="note" action={() => setPatchModal(true)} />
         </div>
-
+        {isPatchModal && (
+          <Modal title="Змінити запис" onClose={() => setPatchModal(false)}>
+            <AddDiaryEntryForm
+              initialValues={initialValues}
+              closeModal={() => setPatchModal(false)}
+              isPatch={true}
+              id={entryData._id}
+            />
+          </Modal>
+        )}
         <div className={css.diary_note_date}>
           {new Date(entryData.updatedAt).toLocaleDateString('uk-UA', {
             day: 'numeric',

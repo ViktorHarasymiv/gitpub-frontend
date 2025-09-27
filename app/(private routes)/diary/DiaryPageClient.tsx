@@ -8,14 +8,27 @@ import Loader from '@/components/ui/Loader/Loader';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 const DiaryPageClient = () => {
-  const { diaries, fetchDiaries, selectedDiary } = useDiaryStore();
+  const { diaries, fetchDiaries, selectedDiary, setSelectedDiary } =
+    useDiaryStore();
   const { fetchEmotions } = useEmotionsStore();
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    fetchDiaries();
-    fetchEmotions();
+    const load = async () => {
+      fetchDiaries();
+      fetchEmotions();
+    };
+    load();
   }, [fetchDiaries, fetchEmotions]);
+
+  useEffect(() => {
+    if (selectedDiary) {
+      const updatedDiary = diaries.find(d => d._id === selectedDiary._id);
+      if (updatedDiary && updatedDiary !== selectedDiary) {
+        setSelectedDiary(updatedDiary);
+      }
+    }
+  }, [diaries, selectedDiary, setSelectedDiary]);
 
   if (!diaries) return <Loader />;
 

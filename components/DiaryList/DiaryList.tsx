@@ -5,18 +5,32 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { Icon } from '../ui/Icon/Icon';
 import Modal from '../Modal/Modal';
 import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
-import { DiaryEntry } from '@/types/diary';
+import { DiaryEntry, NewDiaryData } from '@/types/diary';
 import AddDiaryEntryForm from '../AddDiaryEntryForm/AddDiaryEntryForm';
 import css from './DiaryList.module.css';
+import dayjs from 'dayjs';
 
 interface DiaryListProps {
   diaryData?: DiaryEntry[];
 }
 
+export interface MutationParams {
+  data: NewDiaryData;
+  _id?: string;
+}
+
+const curDate = dayjs().format('YYYY-MM-DD');
+const initialValues: NewDiaryData = {
+  title: '',
+  description: '',
+  emotions: [],
+  date: curDate,
+};
+
 function DiaryList({ diaryData }: DiaryListProps) {
   const { setSelectedDiary } = useDiaryStore();
 
-  const [isCreateModalOpen, setCreateModalOpen] = useState<boolean>(false);
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const isMobile = useIsMobile();
 
   return (
@@ -32,9 +46,11 @@ function DiaryList({ diaryData }: DiaryListProps) {
       {isCreateModalOpen && (
         <Modal title="Новий запис" onClose={() => setCreateModalOpen(false)}>
           <AddDiaryEntryForm
+            initialValues={initialValues}
             closeModal={() => {
               setCreateModalOpen(false);
             }}
+            isPatch={false}
           />
         </Modal>
       )}

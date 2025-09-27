@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const resp = await api('/diaries', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      // Cookie: cookieStore.toString(),
+      Cookie: cookieStore.toString(),
     },
   });
 
@@ -33,7 +33,34 @@ export async function POST(request: NextRequest) {
     const resp = await api.post('/diaries', body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        // Cookie: cookieStore.toString(),
+        Cookie: cookieStore.toString(),
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (resp.data) {
+      return NextResponse.json(resp.data, { status: 201 });
+    }
+  } catch (error) {
+    console.log('Error creating a diary:', error);
+    return NextResponse.json(
+      { error: `Failed to create note, ${error}` },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
+  try {
+    const { _id, ...data } = await request.json();
+
+    const resp = await api.patch(`/diaries/${_id}`, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Cookie: cookieStore.toString(),
         'Content-Type': 'application/json',
       },
     });

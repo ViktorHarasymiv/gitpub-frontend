@@ -4,22 +4,28 @@ import React from 'react';
 import { NewDiaryData, Emotion } from '@/types/diary';
 import * as Yup from 'yup';
 import Button from '../ui/Button/Button';
-import { createDiary } from '@/lib/api/clientApi';
-import dayjs from 'dayjs';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
 import { Autocomplete, TextField, Checkbox } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import css from './AddDiaryEntryForm.module.css';
 import { useDiaryStore } from '@/lib/store/diaryStore';
+import { createDiary, patchDiary } from '@/lib/api/clientApi';
 
-const curDate = dayjs().format('YYYY-MM-DD');
+interface AddDiaryEntryFormProps {
+  initialValues: NewDiaryData;
+  closeModal: () => void;
+  isPatch: boolean;
+  id?: string;
+}
 
-const initialValues: NewDiaryData = {
-  title: '',
-  description: '',
-  emotions: [],
-  date: curDate,
-};
+interface MutationParams {
+  data: NewDiaryData;
+  id?: string;
+}
+
+interface NewDiaryDataWithId extends NewDiaryData {
+  _id: string;
+}
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
@@ -40,17 +46,26 @@ const validationSchema = Yup.object().shape({
     .required('Емоції обовʼязкові'),
 });
 
-interface Props {
-  closeModal: () => void;
-}
-
-export default function AddDiaryEntryForm({ closeModal }: Props) {
+export default function AddDiaryEntryForm({
+  initialValues,
+  closeModal,
+  isPatch,
+  id,
+}: AddDiaryEntryFormProps) {
   const queryClient = useQueryClient();
   const { emotions } = useEmotionsStore();
   const { fetchDiaries } = useDiaryStore();
 
+  const mutation = (params: MutationParams) => {
+    if (isPatch) {
+      if (!('_id' in params.data)) throw new Error('_id is required for patch');
+      return patchDiary(params.data as NewDiaryDataWithId);
+    }
+    return createDiary(params.data as NewDiaryData);
+  };
+
   const { mutate } = useMutation({
-    mutationFn: (diaryData: NewDiaryData) => createDiary(diaryData),
+    mutationFn: mutation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
       fetchDiaries();
@@ -62,13 +77,16 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
-        mutate(values, {
-          onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
-            resetForm();
-            closeModal();
-          },
-        });
+        const dataWithId = isPatch && id ? { ...values, _id: id } : values;
+        mutate(
+          { data: dataWithId },
+          {
+            onSuccess: () => {
+              resetForm();
+              closeModal();
+            },
+          }
+        );
       }}
     >
       {({ values, setFieldValue }) => (
