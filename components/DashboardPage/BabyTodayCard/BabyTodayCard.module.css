@@ -3,7 +3,7 @@
   flex-direction: column;
   border-radius: 32px;
   padding: 24px;
-  width: 335px;
+  min-width: 335px;
   height: 616px;
   background: var(--color-scheme-foreground);
   margin-bottom: 24px;
@@ -18,7 +18,7 @@
   margin-bottom: 16px;
 }
 
-.contentWrap{
+.contentWrap {
   margin-bottom: 24px;
 }
 
@@ -44,10 +44,9 @@
   color: var(--color-scheme-text);
 }
 
-.text{
+.text {
   font-weight: 400;
   display: inline;
-
 }
 
 .boldText {
@@ -59,7 +58,7 @@
   height: 100%;
 }
 
-.textInfo{
+.textInfo {
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 14px;
@@ -73,10 +72,9 @@
   .BabyTodayContainer {
     width: 704px;
     height: 373px;
-
   }
 
-  .contentWrap{
+  .contentWrap {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -89,7 +87,7 @@
     height: 194px;
   }
 
-  .textWrap{
+  .textWrap {
     width: 383px;
   }
 }
@@ -104,7 +102,7 @@
     font-size: 24px;
   }
 
-  .text{
+  .text {
     font-size: 16px;
   }
 
@@ -112,7 +110,7 @@
     font-size: 16px;
   }
 
-  .textInfo{
+  .textInfo {
     font-size: 16px;
     max-height: 72px;
   }

@@ -19,6 +19,8 @@ const DiaryPageClient = ({ initialDiaries }: Props) => {
 
   const [loading, setLoading] = useState(true);
 
+  console.log(diaries);
+
   useEffect(() => {
     const load = async () => {
       if (initialDiaries.length > 0) setDiaries(initialDiaries);

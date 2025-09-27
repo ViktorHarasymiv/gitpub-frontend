@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 4px;
   border-radius: 32px;
-  max-width: 335px;
+  min-width: 335px;
   height: 146px;
   background-color: var(--color-scheme-foreground);
   margin-bottom: 16px;
@@ -37,10 +37,10 @@
   .MomTipCardContainer {
     max-width: 642px;
     height: 138px;
-   margin-bottom: 0;
+    margin-bottom: 0;
   }
 
-  .MomTipCardText{
+  .MomTipCardText {
     font-size: 16px;
   }
 }

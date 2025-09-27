@@ -8,12 +8,14 @@ import Logo from '@/public/icons/Logo.svg';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import FooterAction from './FooterAction';
+import { Icon } from '../ui/Icon/Icon';
 
 interface SidebarContentProps {
   onLinkClick?: () => void;
+  onClose?: () => void;
 }
 
-const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
+const SidebarContent = ({ onLinkClick, onClose }: SidebarContentProps) => {
   const pathname = usePathname();
 
   const links = [
@@ -24,7 +26,11 @@ const SidebarContent = ({ onLinkClick }: SidebarContentProps) => {
   ];
 
   return (
-    <aside className={css.sidebar}>
+    <aside className={css.sidebar} onClick={e => e.stopPropagation()}>
+      <button className={css.closeButton} onClick={onClose}>
+        <Icon name={'close_btn'} width={14} height={14}></Icon>
+      </button>
+
       <Link href="/" className={css.logo_link}>
         <Image src={Logo} alt="Logo company" className={css.logo} />
       </Link>
