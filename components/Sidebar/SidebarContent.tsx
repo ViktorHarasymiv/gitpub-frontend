@@ -13,7 +13,7 @@ import { Icon } from '../ui/Icon/Icon';
 interface SidebarContentProps {
   onLinkClick?: () => void;
   onClose?: () => void;
-  open: boolean;
+  open?: boolean;
 }
 
 const SidebarContent = ({
