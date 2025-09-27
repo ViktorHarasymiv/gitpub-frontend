@@ -27,6 +27,7 @@
 .diaryItem_tagList {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 0;
 }
@@ -40,6 +41,9 @@
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-scheme-text);
+  display: flex;
+  align-items: center;
+  text-align: center;
   @media screen and (width >= 1280px) {
     font-size: 16px;
   }

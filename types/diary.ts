@@ -13,6 +13,6 @@ export interface NewDiaryData {
   title: string;
   description: string;
   emotions: string[];
+  date: string;
 }
-
 export type Emotion = { _id: string; title: string };

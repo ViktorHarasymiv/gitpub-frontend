@@ -1,0 +1,271 @@
+import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
+import { NewDiaryData, Emotion } from '@/types/diary';
+import * as Yup from 'yup';
+import Button from '../ui/Button/Button';
+import { useEmotionsStore } from '@/lib/store/emotionStore';
+import { Autocomplete, TextField, Checkbox } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import css from './AddDiaryEntryForm.module.css';
+import { useDiaryStore } from '@/lib/store/diaryStore';
+import { createDiary, patchDiary } from '@/lib/api/clientApi';
+
+interface AddDiaryEntryFormProps {
+  initialValues: NewDiaryData;
+  closeModal: () => void;
+  isPatch: boolean;
+  id?: string;
+}
+
+interface MutationParams {
+  data: NewDiaryData;
+  id?: string;
+}
+
+interface NewDiaryDataWithId extends NewDiaryData {
+  _id: string;
+}
+
+const validationSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(1, 'Назва має містити щонайменше 1 символ')
+    .max(64, 'Назва не може перевищувати 64 символи')
+    .required('Назва обовʼязкова'),
+  description: Yup.string()
+    .min(1, 'Опис має містити щонайменше 1 символ')
+    .max(1000, 'Опис не може перевищувати 1000 символів')
+    .required('Опис обовʼязковий'),
+  date: Yup.string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Дата має бути у форматі YYYY-MM-DD')
+    .required(),
+  emotions: Yup.array()
+    .of(Yup.string())
+    .min(1, 'Обовʼязково вибрати хоча б одну емоцію')
+    .max(12, 'Неможливо вибрати більше 12 емоцій')
+    .required('Емоції обовʼязкові'),
+});
+
+export default function AddDiaryEntryForm({
+  initialValues,
+  closeModal,
+  isPatch,
+  id,
+}: AddDiaryEntryFormProps) {
+  const queryClient = useQueryClient();
+  const { emotions } = useEmotionsStore();
+  const { fetchDiaries } = useDiaryStore();
+
+  const mutation = (params: MutationParams) => {
+    if (isPatch) {
+      if (!('_id' in params.data)) throw new Error('_id is required for patch');
+      return patchDiary(params.data as NewDiaryDataWithId);
+    }
+    return createDiary(params.data as NewDiaryData);
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: mutation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
+      fetchDiaries();
+    },
+  });
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, { resetForm }) => {
+        const dataWithId = isPatch && id ? { ...values, _id: id } : values;
+        mutate(
+          { data: dataWithId },
+          {
+            onSuccess: () => {
+              resetForm();
+              closeModal();
+            },
+          }
+        );
+      }}
+    >
+      {({ values, setFieldValue }) => (
+        <Form className={css.diaryList_form}>
+          {/* newDiaryData.title */}
+          <div className={css.diaryList_fieldWrap}>
+            <label htmlFor="title" className={css.diaryList_fieldLabel}>
+              Заголовок
+            </label>
+            <Field name="title">
+              {({ field, meta }: FieldProps<string>) => (
+                <>
+                  <input
+                    {...field}
+                    type="text"
+                    placeholder="Введіть заголовок запису"
+                    className={`${css.diaryList_fieldInput} ${
+                      meta.touched && meta.error ? css.error : ''
+                    }`}
+                  />
+                  {meta.touched && meta.error && (
+                    <span className={css.diaryList_fieldError}>
+                      {meta.error}
+                    </span>
+                  )}
+                </>
+              )}
+            </Field>
+          </div>
+
+          {/* newDiaryData.emotions */}
+          <div className={css.diaryList_fieldWrap}>
+            <label htmlFor="emotions" className={css.diaryList_fieldLabel}>
+              Категорії
+            </label>
+            <Autocomplete<Emotion, true, false, false>
+              multiple
+              disablePortal
+              disableCloseOnSelect
+              options={emotions}
+              getOptionLabel={option => option.title}
+              isOptionEqualToValue={(option, value) => option._id === value._id}
+              value={emotions.filter(e =>
+                (values.emotions as unknown as string[]).includes(e._id)
+              )}
+              onChange={(_, newValue) =>
+                setFieldValue(
+                  'emotions',
+                  newValue.map(e => e._id)
+                )
+              }
+              slotProps={{
+                listbox: {
+                  style: {
+                    maxHeight: 'unset',
+                    overflow: 'visible',
+                  },
+                },
+                paper: {
+                  className: css.scrollbar,
+                  style: {
+                    backgroundColor: ' var(--color-neutral-lightest)',
+                    borderRadius: 12,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                    maxHeight: 220,
+                    overflowY: 'auto',
+                    padding: '4px 0',
+                  },
+                },
+              }}
+              renderOption={(props, option, { selected }) => {
+                const { key, ...rest } = props;
+                return (
+                  <li
+                    key={key}
+                    {...rest}
+                    style={{
+                      padding: '11px 12px',
+                      margin: 0,
+                      backgroundColor: selected
+                        ? 'var(--opacity-neutral-darkest-5)'
+                        : 'transparent',
+                      cursor: 'pointer',
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Checkbox
+                      checked={selected}
+                      sx={{ padding: 0, marginRight: 1 }}
+                      icon={
+                        <div
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 4,
+
+                            border: '1px solid var(--opacity-transparent)',
+                            backgroundColor: 'var(--opacity-neutral-darkest-5)',
+                          }}
+                        />
+                      }
+                      checkedIcon={
+                        <div
+                          style={{
+                            width: 18,
+                            height: 18,
+                            borderRadius: 4,
+                            border: '1px solid #000',
+                            backgroundColor: '#000',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <CheckIcon style={{ color: '#fff', fontSize: 14 }} />
+                        </div>
+                      }
+                    />
+                    {option.title}
+                  </li>
+                );
+              }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  placeholder="Виберіть емоції"
+                  size="small"
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      backgroundColor: 'var(--color-neutral-lightest)',
+                      '& fieldset': { border: 'none' },
+                      '&:hover fieldset': { border: 'none' },
+                      '&.Mui-focused fieldset': { border: 'none' },
+                    },
+                  }}
+                />
+              )}
+            />
+
+            <ErrorMessage
+              name="emotions"
+              component="span"
+              className={css.diaryList_fieldError}
+            />
+          </div>
+
+          {/* newDiaryData.description */}
+          <div className={css.diaryList_fieldWrap}>
+            <label htmlFor="description" className={css.diaryList_fieldLabel}>
+              Запис
+            </label>
+            <Field name="description">
+              {({ field, meta }: FieldProps<string>) => (
+                <>
+                  <textarea
+                    {...field}
+                    id="description"
+                    rows={8}
+                    placeholder="Запишіть, як ви себе відчуваєте"
+                    className={`${css.diaryList_fieldInput} ${
+                      meta.touched && meta.error ? css.error : ''
+                    }`}
+                  />
+                  {meta.touched && meta.error && (
+                    <span className={css.diaryList_fieldError}>
+                      {meta.error}
+                    </span>
+                  )}
+                </>
+              )}
+            </Field>
+          </div>
+
+          <Button type="submit">Зберегти</Button>
+        </Form>
+      )}
+    </Formik>
+  );
+}

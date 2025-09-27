@@ -12,11 +12,15 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  @media screen and (width < 768px) {
+    row-gap: 16px;
+  }
 }
 .diary_noteList_title {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 140%;
   letter-spacing: 0.01em;
   color: var(--color-scheme-text);
@@ -40,12 +44,15 @@
 .diary_note_date {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 14px;
   line-height: 160%;
   color: var(--color-scheme-text);
+  @media screen and (width >= 1280px) {
+    font-size: 14px;
+  }
 }
 .diary_noteHeader_titleBox {
   display: flex;
