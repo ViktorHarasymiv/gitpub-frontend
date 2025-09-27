@@ -10,6 +10,7 @@ import { useEmotionsStore } from '@/lib/store/emotionStore';
 import { Autocomplete, TextField, Checkbox } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import css from './AddDiaryEntryForm.module.css';
+import { useDiaryStore } from '@/lib/store/diaryStore';
 
 const curDate = dayjs().format('YYYY-MM-DD');
 
@@ -46,11 +47,13 @@ interface Props {
 export default function AddDiaryEntryForm({ closeModal }: Props) {
   const queryClient = useQueryClient();
   const { emotions } = useEmotionsStore();
+  const { fetchDiaries } = useDiaryStore();
 
   const { mutate } = useMutation({
     mutationFn: (diaryData: NewDiaryData) => createDiary(diaryData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
+      fetchDiaries();
     },
   });
 

@@ -1,8 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import DiaryList from '@/components/DiaryList/DiaryList';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
-import { DiaryEntry } from '@/types/diary';
 import { useDiaryStore } from '@/lib/store/diaryStore';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
 import Loader from '@/components/ui/Loader/Loader';
@@ -18,7 +17,7 @@ const DiaryPageClient = () => {
     fetchEmotions();
   }, [fetchDiaries, fetchEmotions]);
 
-  if (!diaries || diaries.length === 0) return <Loader />;
+  if (!diaries) return <Loader />;
 
   return (
     <>
