@@ -138,21 +138,25 @@ export default function AddDiaryEntryForm({
                   newValue.map(e => e._id)
                 )
               }
-              PaperComponent={props => (
-                <div
-                  {...props}
-                  style={{
+              slotProps={{
+                listbox: {
+                  style: {
+                    maxHeight: 'unset',
+                    overflow: 'visible',
+                  },
+                },
+                paper: {
+                  className: css.scrollbar,
+                  style: {
                     backgroundColor: ' var(--color-neutral-lightest)',
                     borderRadius: 12,
                     boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-                    maxHeight: 250,
+                    maxHeight: 220,
                     overflowY: 'auto',
                     padding: '4px 0',
-                  }}
-                >
-                  {props.children}
-                </div>
-              )}
+                  },
+                },
+              }}
               renderOption={(props, option, { selected }) => {
                 const { key, ...rest } = props;
                 return (

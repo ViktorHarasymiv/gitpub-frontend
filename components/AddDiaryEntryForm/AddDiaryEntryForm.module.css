@@ -46,3 +46,23 @@
   line-height: 1.6;
   color: var(--color-red);
 }
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: var(--opacity-neutral-darkest-20);
+  border-radius: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: var(--color-scheme-accent);
+}
