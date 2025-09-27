@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig = {
   images: {
+    domains: ['ftp.goit.study'],
     remotePatterns: [
       {
         protocol: 'http',

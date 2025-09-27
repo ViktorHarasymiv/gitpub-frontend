@@ -43,7 +43,7 @@ import JourneyPageClient from './[weekNumber]/JourneyPage.client';
 //   };
 // }
 
-import css from './[weekNumber]/JourneyPage.module.css';
+import css from './JourneyPage.module.css';
 
 const JourneyPage = async () => {
   return (

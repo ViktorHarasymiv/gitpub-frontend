@@ -14,7 +14,7 @@ import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 export interface FetchDiaryResponse {
   data: DiaryEntry[];
 }
-import { Journey, JourneyMom, JourneyBaby } from '@/types/journey';
+import { Journey, JourneyData } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -81,7 +81,7 @@ export const getJourneyByWeekNumberAndTab = async (
   weekNumber: number,
   activeTab: string
 ) => {
-  const res = await serverApi.get<JourneyBaby | JourneyMom>(
+  const res = await serverApi.get<JourneyData>(
     `/weeks/${weekNumber}/${activeTab}`
   );
   return res.data;
