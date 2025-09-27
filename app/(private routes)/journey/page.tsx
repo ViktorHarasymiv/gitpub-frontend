@@ -1,5 +1,5 @@
 import React from 'react';
-import JourneyPageClient from './JourneyPage.client';
+import JourneyPageClient from './[weekNumber]/JourneyPage.client';
 
 // export async function generateMetadata({ params }: Props) {
 //   const { selectedWeek } = await params;
