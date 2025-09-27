@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { NewDiaryData, Emotion } from '@/types/diary';
@@ -65,7 +65,7 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
         mutate(values, {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
-            resetForm(); // очищаємо форму після успіху
+            resetForm();
             closeModal();
           },
         });
@@ -73,43 +73,66 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
     >
       {({ values, setFieldValue }) => (
         <Form className={css.diaryList_form}>
-          {/* Заголовок */}
+          {/* newDiaryData.title */}
           <div className={css.diaryList_fieldWrap}>
             <label htmlFor="title" className={css.diaryList_fieldLabel}>
               Заголовок
             </label>
-            <Field
-              name="title"
-              type="text"
-              className={css.diaryList_fieldInput}
-              placeholder="Введіть заголовок запису"
-            />
-            <ErrorMessage
-              name="title"
-              component="span"
-              className={css.diaryList_fieldError}
-            />
+            <Field name="title">
+              {({ field, meta }: FieldProps<string>) => (
+                <>
+                  <input
+                    {...field}
+                    type="text"
+                    placeholder="Введіть заголовок запису"
+                    className={`${css.diaryList_fieldInput} ${
+                      meta.touched && meta.error ? css.error : ''
+                    }`}
+                  />
+                  {meta.touched && meta.error && (
+                    <span className={css.diaryList_fieldError}>
+                      {meta.error}
+                    </span>
+                  )}
+                </>
+              )}
+            </Field>
           </div>
 
-          {/* Емоції */}
+          {/* newDiaryData.emotions */}
           <div className={css.diaryList_fieldWrap}>
             <label htmlFor="emotions" className={css.diaryList_fieldLabel}>
               Категорії
             </label>
-            <Autocomplete
+            <Autocomplete<Emotion, true, false, false>
               multiple
               disablePortal
-              filterSelectedOptions
+              disableCloseOnSelect
               options={emotions}
               getOptionLabel={option => option.title}
               isOptionEqualToValue={(option, value) => option._id === value._id}
-              value={emotions.filter(e => values.emotions.includes(e._id))} // клав я бовт на ту типізацію
-              onChange={(_, newValue: Emotion[]) =>
+              value={emotions.filter(e => values.emotions.includes(e._id))}
+              onChange={(_, newValue) =>
                 setFieldValue(
                   'emotions',
                   newValue.map(e => e._id)
                 )
               }
+              PaperComponent={props => (
+                <div
+                  {...props}
+                  style={{
+                    backgroundColor: ' var(--color-neutral-lightest)',
+                    borderRadius: 12,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                    maxHeight: 250,
+                    overflowY: 'auto',
+                    padding: '4px 0',
+                  }}
+                >
+                  {props.children}
+                </div>
+              )}
               renderOption={(props, option, { selected }) => {
                 const { key, ...rest } = props;
                 return (
@@ -117,24 +140,27 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
                     key={key}
                     {...rest}
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      borderRadius: 6,
-                      backgroundColor: selected ? '#f0f0f0' : 'transparent',
-                      padding: '6px 8px',
-                      margin: '2px 0',
+                      padding: '11px 12px',
+                      margin: 0,
+                      backgroundColor: selected
+                        ? 'var(--opacity-neutral-darkest-5)'
+                        : 'transparent',
+                      cursor: 'pointer',
+                      borderRadius: 8,
                     }}
                   >
                     <Checkbox
                       checked={selected}
+                      sx={{ padding: 0, marginRight: 1 }}
                       icon={
                         <div
                           style={{
-                            width: 18,
-                            height: 18,
+                            width: 20,
+                            height: 20,
                             borderRadius: 4,
-                            border: '1px solid #ccc',
-                            backgroundColor: 'transparent',
+
+                            border: '1px solid var(--opacity-transparent)',
+                            backgroundColor: 'var(--opacity-neutral-darkest-5)',
                           }}
                         />
                       }
@@ -154,7 +180,6 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
                           <CheckIcon style={{ color: '#fff', fontSize: 14 }} />
                         </div>
                       }
-                      sx={{ padding: 0, marginRight: 8 }}
                     />
                     {option.title}
                   </li>
@@ -163,19 +188,19 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
               renderInput={params => (
                 <TextField
                   {...params}
+                  placeholder="Виберіть емоції"
+                  size="small"
+                  variant="outlined"
+                  fullWidth
                   sx={{
                     '& .MuiOutlinedInput-root': {
+                      borderRadius: '12px',
+                      backgroundColor: 'var(--color-neutral-lightest)',
                       '& fieldset': { border: 'none' },
                       '&:hover fieldset': { border: 'none' },
                       '&.Mui-focused fieldset': { border: 'none' },
-                      borderRadius: '12px',
-                      backgroundColor: 'var(--color-neutral-lightest)',
                     },
                   }}
-                  placeholder="Виберіть емоції"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
                 />
               )}
             />
@@ -187,23 +212,31 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
             />
           </div>
 
-          {/* Опис */}
+          {/* newDiaryData.description */}
           <div className={css.diaryList_fieldWrap}>
             <label htmlFor="description" className={css.diaryList_fieldLabel}>
               Запис
             </label>
-            <Field
-              as="textarea"
-              name="description"
-              rows={8}
-              className={css.diaryList_fieldInput}
-              placeholder="Запишіть, як ви себе відчуваєте"
-            />
-            <ErrorMessage
-              name="description"
-              component="span"
-              className={css.diaryList_fieldError}
-            />
+            <Field name="description">
+              {({ field, meta }: FieldProps<string>) => (
+                <>
+                  <textarea
+                    {...field}
+                    id="description"
+                    rows={8}
+                    placeholder="Запишіть, як ви себе відчуваєте"
+                    className={`${css.diaryList_fieldInput} ${
+                      meta.touched && meta.error ? css.error : ''
+                    }`}
+                  />
+                  {meta.touched && meta.error && (
+                    <span className={css.diaryList_fieldError}>
+                      {meta.error}
+                    </span>
+                  )}
+                </>
+              )}
+            </Field>
           </div>
 
           <Button type="submit">Зберегти</Button>

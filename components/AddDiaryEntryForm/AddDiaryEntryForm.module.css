@@ -17,20 +17,27 @@
   margin-bottom: 8px;
 }
 .diaryList_fieldInput {
-  border: 2px solid var(--opacity-transparent);
-  border-radius: 12px;
-  padding: 8px 12px;
-  min-height: 40px;
-  resize: none;
-  background: var(--opacity-neutral-darkest-5);
+  border: 2px solid var(--opacity-transparent) !important;
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+  min-height: 40px !important;
+  resize: none !important;
+  padding-inline: 18px !important;
+  background: var(--opacity-neutral-darkest-5) !important;
   &::placeholder {
-    padding-left: 8px;
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.5;
-    font-color: var(--opacity-neutral-darkest-60);
+    font-family: var(--font-family) !important;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: var(--opacity-neutral-darkest-60) !important;
   }
+}
+.diaryList_fieldInput.error {
+  border: 1px solid var(--color-red) !important;
+}
+
+.diaryList_fieldInput.error::placeholder {
+  color: var(--color-red) !important;
 }
 .diaryList_fieldError {
   font-family: var(--font-family);
