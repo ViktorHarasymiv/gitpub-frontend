@@ -42,9 +42,7 @@ const DiaryPageClient = ({ initialDiaries }: Props) => {
   return (
     <>
       <DiaryList diaryData={diaries} />
-      {!isMobile && selectedDiary && (
-        <DiaryEntryDetails entryData={selectedDiary} />
-      )}
+      {!isMobile && <DiaryEntryDetails entryData={selectedDiary} />}
     </>
   );
 };

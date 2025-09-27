@@ -1,0 +1,41 @@
+.diaryList_form {
+  margin-top: 48px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.diaryList_fieldWrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.diaryList_fieldLabel {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+  margin-bottom: 8px;
+}
+.diaryList_fieldInput {
+  border: 2px solid var(--opacity-transparent);
+  border-radius: 12px;
+  padding: 8px 12px;
+  min-height: 40px;
+  resize: none;
+  background: var(--opacity-neutral-darkest-5);
+  &::placeholder {
+    padding-left: 8px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    font-color: var(--opacity-neutral-darkest-60);
+  }
+}
+.diaryList_fieldError {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-red);
+}

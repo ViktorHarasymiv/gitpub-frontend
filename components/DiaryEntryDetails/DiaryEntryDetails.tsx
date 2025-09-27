@@ -17,7 +17,11 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
     .filter(Boolean);
 
   return entryData === null ? (
-    <h2 className={css.diary_noteList_noNote}>Щоденників поки що немає.</h2>
+    <div className={css.diary_noteWrapper}>
+      <div className={css.diary_noteHeader_titleBox}>
+        <h2 className={css.diary_noteList_title}>Щоденників поки що немає.</h2>
+      </div>
+    </div>
   ) : (
     <div className={css.diary_noteWrapper}>
       <div className={css.diary_note_header}>

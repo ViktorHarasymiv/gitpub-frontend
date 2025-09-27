@@ -43,7 +43,9 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.log('Error creating a diary:', error);
+    return NextResponse.json(
+      { error: `Failed to create note, ${error}` },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({ error: 'Failed to create note' }, { status: 500 });
 }

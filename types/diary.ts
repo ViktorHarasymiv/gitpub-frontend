@@ -12,7 +12,8 @@ export type DiaryEntry = {
 export interface NewDiaryData {
   title: string;
   description: string;
-  emotions: string[];
+  emotions: Emotion[];
+  date: string;
 }
 
 export type Emotion = { _id: string; title: string };
