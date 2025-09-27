@@ -3,29 +3,32 @@ import css from './WeekSelector.module.css';
 import clsx from 'clsx';
 
 interface WeekSelectorProps {
-  currentWeek: number;
+  currentWeek: number | null;
+  selectedWeek: number | null;
   onSelectedWeek: (weekNumber: number) => void;
-
   setActiveTab?: () => void;
 }
 
-const WeekSelector = ({ currentWeek, onSelectedWeek }: WeekSelectorProps) => {
-  const totalWeeks = 40;
+const WeekSelector = ({
+  currentWeek,
+  selectedWeek,
+  onSelectedWeek,
+}: WeekSelectorProps) => {
+  const totalWeeks = 42;
   const weeks = Array.from({ length: totalWeeks }, (_, i) => i + 1);
 
   const containerRef = useRef<HTMLUListElement>(null);
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  console.log(containerRef, itemRefs);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
     const container = containerRef.current;
-    const targetIndex = Math.min(currentWeek - 10, weeks.length - 1);
+    if (!container) return;
+
+    const weekToScroll = selectedWeek ?? currentWeek;
+    const targetIndex = Math.min(weekToScroll ?? 5, weeks.length - 1);
     const targetElement = itemRefs.current[targetIndex];
 
-    if (currentWeek < 5) {
+    if (weekToScroll != null && weekToScroll < 5) {
       container.scrollTo({
         left: 0,
         behavior: 'smooth',
@@ -33,37 +36,39 @@ const WeekSelector = ({ currentWeek, onSelectedWeek }: WeekSelectorProps) => {
       return;
     }
 
-    if (targetElement && containerRef.current) {
+    if (targetElement) {
       const offsetLeft = targetElement.offsetLeft;
-
-      console.log(container);
+      const containerWidth = container.offsetWidth;
+      const scrollLeft = Math.max(0, offsetLeft - containerWidth); // зміщення на півконтейнера
 
       container.scrollTo({
-        left: offsetLeft,
+        left: scrollLeft,
         behavior: 'smooth',
       });
     }
-  }, [currentWeek]);
+  }, [selectedWeek, currentWeek, weeks.length]);
 
   return (
     <ul className={css.container} ref={containerRef}>
       {weeks.map((weekNumber, index) => (
-        <li key={weekNumber}>
+        <li
+          key={weekNumber}
+          ref={el => {
+            itemRefs.current[index] = el;
+          }}
+        >
           <button
-            ref={el => {
-              itemRefs.current[index] = el;
-            }}
-            className={clsx(css.weekButton, {
-              [css.current]: weekNumber === currentWeek,
-              [css.disabled]: weekNumber > currentWeek,
-            })}
+            className={clsx(
+              css.week_box,
+              (selectedWeek || currentWeek) === weekNumber && css.active
+            )}
+            disabled={currentWeek !== null ? currentWeek < weekNumber : true}
             type="button"
             onClick={() => {
-              if (weekNumber <= currentWeek) {
+              if (currentWeek !== null && weekNumber <= currentWeek) {
                 onSelectedWeek(weekNumber);
               }
             }}
-            disabled={weekNumber > currentWeek}
           >
             {weekNumber}
             <span className={css.week}>Тиждень</span>

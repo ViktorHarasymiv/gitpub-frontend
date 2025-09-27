@@ -1,6 +1,6 @@
-.section_block {
+/* .section_block {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
+  flex: 1;
+} */
