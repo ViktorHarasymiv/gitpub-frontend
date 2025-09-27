@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 // UTILS
 
 import { useJourneyStore } from '@/lib/store/weeksDataStore';
-import { JourneyBaby, JourneyMom, Tab } from '@/types/journey';
+import { JourneyData, Tab } from '@/types/journey';
 import { getJourneyByWeekNumberAndTab } from '@/lib/api/clientApi';
 
 // COMPONENTS
@@ -16,6 +16,8 @@ import { getJourneyByWeekNumberAndTab } from '@/lib/api/clientApi';
 import WeekSelector from '@/components/WeekSelector/WeekSelector';
 import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 import Loader from '@/components/ui/Loader/Loader';
+
+import css from './JourneyPageClient.module.css'
 
 const JourneyPageClient = () => {
   // STORE
@@ -25,22 +27,22 @@ const JourneyPageClient = () => {
   const [selectedWeek, setSelectedWeek] = useState<number>(currentWeek);
   const [activeTab, setActiveTab] = useState<Tab>('baby');
 
-  const { data, isLoading } = useQuery<JourneyBaby | JourneyMom>({
+  const { data, isLoading } = useQuery<JourneyData>({
     queryKey: ['journey', selectedWeek, activeTab],
     queryFn: () => getJourneyByWeekNumberAndTab(selectedWeek, activeTab),
     refetchOnMount: false,
   });
 
-  console.log(data);
-
   if (isLoading) return <Loader loading={true} />;
 
   return (
-    <div>
-        <WeekSelector
-          currentWeek={currentWeek}
-          onSelectedWeek={setSelectedWeek}
-        />
+    <>
+          <div className={css.weekContainer}>
+            <WeekSelector
+              currentWeek={currentWeek}
+              onSelectedWeek={setSelectedWeek}
+            />
+          </div>
 
         {data ? (
           <JourneyDetails
@@ -49,7 +51,7 @@ const JourneyPageClient = () => {
             data={data}
           />
         ) : null}
-    </div>
+    </>
   );
 };
 

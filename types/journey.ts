@@ -24,3 +24,7 @@ export type JourneyMom = {
 };
 
 export type Tab = "baby" | "mom";
+
+export type JourneyData = 
+| { week: number; baby: JourneyBaby } 
+| { week: number; mom: JourneyMom };

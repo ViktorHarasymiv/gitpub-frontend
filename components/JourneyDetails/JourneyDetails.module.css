@@ -6,7 +6,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
-    margin: 32px 32px 24px 32px;
+    margin-top: 32px;
 }
 
 .tabContainer {
@@ -21,9 +21,10 @@
     border-radius: 100px;
     padding: 10px 24px;
     background-color: var(--opacity-transparent);
+    text-align: center;
 }
 
-.active {
+.tab.active {
     background-color: var(--color-scheme-foreground-alt);
     line-height: 160%;
     font-weight: 500;
@@ -36,6 +37,13 @@
     flex-direction: column;
     gap: 32px;
     padding: 24px;
+}
+
+.imageContainer {
+    overflow: hidden; 
+    position: relative;
+    height: 379px;
+    margin-bottom: 16px;
 }
 
 .image {
@@ -104,6 +112,11 @@
 .comfortTip {
     display: flex;
     gap: 8px;
+    margin-bottom: 8px;
+}
+
+.comfortTip:last-child {
+  margin-bottom: 0;
 }
 
 .category {
@@ -129,6 +142,10 @@
 
     .babyContainer {
         flex-direction: row;
+    }
+
+    .imageContainer {
+        width: 461px;
     }
 
     .babySize {
