@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       secure: true,
       sameSite: 'none',
       path: '/',
-      maxAge: 7200,
+      maxAge: 900,
     });
 
     response.cookies.set('refreshToken', refreshToken, {
