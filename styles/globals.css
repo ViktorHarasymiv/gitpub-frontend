@@ -34,8 +34,6 @@ body {
 }
 
 main {
-  overflow: hidden;
-
   display: flex;
   flex-direction: column;
 
@@ -88,22 +86,15 @@ section {
     flex-wrap: nowrap;
   }
   .container {
-    padding: 16px 32px;
-  }
-
-  .main {
-    padding: 24px 32px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .main {
-    padding: 24px 32px;
-  }
-
-  .container {
     width: 100%;
     padding: 24px 16px;
+  }
+  main {
+    overflow: hidden;
+  }
+
+  .main {
+    padding: 24px 32px;
   }
 }
 
