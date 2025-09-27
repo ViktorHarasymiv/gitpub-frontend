@@ -1,15 +1,14 @@
-"use client";
+'use client';
 
-import styles from "./DashboardPage.module.css";
+import styles from './DashboardPage.module.css';
 
-import StatusBlock from "@/components/DashboardPage/StatusBlock/StatusBlock";
+import StatusBlock from '@/components/DashboardPage/StatusBlock/StatusBlock';
 import BabyTodayCard from '@/components/DashboardPage/BabyTodayCard/BabyTodayCard';
 import MomTipCard from '@/components/DashboardPage/MomTipCard/MomTipCard';
 import FeelingCheckCard from '@/components/DashboardPage/FeelingCheckCard/FeelingCheckCard';
-import TasksReminderCard
-  from '@/components/TasksReminderCard/TasksReminderCard';
+import TasksReminderCard from '@/components/TasksReminderCard/TasksReminderCard';
 import { useJourneyStore } from '@/lib/store/weeksDataStore';
-
+import Loader from '../ui/Loader/Loader';
 
 export default function DashboardPage() {
   const currentWeek = useJourneyStore(s => s.currentWeek);
@@ -18,7 +17,8 @@ export default function DashboardPage() {
   const baby = useJourneyStore(s => s.baby);
 
   const isLoaded = useJourneyStore(s => s.isLoaded);
-  console.log(baby);
+
+  if (!isLoaded) return <Loader />;
 
   return (
     <div className={styles.dashboardContainer}>
@@ -31,10 +31,9 @@ export default function DashboardPage() {
         info={baby?.babyDevelopment}
         analogy={baby?.analogy}
       />
-      <MomTipCard adviceForMom={mom?.comfortTips.map(s => s.tip)?.join('')}/>
-      <TasksReminderCard/>
-      <FeelingCheckCard/>
+      <MomTipCard adviceForMom={mom?.comfortTips.map(s => s.tip)?.join('')} />
+      <TasksReminderCard />
+      <FeelingCheckCard />
     </div>
-  )
+  );
 }
-

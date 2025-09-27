@@ -1,8 +1,8 @@
-import React from "react";
-import type { StaticImageData } from "next/image";
+import React from 'react';
+import type { StaticImageData } from 'next/image';
 
-import Image from "next/image";
-import css from "./auth/Page.module.css";
+import Image from 'next/image';
+import css from '../../app/(auth routes)/auth/Page.module.css';
 
 type ImageProps = { image: string | StaticImageData };
 

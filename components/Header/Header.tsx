@@ -5,6 +5,7 @@ import Logo from '@/public/icons/Logo.svg';
 import SidebarContent from '../Sidebar/SidebarContent';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Icon } from '../ui/Icon/Icon';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -44,17 +45,11 @@ const Header = () => {
       </header>
 
       {open && (
-        <>
-          <div className={css.overlay} onClick={closeMenu} />
+        <div className={css.overlay} onClick={closeMenu}>
           <div className={`${css.menu} ${closing ? css.closing : ''}`}>
-            <button className={css.closeButton} onClick={closeMenu}>
-              <svg width="18" height="18">
-                <use href="/sprite.svg#close_btn" />
-              </svg>
-            </button>
-            <SidebarContent onLinkClick={closeMenu} />
+            <SidebarContent onLinkClick={closeMenu} onClose={closeMenu} />
           </div>
-        </>
+        </div>
       )}
     </>
   );

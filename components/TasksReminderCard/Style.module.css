@@ -1,11 +1,9 @@
 .task_form {
   padding: 24px 24px 16px;
 
-  /* max-width: 390px; */
-
-  max-width: 100%;
+  min-width: 390px;
   width: 100%;
-  min-height: 498px;
+  max-height: 688px;
 
   border-radius: 32px;
   background: var(--color-scheme-foreground);
@@ -13,7 +11,14 @@
 
 @media screen and (min-width: 767.98px) {
   .task_form {
-    max-width: 390px;
+    max-width: 704px;
+  }
+}
+
+@media screen and (min-width: 1439.98px) {
+  .task_form {
+    max-width: 440px;
+    flex: 1;
   }
 }
 
