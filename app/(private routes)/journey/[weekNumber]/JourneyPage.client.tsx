@@ -37,18 +37,18 @@ const JourneyPageClient = () => {
 
   return (
     <div>
-      <WeekSelector
-        currentWeek={currentWeek}
-        onSelectedWeek={setSelectedWeek}
-      />
-
-      {data ? (
-        <JourneyDetails
-          activeTab={activeTab}
-          onChangeTab={setActiveTab}
-          data={data}
+        <WeekSelector
+          currentWeek={currentWeek}
+          onSelectedWeek={setSelectedWeek}
         />
-      ) : null}
+
+        {data ? (
+          <JourneyDetails
+            activeTab={activeTab}
+            onChangeTab={setActiveTab}
+            data={data}
+          />
+        ) : null}
     </div>
   );
 };
