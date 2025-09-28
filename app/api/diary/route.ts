@@ -23,24 +23,50 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
+
   try {
     const body = await request.json();
 
-    const { data } = await api.post('/diaries', body, {
+    const resp = await api.post('/diaries', body, {
       headers: {
         Cookie: cookieStore.toString(),
+        'Content-Type': 'application/json',
       },
     });
 
-    if (data) {
-      return NextResponse.json(data, { status: 201 });
+    if (resp.data) {
+      return NextResponse.json(resp.data, { status: 201 });
     }
   } catch (error) {
-    console.error('Error creating diaries:', error);
+    console.log('Error creating a diary:', error);
+    return NextResponse.json(
+      { error: `Failed to create note, ${error}` },
+      { status: 500 }
+    );
   }
+}
 
-  return NextResponse.json(
-    { error: 'Failed to create diaries' },
-    { status: 500 }
-  );
+export async function PATCH(request: NextRequest) {
+  const cookieStore = await cookies();
+
+  try {
+    const { _id, ...data } = await request.json();
+
+    const resp = await api.patch(`/diaries/${_id}`, data, {
+      headers: {
+        Cookie: cookieStore.toString(),
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (resp.data) {
+      return NextResponse.json(resp.data, { status: 201 });
+    }
+  } catch (error) {
+    console.log('Error creating a diary:', error);
+    return NextResponse.json(
+      { error: `Failed to create note, ${error}` },
+      { status: 500 }
+    );
+  }
 }

@@ -169,11 +169,11 @@ export const getDiaries = async (page: number) => {
   return resp.data;
 };
 
-
 export async function createDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
   return resp.data;
 }
+
 export async function patchDiary(diaryData: NewDiaryData & { _id: string }) {
   const { _id, ...data } = diaryData;
   const resp = await serverApi.patch(`/diary/${_id}`, data);

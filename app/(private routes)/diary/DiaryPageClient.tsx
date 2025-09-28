@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import DiaryList from '@/components/DiaryList/DiaryList';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
 import { useDiaryStore } from '@/lib/store/diaryStore';
@@ -12,10 +12,6 @@ const DiaryPageClient = () => {
     useDiaryStore();
   const { fetchEmotions } = useEmotionsStore();
   const isMobile = useIsMobile();
-
-  const [loading, setLoading] = useState(true);
-
-  console.log(diaries);
 
   useEffect(() => {
     const load = async () => {
