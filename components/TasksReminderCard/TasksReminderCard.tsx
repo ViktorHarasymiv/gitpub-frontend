@@ -14,7 +14,6 @@ import Button from '../ui/Button/Button';
 import ModalTask from './ModalTask';
 import { getAllTasks, patchActiveTask } from '@/lib/api/clientApi';
 import { Task } from '@/types/task';
-import Loader from '../ui/Loader/Loader';
 
 interface TasksHttpResponse {
   result: {
@@ -27,13 +26,12 @@ function TasksReminderCard() {
   const [switchModal, setSwitchModal] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError } = useQuery<TasksHttpResponse>({
+  const { data, isLoading } = useQuery<TasksHttpResponse>({
     queryKey: ['tasks'],
     queryFn: () => getAllTasks(1),
   });
 
   const tasks: Task[] = data?.result?.data ?? [];
-  console.log(tasks);
 
   // PATCH
 
@@ -61,8 +59,6 @@ function TasksReminderCard() {
     return `${day}.${month}`;
   };
 
-  if (isLoading) return <Loader></Loader>;
-
   return (
     <>
       <div className={css.task_form}>
@@ -75,7 +71,7 @@ function TasksReminderCard() {
             className={iconStyle.icon}
           />
         </div>
-        {tasks.length > 0 ? (
+        {tasks.length > 0 && !isLoading ? (
           <ul className={css.list}>
             {tasks.map((item, index) => {
               return (

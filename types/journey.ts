@@ -1,26 +1,26 @@
 export type Journey = {
-    weekNumber: number;
+  weekNumber: number;
 };
 
 export type JourneyBaby = {
-    analogy: string;
-    image: string;
-    babyDevelopment: string;
-    babyActivity: string;
-    interestingFact: string;
+  analogy: string;
+  image: string;
+  babyDevelopment: string;
+  babyActivity: string;
+  interestingFact: string;
 };
 
 type ComfortTip = {
-    category: string;
-    tip: string;
+  category: string;
+  tip: string;
 };
 
 export type JourneyMom = {
-    feelings: {
-        states: string[];
-        sensationDescr: string;
-    };
-    comfortTips: ComfortTip[];
+  feelings: {
+    states: string[];
+    sensationDescr: string;
+  };
+  comfortTips: ComfortTip[];
 };
 
-export type Tab = "baby" | "mom";
+export type Tab = 'baby' | 'mom';

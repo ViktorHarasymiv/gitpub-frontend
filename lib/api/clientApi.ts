@@ -17,7 +17,7 @@ export interface FetchDiaryResponse {
     totalPages: number;
   };
 }
-import { Journey, JourneyMom, JourneyBaby } from '@/types/journey';
+import { Journey } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -72,7 +72,7 @@ export const checkSession = async () => {
 
   console.log('Session response:', res.data);
 
-  return res.data.success;
+  return res;
 };
 
 export const fetchCurrentWeek = async () => {
@@ -84,9 +84,7 @@ export const getJourneyByWeekNumberAndTab = async (
   weekNumber: number,
   activeTab: string
 ) => {
-  const res = await serverApi.get<JourneyBaby | JourneyMom>(
-    `/weeks/${weekNumber}/${activeTab}`
-  );
+  const res = await serverApi.get(`/weeks/${weekNumber}/${activeTab}`);
   return res.data;
 };
 

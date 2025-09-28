@@ -8,48 +8,53 @@ import { useQuery } from '@tanstack/react-query';
 // UTILS
 
 import { useJourneyStore } from '@/lib/store/weeksDataStore';
-import { JourneyBaby, JourneyMom, Tab } from '@/types/journey';
+import { Tab } from '@/types/journey';
 import { getJourneyByWeekNumberAndTab } from '@/lib/api/clientApi';
 
 // COMPONENTS
 
 import WeekSelector from '@/components/WeekSelector/WeekSelector';
 import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
-import Loader from '@/components/ui/Loader/Loader';
+
+import css from './JourneyPageClient.module.css';
 
 const JourneyPageClient = () => {
   // STORE
 
-  const currentWeek = useJourneyStore<number>(s => s.currentWeek);
+  const currentWeek = useJourneyStore(s => s.currentWeek);
+  const isLoaded = useJourneyStore(s => s.isLoaded);
 
-  const [selectedWeek, setSelectedWeek] = useState<number>(currentWeek);
+  const [selectedWeek, setSelectedWeek] = useState<number | null>(currentWeek);
   const [activeTab, setActiveTab] = useState<Tab>('baby');
 
-  const { data, isLoading } = useQuery<JourneyBaby | JourneyMom>({
-    queryKey: ['journey', selectedWeek, activeTab],
-    queryFn: () => getJourneyByWeekNumberAndTab(selectedWeek, activeTab),
+  const weekToQuery = selectedWeek ?? currentWeek;
+
+  const isWeekDefined = typeof weekToQuery === 'number';
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['journey', weekToQuery, activeTab],
+    queryFn: () => getJourneyByWeekNumberAndTab(weekToQuery!, activeTab),
+    enabled: isLoaded && isWeekDefined,
     refetchOnMount: false,
   });
 
-  console.log(data);
-
-  if (isLoading) return <Loader loading={true} />;
-
   return (
-    <div>
-      <WeekSelector
-        currentWeek={currentWeek}
-        onSelectedWeek={setSelectedWeek}
-      />
-
-      {data ? (
-        <JourneyDetails
-          activeTab={activeTab}
-          onChangeTab={setActiveTab}
-          data={data}
+    <>
+      <div className={css.weekContainer}>
+        <WeekSelector
+          selectedWeek={selectedWeek}
+          currentWeek={currentWeek}
+          onSelectedWeek={setSelectedWeek}
         />
-      ) : null}
-    </div>
+      </div>
+
+      <JourneyDetails
+        activeTab={activeTab}
+        onChangeTab={setActiveTab}
+        data={data}
+        isLoading={isLoading}
+      />
+    </>
   );
 };
 

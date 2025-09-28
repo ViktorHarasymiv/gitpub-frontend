@@ -1,6 +1,6 @@
 'use client';
 
-import Decor from '../../Decor';
+import Decor from '../../../../components/Decor/Decor';
 import Form from './RegisterForm';
 
 import css from '../Page.module.css';

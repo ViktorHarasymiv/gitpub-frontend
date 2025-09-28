@@ -1,11 +1,13 @@
 .diaryNoteListWrapper {
+  min-width: 335px;
   border-radius: 32px;
   padding: 24px 16px;
   background: var(--color-scheme-foreground);
-  height: calc(81vh);
+  height: 100%;
   overflow: auto;
   scroll-behavior: smooth;
 }
+
 .diaryNoteList_header {
   display: flex;
   align-items: center;
@@ -52,4 +54,10 @@
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
+}
+
+@media screen and (min-width: 1439.98px) {
+  .diaryNoteListWrapper {
+    width: 389px;
+  }
 }

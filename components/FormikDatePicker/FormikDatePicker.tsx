@@ -37,6 +37,12 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
         openPickerIcon: KeyboardArrowDownIcon,
       }}
       slotProps={{
+        popper: {
+          sx: {
+            zIndex: 9999,
+          },
+        },
+
         textField: {
           sx: {
             maxWidth: mxWidth,
@@ -44,6 +50,7 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
             borderColor: 'transparent',
             background: 'var(--color-neutral-lightest)',
             borderRadius: '12px',
+
             '& .MuiOutlinedInput-notchedOutline': {},
             '& .MuiOutlinedInput-root': {
               borderRadius: '12px',

@@ -1,7 +1,7 @@
 'use client';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
-import Decor from '../../Decor';
+import Decor from '../../../../components/Decor/Decor';
 import Form from './LoginForm';
 
 import css from '../Page.module.css';
