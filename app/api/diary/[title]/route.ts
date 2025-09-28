@@ -13,7 +13,7 @@ export async function GET(request: NextRequest, { params }: Props) {
   const resp = await api(`/diaries/${title}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      //   Cookie: cookieStore.toString(),
+      Cookie: cookieStore.toString(),
     },
   });
 
@@ -37,7 +37,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
-        //   Cookie: cookieStore.toString(),
+        Cookie: cookieStore.toString(),
       },
     });
     return NextResponse.json(

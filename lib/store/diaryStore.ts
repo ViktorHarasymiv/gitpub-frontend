@@ -16,10 +16,11 @@ export const useDiaryStore = create<DiaryStore>((set, get) => ({
   setSelectedDiary: entry => set({ selectedDiary: entry }),
   setDiaries: entries => set({ diaries: entries }),
   fetchDiaries: async () => {
-    const { data } = await getDiaries();
+    const { result } = await getDiaries(1);
     set({
-      diaries: data,
-      selectedDiary: get().selectedDiary || (data.length > 0 ? data[0] : null),
+      diaries: result.data,
+      selectedDiary:
+        get().selectedDiary || (result.data.length > 0 ? result.data[0] : null),
     });
   },
 }));

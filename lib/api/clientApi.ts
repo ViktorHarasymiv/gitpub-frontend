@@ -12,7 +12,10 @@ import { serverApi } from './api';
 import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 
 export interface FetchDiaryResponse {
-  data: DiaryEntry[];
+  result: {
+    data: DiaryEntry[];
+    totalPages: number;
+  };
 }
 import { Journey } from '@/types/journey';
 
@@ -84,6 +87,7 @@ export const getJourneyByWeekNumberAndTab = async (
   const res = await serverApi.get(`/weeks/${weekNumber}/${activeTab}`);
   return res.data;
 };
+
 // GET
 
 export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
@@ -153,11 +157,29 @@ export const getWeekFull = async (
 //========================TASKS API====================================
 //diary CRUD
 
-export async function getDiaries() {
-  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {});
+export const getDiaries = async (page: number) => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {
+    params: PARAMS,
+  });
 
   return resp.data;
-}
+};
+
+// export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
+//   const PARAMS = new URLSearchParams({
+//     page: page.toString(),
+//   });
+
+//   const response = await serverApi.get<TasksHttpResponse>('/task', {
+//     params: PARAMS,
+//   });
+
+//   return response.data;
+// };
 
 export async function createDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
