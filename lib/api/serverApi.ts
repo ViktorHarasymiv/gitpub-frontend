@@ -205,15 +205,21 @@ export const getWeekFullServer = async (
   return data;
 };
 
-export async function getDiaries() {
+export const getDiaries = async (page: number) => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
   const cookieStore = await cookies();
-  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {
+
+  const response = await serverApi.get<FetchDiaryResponse>('/diary', {
+    params: PARAMS,
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
-  return resp.data;
-}
+
+  return response.data;
+};
 
 export async function createDiary(newDiary: NewDiaryData) {
   const cookieStore = await cookies();

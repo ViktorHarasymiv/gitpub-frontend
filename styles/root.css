@@ -62,6 +62,7 @@
   --color-scheme-foreground-alt: #ffdae0;
   --color-scheme-accent: #ffcbd3;
 }
+
 .theme-boy {
   /* Основний фон */
   --color-scheme-foreground: var(--color-french-pass-lightest); /* #fbfefe */

@@ -3,7 +3,7 @@ import { getCurrentWeek } from '../api/clientApi';
 import { BabyInfo, MomInfo } from '@/types/weeks';
 
 interface JourneyState {
-  currentWeek: number;
+  currentWeek: number | null;
   daysToDue: number | null;
   baby: BabyInfo | null;
   mom: MomInfo | null;
@@ -12,8 +12,8 @@ interface JourneyState {
 }
 
 export const useJourneyStore = create<JourneyState>(set => ({
-  currentWeek: 14,
-  daysToDue: 165,
+  currentWeek: null,
+  daysToDue: null,
   baby: null,
   mom: null,
   isLoaded: false,

@@ -45,7 +45,6 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
 
         textField: {
           sx: {
-            zIndex: '9999',
             maxWidth: mxWidth,
             width: '100%',
             borderColor: 'transparent',
@@ -57,7 +56,6 @@ export const FormikDatePickerBirthday = ({ name, mxWidth }: Props) => {
               borderRadius: '12px',
             },
             '& .MuiPickersSectionList-root': {
-              zIndex: '9999',
               color: 'var(--color-neutral)',
               padding: '10px 0',
             },

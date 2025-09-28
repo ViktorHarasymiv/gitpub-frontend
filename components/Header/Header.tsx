@@ -47,7 +47,11 @@ const Header = () => {
       {open && (
         <div className={css.overlay} onClick={closeMenu}>
           <div className={`${css.menu} ${closing ? css.closing : ''}`}>
-            <SidebarContent onLinkClick={closeMenu} onClose={closeMenu} />
+            <SidebarContent
+              open={open}
+              onLinkClick={closeMenu}
+              onClose={closeMenu}
+            />
           </div>
         </div>
       )}

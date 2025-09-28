@@ -13,9 +13,14 @@ import { Icon } from '../ui/Icon/Icon';
 interface SidebarContentProps {
   onLinkClick?: () => void;
   onClose?: () => void;
+  open?: boolean;
 }
 
-const SidebarContent = ({ onLinkClick, onClose }: SidebarContentProps) => {
+const SidebarContent = ({
+  onLinkClick,
+  onClose,
+  open,
+}: SidebarContentProps) => {
   const pathname = usePathname();
 
   const links = [
@@ -27,15 +32,16 @@ const SidebarContent = ({ onLinkClick, onClose }: SidebarContentProps) => {
 
   return (
     <aside className={css.sidebar} onClick={e => e.stopPropagation()}>
-      <button className={css.closeButton} onClick={onClose}>
-        <Icon name={'close_btn'} width={14} height={14}></Icon>
-      </button>
-
       <Link href="/" className={css.logo_link}>
         <Image src={Logo} alt="Logo company" className={css.logo} />
       </Link>
 
       <nav className={css.sidebarNav}>
+        {open && (
+          <button className={css.closeButton} onClick={onClose}>
+            <Icon name={'close_btn'} width={14} height={14}></Icon>
+          </button>
+        )}
         <ul>
           {links.map(link => (
             <li key={link.href}>

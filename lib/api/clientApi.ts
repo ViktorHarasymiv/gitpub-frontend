@@ -12,9 +12,12 @@ import { serverApi } from './api';
 import { DiaryEntry, Emotion, NewDiaryData } from '@/types/diary';
 
 export interface FetchDiaryResponse {
-  data: DiaryEntry[];
+  result: {
+    data: DiaryEntry[];
+    totalPages: number;
+  };
 }
-import { Journey, JourneyData } from '@/types/journey';
+import { Journey } from '@/types/journey';
 
 interface TasksHttpResponse {
   result: {
@@ -69,7 +72,7 @@ export const checkSession = async () => {
 
   console.log('Session response:', res.data);
 
-  return res.data.success;
+  return res;
 };
 
 export const fetchCurrentWeek = async () => {
@@ -81,11 +84,10 @@ export const getJourneyByWeekNumberAndTab = async (
   weekNumber: number,
   activeTab: string
 ) => {
-  const res = await serverApi.get<JourneyData>(
-    `/weeks/${weekNumber}/${activeTab}`
-  );
+  const res = await serverApi.get(`/weeks/${weekNumber}/${activeTab}`);
   return res.data;
 };
+
 // GET
 
 export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
@@ -155,11 +157,18 @@ export const getWeekFull = async (
 //========================TASKS API====================================
 //diary CRUD
 
-export async function getDiaries() {
-  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {});
+export const getDiaries = async (page: number) => {
+  const PARAMS = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  const resp = await serverApi.get<FetchDiaryResponse>('/diary', {
+    params: PARAMS,
+  });
 
   return resp.data;
-}
+};
+
 
 export async function createDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
