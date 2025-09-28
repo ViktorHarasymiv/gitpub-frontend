@@ -1,35 +1,36 @@
 import { create } from 'zustand';
-import { getCurrentWeek } from '../api/clientApi';
+import { getCurrentWeek, getCurrentWeekPublic } from '../api/clientApi';
 import { BabyInfo, MomInfo } from '@/types/weeks';
 
 interface JourneyState {
-  currentWeek: number;
+  currentWeek: number | null;
   daysToDue: number | null;
   baby: BabyInfo | null;
   mom: MomInfo | null;
   isLoaded: boolean;
-  fetchJourneyData: (dueDate: string) => Promise<void>;
+  fetchJourneyData: (dueDate?: string | null) => Promise<void>;
 }
 
-export const useJourneyStore = create<JourneyState>(set => ({
-  currentWeek: 14,
-  daysToDue: 165,
+export const useJourneyStore = create<JourneyState>((set) => ({
+  currentWeek: null,
+  daysToDue: null,
   baby: null,
   mom: null,
   isLoaded: false,
 
-  fetchJourneyData: async (dueDate: string) => {
-    if (!dueDate) return;
-
+  fetchJourneyData: async (dueDate?: string | null) => {
     try {
-      const data = await getCurrentWeek(dueDate);
+      const data = dueDate
+        ? await getCurrentWeek(dueDate)
+        : await getCurrentWeekPublic();
+
       if (!data) return;
 
       set({
         currentWeek: data.week ?? null,
         daysToDue: data.daysToDue ?? null,
-        baby: data.pack.baby ?? null,
-        mom: data.pack.mom ?? null,
+        baby: data.pack?.baby ?? null,
+        mom: data.pack?.mom ?? null,
         isLoaded: true,
       });
     } catch (error) {

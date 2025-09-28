@@ -8,17 +8,32 @@ import MomTipCard from '@/components/DashboardPage/MomTipCard/MomTipCard';
 import FeelingCheckCard from '@/components/DashboardPage/FeelingCheckCard/FeelingCheckCard';
 import TasksReminderCard
   from '@/components/TasksReminderCard/TasksReminderCard';
-import { useJourneyStore } from '@/lib/store/weeksDataStore';
+import {
+  useJourneyStore,
+} from '@/lib/store/weeksDataStore';
+import { useEffect, useRef } from 'react';
+import Loader from '@/components/ui/Loader/Loader';
 
 
 export default function DashboardPage() {
+
   const currentWeek = useJourneyStore(s => s.currentWeek);
   const daysToDue = useJourneyStore(s => s.daysToDue);
   const mom = useJourneyStore(s => s.mom);
   const baby = useJourneyStore(s => s.baby);
 
   const isLoaded = useJourneyStore(s => s.isLoaded);
-  console.log(baby);
+
+  const fetchJourneyData = useJourneyStore(s => s.fetchJourneyData);
+
+  const dueDate: string | null = null;
+
+  const didInit = useRef(false);
+  useEffect(() => {
+    if (didInit.current) return;
+    didInit.current = true;
+    fetchJourneyData(dueDate ?? undefined);
+  }, [fetchJourneyData, dueDate]);
 
   return (
     <div className={styles.dashboardContainer}>
