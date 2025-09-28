@@ -9,6 +9,16 @@ import css from './FeelingCheckCard.module.css';
 import Button from '../../ui/Button/Button';
 import Modal from '@/components/Modal/Modal';
 import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
+import dayjs from 'dayjs';
+import { NewDiaryData } from '@/types/diary';
+
+const curDate = dayjs().format('YYYY-MM-DD');
+const initialValues: NewDiaryData = {
+  title: '',
+  description: '',
+  emotions: [],
+  date: curDate,
+};
 
 export default function FeelingCheckCard() {
   const router = useRouter();
@@ -38,7 +48,11 @@ export default function FeelingCheckCard() {
 
       {isOpen && (
         <Modal onClose={() => setIsOpen(false)} title={'Щоденник'}>
-          <AddDiaryEntryForm closeModal={() => setIsOpen(false)} />
+          <AddDiaryEntryForm
+            initialValues={initialValues}
+            isPatch={false}
+            closeModal={() => setIsOpen(false)}
+          />
         </Modal>
       )}
     </div>
