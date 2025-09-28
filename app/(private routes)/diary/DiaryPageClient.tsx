@@ -17,6 +17,8 @@ const DiaryPageClient = () => {
     fetchEmotions();
   }, [fetchDiaries, fetchEmotions]);
 
+  console.log(diaries);
+
   if (!diaries) return <Loader />;
 
   return (
