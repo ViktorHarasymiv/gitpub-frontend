@@ -169,17 +169,6 @@ export const getDiaries = async (page: number) => {
   return resp.data;
 };
 
-// export const getAllTasks = async (page: number): Promise<TasksHttpResponse> => {
-//   const PARAMS = new URLSearchParams({
-//     page: page.toString(),
-//   });
-
-//   const response = await serverApi.get<TasksHttpResponse>('/task', {
-//     params: PARAMS,
-//   });
-
-//   return response.data;
-// };
 
 export async function createDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
