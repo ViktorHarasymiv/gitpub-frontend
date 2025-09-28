@@ -16,7 +16,7 @@ export const useJourneyStore = create<JourneyState>(set => ({
   daysToDue: null,
   baby: null,
   mom: null,
-  isLoaded: true,
+  isLoaded: false,
 
   fetchJourneyData: async (dueDate: string) => {
     if (!dueDate) return;

@@ -139,6 +139,8 @@
   border-radius: 100px;
   padding: 4px 10px;
   background-color: var(--opacity-neutral-darkest-5);
+
+  text-align: center;
 }
 
 .comfortTip {
