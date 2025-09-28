@@ -263,7 +263,12 @@ export default function AddDiaryEntryForm({
             </Field>
           </div>
 
-          <Button type="submit">Зберегти</Button>
+          <Button
+            type="submit"
+            styles={{ margin: '0 auto', maxWidth: '295px' }}
+          >
+            Зберегти
+          </Button>
         </Form>
       )}
     </Formik>

@@ -4,15 +4,17 @@ import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
-  const { data } = await api('/diaries', {
+  const resp = await api('/diaries', {
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       Cookie: cookieStore.toString(),
     },
   });
 
-  if (data) {
-    return NextResponse.json(data);
+  if (resp.data) {
+    return NextResponse.json(resp.data);
   }
 
   return NextResponse.json(
@@ -23,12 +25,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   try {
     const body = await request.json();
 
     const resp = await api.post('/diaries', body, {
       headers: {
+        Authorization: `Bearer ${accessToken}`,
         Cookie: cookieStore.toString(),
         'Content-Type': 'application/json',
       },
@@ -48,12 +52,14 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   try {
     const { _id, ...data } = await request.json();
 
     const resp = await api.patch(`/diaries/${_id}`, data, {
       headers: {
+        Authorization: `Bearer ${accessToken}`,
         Cookie: cookieStore.toString(),
         'Content-Type': 'application/json',
       },

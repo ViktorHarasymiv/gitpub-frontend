@@ -31,7 +31,6 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
   const { title } = await params;
-
   try {
     await api.delete(`/diaries/${title}`, {
       headers: {
@@ -55,19 +54,23 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
 export async function PATCH(request: NextRequest, { params }: Props) {
   const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+
   const { title } = await params;
 
   try {
     const body = await request.json();
-
+    console.log('marvijnL:', title, 'vbla:', body);
     const resp = await api.patch(`/diaries/${title}`, body, {
       headers: {
+        Authorization: `Bearer ${accessToken}`,
         Cookie: cookieStore.toString(),
       },
     });
 
     return NextResponse.json(resp.data, { status: 200 });
   } catch (error) {
+    console.log('err:', error);
     return NextResponse.json(
       { error: `Failed to update diary, ${error}` },
       { status: 500 }
