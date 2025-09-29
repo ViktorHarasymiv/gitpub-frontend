@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getCurrentWeek } from '../api/clientApi';
+import { getCurrentWeek, getCurrentWeekPublic } from '../api/clientApi';
 import { BabyInfo, MomInfo } from '@/types/weeks';
 
 interface JourneyState {
@@ -16,10 +16,11 @@ export const useJourneyStore = create<JourneyState>(set => ({
   daysToDue: null,
   baby: null,
   mom: null,
+  isPublic: false,
   isLoaded: false,
 
   fetchJourneyData: async (dueDate: string) => {
-    if (!dueDate) return;
+    if (!dueDate) getCurrentWeekPublic();
 
     try {
       const data = await getCurrentWeek(dueDate);

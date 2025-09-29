@@ -11,7 +11,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { usePathname } from 'next/navigation';
 
 import { useJourneyStore } from '@/lib/store/weeksDataStore';
-import { getCurrentWeek } from '@/lib/api/clientApi';
+import { getCurrentWeek, getCurrentWeekPublic } from '@/lib/api/clientApi';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
 
@@ -20,6 +20,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isAuthenticated } = useAuthStore();
   const path = usePathname();
   const isMobile = useIsMobile();
 
@@ -34,23 +35,30 @@ export default function RootLayout({
   };
 
   useEffect(() => {
-    if (!user?.dueDate) return;
-
     const fetchData = async () => {
-      const data = await getCurrentWeek(user?.dueDate);
-      if (data) {
+      try {
+        const data =
+          isAuthenticated && user?.dueDate
+            ? await getCurrentWeek(user.dueDate)
+            : await getCurrentWeekPublic();
+
+        if (!data) return;
+
         useJourneyStore.setState({
-          currentWeek: data.week,
-          daysToDue: data.daysToDue,
-          baby: data.pack.baby,
-          mom: data.pack.mom,
+          currentWeek: data.week ?? null,
+          daysToDue: data.daysToDue ?? null,
+          baby: data.pack.baby ?? null,
+          mom: data.pack.mom ?? null,
           isLoaded: true,
         });
+      } catch (error) {
+        console.error('Failed to fetch journey data:', error);
+        useJourneyStore.setState({ isLoaded: false });
       }
     };
 
     fetchData();
-  }, [user?.dueDate]);
+  }, [user?.dueDate, isAuthenticated]);
 
   return (
     <>
