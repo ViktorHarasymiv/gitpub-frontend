@@ -1,13 +1,13 @@
 .diaryNoteListWrapper {
-  min-width: 335px;
+  max-width: 100%;
+  max-height: fit-content;
+
   border-radius: 32px;
   padding: 24px 16px;
   background: var(--color-scheme-foreground);
-  height: 100%;
-  overflow: auto;
-  scroll-behavior: smooth;
-}
 
+  overflow: hidden;
+}
 .diaryNoteList_header {
   display: flex;
   align-items: center;
@@ -38,7 +38,13 @@
     font-size: 16px;
   }
 }
+
 .diaryList {
+  overflow: scroll;
+
+  max-height: 94%;
+  height: fit-content;
+
   list-style: none;
   padding: 0;
   display: flex;

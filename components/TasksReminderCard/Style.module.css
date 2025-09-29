@@ -17,8 +17,8 @@
 
 @media screen and (min-width: 1439.98px) {
   .task_form {
-    max-width: 440px;
-    flex: 1;
+    max-width: 390px;
+    width: 100%;
   }
 }
 
@@ -66,6 +66,13 @@
   flex-direction: column;
 
   gap: 16px;
+}
+
+.input_label_wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+
+  gap: 8px;
 }
 
 .item {

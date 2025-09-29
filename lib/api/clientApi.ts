@@ -18,6 +18,7 @@ export interface FetchDiaryResponse {
   };
 }
 import { Journey } from '@/types/journey';
+import { isAxiosError } from 'axios';
 
 interface TasksHttpResponse {
   result: {
@@ -29,15 +30,58 @@ interface TasksHttpResponse {
 // REGISTER
 
 export const register = async (data: RegisterRequest) => {
-  const res = await serverApi.post<User>('/auth/register', data);
-  return res.data;
+  try {
+    const res = await serverApi.post<User>('/auth/register', data);
+    return { success: true, data: res.data };
+  } catch (error: unknown) {
+    let message = 'Не вдалося зареєструвати користувача';
+    let status: number | undefined;
+
+    if (isAxiosError(error)) {
+      const errorData = error.response?.data;
+
+      if (typeof errorData?.message === 'string') {
+        message = errorData.message;
+      } else if (typeof errorData?.error === 'string') {
+        message = errorData.error;
+      }
+
+      status = error.response?.status;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    return { success: false, message, status };
+  }
 };
 
 // LOGIN
 
 export const login = async (data: LoginRequest) => {
-  const res = await serverApi.post<User>('/auth/login', data);
-  return res.data;
+  try {
+    const res = await serverApi.post<User>('/auth/login', data);
+    return { success: true, data: res.data };
+  } catch (error: unknown) {
+    let message = 'Не вдалося виконати вхід';
+    let status: number | undefined;
+
+    if (isAxiosError(error)) {
+      const errorData = error.response?.data;
+
+      // Витягуємо error.message або error.error
+      if (typeof errorData?.message === 'string') {
+        message = errorData.message;
+      } else if (typeof errorData?.error === 'string') {
+        message = errorData.error;
+      }
+
+      status = error.response?.status;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    return { success: false, message, status };
+  }
 };
 
 // PATCH
@@ -168,7 +212,6 @@ export const getDiaries = async (page: number) => {
 
   return resp.data;
 };
-
 
 export async function createDiary(newDiary: NewDiaryData) {
   const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);

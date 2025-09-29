@@ -4,10 +4,18 @@
   font-size: 16px;
   line-height: 1.6;
   color: var(--color-scheme-text);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-width: 55%;
+
   @media screen and (width >= 1280px) {
     font-size: 18px;
   }
 }
+
 .diaryItemHeader_date {
   font-family: var(--font-family);
   font-weight: 400;
@@ -31,6 +39,9 @@
   padding: 0;
 }
 .diaryTagList_item {
+  pointer-events: none;
+  user-select: none;
+
   border: 1px solid var(--opacity-transparent);
   border-radius: 100px;
   padding: 2px 12px;

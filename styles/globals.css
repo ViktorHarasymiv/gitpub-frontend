@@ -3,6 +3,13 @@
 
 /* BASE */
 
+html {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
 html,
 body {
   margin: 0;
@@ -86,7 +93,6 @@ section {
     flex-wrap: nowrap;
   }
   .container {
-    width: 100%;
     padding: 24px 16px;
   }
   main {
@@ -95,6 +101,18 @@ section {
 
   .main {
     padding: 24px 32px;
+  }
+}
+
+@media screen and (min-width: 767.98px) {
+  body {
+    max-width: 704px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  body {
+    max-width: 1440px;
   }
 }
 

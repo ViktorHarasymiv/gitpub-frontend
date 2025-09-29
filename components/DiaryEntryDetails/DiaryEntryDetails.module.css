@@ -1,18 +1,22 @@
 .diary_noteWrapper {
+  overflow: hidden;
+
+  max-width: 335px;
   border-radius: 32px;
   background: var(--color-scheme-foreground);
   border: 0px solid var(--color-scheme-border);
   padding: 24px;
-  display: block;
-  overflow: auto;
-  scroll-behavior: smooth;
 }
+
 .diary_note_header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-bottom: 16px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
+
 .diary_noteList_title {
   font-family: var(--second-family);
   font-weight: 700;
@@ -24,6 +28,7 @@
     font-size: 20px;
   }
 }
+
 .diary_noteList_noNote {
   font-family: var(--second-family);
   font-weight: 700;
@@ -37,6 +42,7 @@
     font-size: 20px;
   }
 }
+
 .diary_note_date {
   display: flex;
   align-items: center;
@@ -47,11 +53,13 @@
   line-height: 160%;
   color: var(--color-scheme-text);
 }
+
 .diary_noteHeader_titleBox {
   display: flex;
   align-items: center;
   gap: 18px;
 }
+
 .diary_note_content {
   font-family: var(--font-family);
   font-weight: 400;
@@ -64,13 +72,20 @@
     font-size: 16px;
   }
 }
+
 .diary_note_tagList {
   display: flex;
-  gap: 8px;
+  row-gap: 18px;
+  column-gap: 12px;
+  flex-wrap: wrap;
   list-style: none;
   padding: 0;
 }
+
 .diary_tagListNote_item {
+  pointer-events: none;
+  user-select: none;
+
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 12px;
@@ -82,5 +97,11 @@
   background: var(--opacity-neutral-darkest-5);
   @media screen and (width >= 1280px) {
     font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1439.98px) {
+  .diary_noteWrapper {
+    max-width: 100%;
   }
 }

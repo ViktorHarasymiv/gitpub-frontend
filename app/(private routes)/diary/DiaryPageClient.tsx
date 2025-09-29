@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import DiaryList from '@/components/DiaryList/DiaryList';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
 import { useDiaryStore } from '@/lib/store/diaryStore';
@@ -8,20 +8,16 @@ import Loader from '@/components/ui/Loader/Loader';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 const DiaryPageClient = () => {
-  const { diaries, fetchDiaries, selectedDiary } = useDiaryStore();
+  const { diaries, fetchDiaries, selectedDiary, isLoaded } = useDiaryStore();
   const { fetchEmotions } = useEmotionsStore();
   const isMobile = useIsMobile();
-
-  const [loading, setLoading] = useState(true);
-
-  console.log(diaries);
 
   useEffect(() => {
     fetchDiaries();
     fetchEmotions();
   }, [fetchDiaries, fetchEmotions]);
 
-  if (!diaries) return <Loader />;
+  if (!isLoaded) return <Loader />;
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
-import { NewDiaryData, Emotion } from '@/types/diary';
+import React, { forwardRef } from 'react';
+import { NewDiaryData, Emotion, DiaryEntry } from '@/types/diary';
 import * as Yup from 'yup';
 import Button from '../ui/Button/Button';
 import { createDiary } from '@/lib/api/clientApi';
@@ -14,40 +14,41 @@ import { useDiaryStore } from '@/lib/store/diaryStore';
 
 const curDate = dayjs().format('YYYY-MM-DD');
 
-const initialValues: NewDiaryData = {
-  title: '',
-  description: '',
-  emotions: [],
-  date: curDate,
-};
-
-const validationSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(1, 'Назва має містити щонайменше 1 символ')
-    .max(64, 'Назва не може перевищувати 64 символи')
-    .required('Назва обовʼязкова'),
-  description: Yup.string()
-    .min(1, 'Опис має містити щонайменше 1 символ')
-    .max(1000, 'Опис не може перевищувати 1000 символів')
-    .required('Опис обовʼязковий'),
-  date: Yup.string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Дата має бути у форматі YYYY-MM-DD')
-    .required(),
-  emotions: Yup.array()
-    .of(Yup.string())
-    .min(1, 'Обовʼязково вибрати хоча б одну емоцію')
-    .max(12, 'Неможливо вибрати більше 12 емоцій')
-    .required('Емоції обовʼязкові'),
-});
-
 interface Props {
   closeModal: () => void;
+  data?: DiaryEntry;
 }
 
-export default function AddDiaryEntryForm({ closeModal }: Props) {
+export default function AddDiaryEntryForm({ closeModal, data }: Props) {
   const queryClient = useQueryClient();
   const { emotions } = useEmotionsStore();
   const { fetchDiaries } = useDiaryStore();
+
+  const initialValues: NewDiaryData = {
+    title: data?.title || '',
+    description: data?.description || '',
+    emotions: data?.emotions || [],
+    date: curDate,
+  };
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .min(1, 'Назва має містити щонайменше 1 символ')
+      .max(64, 'Назва не може перевищувати 64 символи')
+      .required('Назва обовʼязкова'),
+    description: Yup.string()
+      .min(1, 'Опис має містити щонайменше 1 символ')
+      .max(1000, 'Опис не може перевищувати 1000 символів')
+      .required('Опис обовʼязковий'),
+    date: Yup.string()
+      .matches(/^\d{4}-\d{2}-\d{2}$/, 'Дата має бути у форматі YYYY-MM-DD')
+      .required(),
+    emotions: Yup.array()
+      .of(Yup.string())
+      .min(1, 'Обовʼязково вибрати хоча б одну емоцію')
+      .max(12, 'Неможливо вибрати більше 12 емоцій')
+      .required('Емоції обовʼязкові'),
+  });
 
   const { mutate } = useMutation({
     mutationFn: (diaryData: NewDiaryData) => createDiary(diaryData),
@@ -56,6 +57,27 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
       fetchDiaries();
     },
   });
+
+  const CustomPaper = forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(
+    function CustomPaper(props, ref) {
+      return (
+        <div
+          ref={ref}
+          {...props}
+          style={{
+            backgroundColor: 'var(--color-neutral-lightest)',
+            borderRadius: 12,
+            boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+            maxHeight: 250,
+            overflowY: 'auto',
+            padding: '4px 0',
+          }}
+        >
+          {props.children}
+        </div>
+      );
+    }
+  );
 
   return (
     <Formik
@@ -111,8 +133,8 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
               options={emotions}
               getOptionLabel={option => option.title}
               isOptionEqualToValue={(option, value) => option._id === value._id}
-              value={emotions.filter(e =>
-                (values.emotions as unknown as string[]).includes(e._id)
+              value={emotions.filter(
+                e => e._id && (values.emotions as string[]).includes(e._id)
               )}
               onChange={(_, newValue) =>
                 setFieldValue(
@@ -120,21 +142,7 @@ export default function AddDiaryEntryForm({ closeModal }: Props) {
                   newValue.map(e => e._id)
                 )
               }
-              PaperComponent={props => (
-                <div
-                  {...props}
-                  style={{
-                    backgroundColor: ' var(--color-neutral-lightest)',
-                    borderRadius: 12,
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
-                    maxHeight: 250,
-                    overflowY: 'auto',
-                    padding: '4px 0',
-                  }}
-                >
-                  {props.children}
-                </div>
-              )}
+              PaperComponent={CustomPaper}
               renderOption={(props, option, { selected }) => {
                 const { key, ...rest } = props;
                 return (

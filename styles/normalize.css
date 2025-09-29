@@ -228,6 +228,11 @@ span {
   display: inline-block;
 }
 
+input[type='checkbox'] {
+  position: relative;
+  cursor: pointer;
+}
+
 input[type='name'],
 input[type='text'],
 input[type='email'],

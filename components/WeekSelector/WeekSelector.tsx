@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import css from './WeekSelector.module.css';
 import clsx from 'clsx';
+import { useDragScroll } from '@/hooks/useDragScroll';
 
 interface WeekSelectorProps {
   currentWeek: number | null;
@@ -48,8 +49,18 @@ const WeekSelector = ({
     }
   }, [selectedWeek, currentWeek, weeks.length]);
 
+  const { onMouseDown, onMouseLeave, onMouseUp, onMouseMove } =
+    useDragScroll<HTMLUListElement>('horizontal', containerRef);
+
   return (
-    <ul className={css.container} ref={containerRef}>
+    <ul
+      className={css.container}
+      ref={containerRef}
+      onMouseDown={onMouseDown}
+      onMouseLeave={onMouseLeave}
+      onMouseUp={onMouseUp}
+      onMouseMove={onMouseMove}
+    >
       {weeks.map((weekNumber, index) => (
         <li
           key={weekNumber}

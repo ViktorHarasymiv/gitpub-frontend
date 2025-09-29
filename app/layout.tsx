@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import PageLoader from '@/components/PageLoader/PageLoader';
 import ThemeBodyWrapper from '@/components/ThemeBodyWrapper/ThemeBodyWrapper';
+import { Toast } from '@/components/ui/Toast/Toast';
 
 const lato = Lato({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
       <ThemeBodyWrapper>
         <TanStackProvider>
           <AuthProvider>
+            <Toast />
             <PageLoader>{children}</PageLoader>
           </AuthProvider>
         </TanStackProvider>

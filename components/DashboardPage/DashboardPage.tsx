@@ -9,7 +9,6 @@ import FeelingCheckCard from '@/components/DashboardPage/FeelingCheckCard/Feelin
 import TasksReminderCard from '@/components/TasksReminderCard/TasksReminderCard';
 import { useJourneyStore } from '@/lib/store/weeksDataStore';
 import Loader from '../ui/Loader/Loader';
-import { useAuthStore } from '@/lib/store/authStore';
 
 export default function DashboardPage() {
   const currentWeek = useJourneyStore(s => s.currentWeek);

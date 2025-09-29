@@ -13,12 +13,12 @@ import Logo from '@/public/icons/Logo.svg';
 import Image from 'next/image';
 import Button from '@/components/ui/Button/Button';
 import Link from 'next/link';
-import { Icon } from '@/components/ui/Icon/Icon';
 
 import { RegisterRequest } from '@/types/user';
-import { login, register } from '@/lib/api/clientApi';
+import { register } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useToastStore } from '@/lib/store/toastStore';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -47,12 +47,26 @@ export default function RegisterForm() {
 
   const handleSubmit = async (formValues: RegisterRequest) => {
     try {
-      console.log(formValues);
-      const res = await register(formValues);
+      const result = await register(formValues);
 
-      if (res) {
-        setUser(res);
+      if (result.success && result.data) {
+        setUser(result.data);
+
         router.push('/profile/edit');
+      }
+
+      if (result.success) {
+        useToastStore
+          .getState()
+          .showToast(`${formValues?.email}, зареєстровано !`, 'success');
+      }
+
+      if (!result.success) {
+        useToastStore
+          .getState()
+          .showToast(result.message ?? 'Помилка невідома');
+
+        return result.message;
       }
     } catch (error) {
       console.error('Помилка реєстрації:', error);

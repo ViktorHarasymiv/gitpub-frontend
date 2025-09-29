@@ -19,9 +19,11 @@ import { getMe, login } from '@/lib/api/clientApi';
 import { LoginRequest } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/lib/store/toastStore';
 
 export default function RegisterForm() {
   const router = useRouter();
+
   const setUser = useAuthStore(state => state.setUser);
 
   const initialValues = { email: '', password: '' };
@@ -36,18 +38,23 @@ export default function RegisterForm() {
   });
 
   const handleSubmit = async (formValues: LoginRequest) => {
-    try {
-      const res = await login(formValues);
-      const userRes = await getMe();
-      if (res) {
-        console.log(userRes);
+    const result = await login(formValues);
 
-        setUser(userRes);
-        router.push('/');
-      }
-    } catch (error) {
-      console.log('error', error);
+    if (result.success) {
+      useToastStore
+        .getState()
+        .showToast(`${formValues?.email}, з поверненням!`, 'success');
     }
+
+    if (!result.success) {
+      useToastStore.getState().showToast(result.message ?? 'Помилка невідома');
+
+      return result.message;
+    }
+
+    const userRes = await getMe();
+    setUser(userRes);
+    router.push('/');
   };
 
   return (

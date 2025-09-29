@@ -14,6 +14,7 @@ import Button from '../ui/Button/Button';
 import ModalTask from './ModalTask';
 import { getAllTasks, patchActiveTask } from '@/lib/api/clientApi';
 import { Task } from '@/types/task';
+import { useAuthStore } from '@/lib/store/authStore';
 
 interface TasksHttpResponse {
   result: {
@@ -23,6 +24,7 @@ interface TasksHttpResponse {
 }
 
 function TasksReminderCard() {
+  const { isAuthenticated } = useAuthStore();
   const [switchModal, setSwitchModal] = useState(false);
   const queryClient = useQueryClient();
 
@@ -71,30 +73,45 @@ function TasksReminderCard() {
             className={iconStyle.icon}
           />
         </div>
-        {tasks.length > 0 && !isLoading ? (
+        {tasks.length > 0 && !isLoading && isAuthenticated ? (
           <ul className={css.list}>
-            {tasks.map((item, index) => {
-              return (
-                <li key={index} className={css.item}>
-                  <input
-                    onChange={() => handleToggleActive(item._id, item.isActive)}
-                    type="checkbox"
-                    checked={item.isActive}
-                    name={item.text}
-                  />
-                  <div className={css.item_content}>
-                    <span>{formatDateShort(item.date)}</span>
-                    <span
-                      style={{
-                        textDecoration: item.isActive ? 'line-through' : 'none',
-                      }}
+            {tasks
+              .slice()
+              .reverse()
+              .map((item, index) => {
+                return (
+                  <li key={index} className={css.item}>
+                    <label
+                      htmlFor={item.text}
+                      onClick={() =>
+                        handleToggleActive(item._id, item.isActive)
+                      }
+                      className={css.input_label_wrapper}
                     >
-                      {item.text}
-                    </span>
-                  </div>
-                </li>
-              );
-            })}
+                      <input
+                        type="checkbox"
+                        checked={item.isActive}
+                        name={item.text}
+                        onChange={() =>
+                          handleToggleActive(item._id, item.isActive)
+                        }
+                      />
+                      <div className={css.item_content}>
+                        <span>{formatDateShort(item.date)}</span>
+                        <span
+                          style={{
+                            textDecoration: item.isActive
+                              ? 'line-through'
+                              : 'none',
+                          }}
+                        >
+                          {item.text}
+                        </span>
+                      </div>
+                    </label>
+                  </li>
+                );
+              })}
           </ul>
         ) : (
           <div className={css.greating_block}>
