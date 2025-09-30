@@ -28,7 +28,7 @@
 
 @media screen and (min-width: 768px) {
   .feelingCheckCardContainer {
-    width: 704px;
+    width: 100%;
   }
 }
 

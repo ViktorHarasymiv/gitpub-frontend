@@ -33,19 +33,18 @@
 }
 
 @media screen and (min-width: 768px) {
-  .statusBlockContainer{
+  .statusBlockContainer {
     gap: 32px;
     margin-bottom: 32px;
   }
 
-  .statusBlockWrapper{
+  .statusBlockWrapper {
     min-width: 336px;
   }
 }
 
 @media screen and (min-width: 1440px) {
-
-  .statusBlockWrapper{
+  .statusBlockWrapper {
     min-width: 305px;
     height: 127px;
   }

@@ -20,12 +20,12 @@ import { LoginRequest } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useToastStore } from '@/lib/store/toastStore';
-import { borderColor } from '@mui/system';
 
 export default function RegisterForm() {
   const router = useRouter();
 
   const setUser = useAuthStore(state => state.setUser);
+  const setIsLoaded = useAuthStore(state => state.setIsLoaded);
 
   const initialValues = { email: '', password: '' };
 
@@ -39,6 +39,8 @@ export default function RegisterForm() {
   });
 
   const handleSubmit = async (formValues: LoginRequest) => {
+    setIsLoaded(true);
+
     const result = await login(formValues);
 
     if (result.success) {
@@ -46,6 +48,7 @@ export default function RegisterForm() {
     }
 
     if (!result.success) {
+      setIsLoaded(false);
       useToastStore.getState().showToast(result.message ?? 'Помилка невідома');
 
       return result.message;

@@ -79,3 +79,10 @@
     align-items: start;
   }
 }
+
+@media screen and (min-width: 1439.98px) {
+  .user_info_wrapper {
+    align-items: center;
+    justify-content: start;
+  }
+}

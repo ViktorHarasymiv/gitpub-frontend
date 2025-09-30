@@ -11,7 +11,7 @@
 
 @media screen and (min-width: 767.98px) {
   .task_form {
-    max-width: 704px;
+    max-width: 100%;
   }
 }
 

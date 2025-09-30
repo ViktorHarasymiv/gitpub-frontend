@@ -5,7 +5,7 @@
   gap: 4px;
   border-radius: 32px;
   min-width: 335px;
-  height: 146px;
+  height: fit-content;
   background-color: var(--color-scheme-foreground);
   margin-bottom: 16px;
 }
@@ -19,7 +19,6 @@
 }
 
 .MomTipCardText {
-  overflow-y: auto;
   scrollbar-gutter: stable both-edges;
   font-size: 14px;
   line-height: 1.6;
@@ -28,8 +27,7 @@
 
 @media screen and (min-width: 768px) {
   .MomTipCardContainer {
-    max-width: 704px;
-    height: 124px;
+    max-width: 100%;
   }
 }
 
@@ -41,6 +39,8 @@
   }
 
   .MomTipCardText {
+    overflow-y: scroll;
+    max-height: 146px;
     font-size: 16px;
   }
 }
