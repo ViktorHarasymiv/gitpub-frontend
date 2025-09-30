@@ -31,15 +31,21 @@ export default function RegisterForm() {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(2, 'Ім’я має містити щонайменше 2 символи')
+      .min(3, 'Ім’я має містити щонайменше 3 символи')
+      .max(24, 'Ім’я не перевищує 24 символи')
+      .trim()
+
       .required('Ім’я обов’язкове'),
 
     email: Yup.string()
+      .trim()
       .email('Невірний формат email')
+      .max(34, 'Емейл не перевищує 34 символи')
       .required('Email обов’язковий'),
 
     password: Yup.string()
       .min(6, 'Пароль має містити щонайменше 6 символів')
+      .max(30, 'Пароль не перевищує 30 символи')
       .required('Пароль обов’язковий'),
   });
 
@@ -97,7 +103,10 @@ export default function RegisterForm() {
                   name="name"
                   placeholder="Ваше імʼя"
                   className={style.custom_input}
-                  style={{ color: errors.name && 'var(--color-red)' }}
+                  style={{
+                    color: errors.name && 'var(--color-red)',
+                    borderColor: errors.name && 'var(--color-red)',
+                  }}
                 />
                 <ErrorMessage
                   name="name"
@@ -113,7 +122,10 @@ export default function RegisterForm() {
                   name="email"
                   placeholder="hello@leleka.com"
                   className={style.custom_input}
-                  style={{ color: errors.email && 'var(--color-red)' }}
+                  style={{
+                    color: errors.email && 'var(--color-red)',
+                    borderColor: errors.email && 'var(--color-red)',
+                  }}
                 />
                 <ErrorMessage
                   name="email"
@@ -129,7 +141,10 @@ export default function RegisterForm() {
                   name="password"
                   placeholder="********"
                   className={style.custom_input}
-                  style={{ color: errors.password && 'var(--color-red)' }}
+                  style={{
+                    color: errors.password && 'var(--color-red)',
+                    borderColor: errors.password && 'var(--color-red)',
+                  }}
                 />
                 <ErrorMessage
                   name="password"

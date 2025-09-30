@@ -230,3 +230,13 @@ export async function createDiary(newDiary: NewDiaryData) {
   });
   return resp.data;
 }
+
+export const patchDiary = async (id: string, payload: NewDiaryData) => {
+  const cookieStore = await cookies();
+  const res = await serverApi.patch(`/diary/${id}`, payload, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};

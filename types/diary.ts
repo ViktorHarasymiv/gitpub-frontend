@@ -16,4 +16,10 @@ export interface NewDiaryData {
   date: string;
 }
 
+export type DiaryMutationResponse = {
+  data: {
+    diary: DiaryEntry;
+  };
+};
+
 export type Emotion = { _id?: string; title: string };

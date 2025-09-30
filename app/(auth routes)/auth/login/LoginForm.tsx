@@ -20,6 +20,7 @@ import { LoginRequest } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useToastStore } from '@/lib/store/toastStore';
+import { borderColor } from '@mui/system';
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -41,9 +42,7 @@ export default function RegisterForm() {
     const result = await login(formValues);
 
     if (result.success) {
-      useToastStore
-        .getState()
-        .showToast(`${formValues?.email}, з поверненням!`, 'success');
+      useToastStore.getState().showToast('Вхід виконано');
     }
 
     if (!result.success) {
@@ -81,7 +80,10 @@ export default function RegisterForm() {
                   name="email"
                   placeholder="hello@leleka.com"
                   className={style.custom_input}
-                  style={{ color: errors.email && 'var(--color-red)' }}
+                  style={{
+                    color: errors.email && 'var(--color-red)',
+                    borderColor: errors.email && 'var(--color-red)',
+                  }}
                 />
                 <ErrorMessage
                   name="email"
@@ -97,7 +99,10 @@ export default function RegisterForm() {
                   name="password"
                   placeholder="********"
                   className={style.custom_input}
-                  style={{ color: errors.password && 'var(--color-red)' }}
+                  style={{
+                    color: errors.password && 'var(--color-red)',
+                    borderColor: errors.password && 'var(--color-red)',
+                  }}
                 />
                 <ErrorMessage
                   name="password"

@@ -7,14 +7,9 @@ import Form from './LoginForm';
 import css from '../Page.module.css';
 
 import image from '@/public/img/logx2.jpg';
-import Loader from '@/components/ui/Loader/Loader';
-import { useAuthStore } from '@/lib/store/authStore';
 
 export default function RegisterPage() {
-  const { isLoaded } = useAuthStore();
   const usePageWidth = useWindowWidth();
-
-  if (isLoaded) return <Loader />;
 
   return (
     <main className={css.wrapper}>

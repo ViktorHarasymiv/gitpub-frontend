@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react';
 import { NewDiaryData, Emotion, DiaryEntry } from '@/types/diary';
 import * as Yup from 'yup';
 import Button from '../ui/Button/Button';
-import { createDiary } from '@/lib/api/clientApi';
+import { createDiary, patchDiary } from '@/lib/api/clientApi';
 import dayjs from 'dayjs';
 import { useEmotionsStore } from '@/lib/store/emotionStore';
 import { Autocomplete, TextField, Checkbox } from '@mui/material';
@@ -17,18 +17,29 @@ const curDate = dayjs().format('YYYY-MM-DD');
 interface Props {
   closeModal: () => void;
   data?: DiaryEntry;
+  patchMode?: boolean;
 }
 
-export default function AddDiaryEntryForm({ closeModal, data }: Props) {
+export default function AddDiaryEntryForm({
+  closeModal,
+  data,
+  patchMode,
+}: Props) {
   const queryClient = useQueryClient();
   const { emotions } = useEmotionsStore();
-  const { fetchDiaries } = useDiaryStore();
+  const { fetchDiaries, setSelectedDiary } = useDiaryStore();
 
   const initialValues: NewDiaryData = {
     title: data?.title || '',
     description: data?.description || '',
     emotions: data?.emotions || [],
     date: curDate,
+  };
+
+  type DiaryMutationResponse = {
+    data: {
+      diary: DiaryEntry;
+    };
   };
 
   const validationSchema = Yup.object().shape({
@@ -50,10 +61,19 @@ export default function AddDiaryEntryForm({ closeModal, data }: Props) {
       .required('Емоції обовʼязкові'),
   });
 
+  const mutationFn = (diaryData: NewDiaryData) =>
+    patchMode ? patchDiary(data!._id, diaryData) : createDiary(diaryData);
+
   const { mutate } = useMutation({
-    mutationFn: (diaryData: NewDiaryData) => createDiary(diaryData),
-    onSuccess: () => {
+    mutationFn,
+    onSuccess: (updatedDiary: unknown) => {
+      const diary = (updatedDiary as { data: { diary: DiaryEntry } }).data
+        .diary;
+
+      console.log(data);
+
       queryClient.invalidateQueries({ queryKey: ['diaryDraft'] });
+      setSelectedDiary(diary ?? null);
       fetchDiaries();
     },
   });
@@ -133,13 +153,13 @@ export default function AddDiaryEntryForm({ closeModal, data }: Props) {
               options={emotions}
               getOptionLabel={option => option.title}
               isOptionEqualToValue={(option, value) => option._id === value._id}
-              value={emotions.filter(
+              value={emotions?.filter(
                 e => e._id && (values.emotions as string[]).includes(e._id)
               )}
               onChange={(_, newValue) =>
                 setFieldValue(
                   'emotions',
-                  newValue.map(e => e._id)
+                  newValue?.map(e => e._id)
                 )
               }
               PaperComponent={CustomPaper}

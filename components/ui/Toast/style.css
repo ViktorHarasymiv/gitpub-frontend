@@ -2,7 +2,7 @@
   z-index: 9999;
   font-family: var(--second-family);
 
-  font-size: 14px;
+  font-size: clamp(0.625rem, 0.537rem + 0.3756vw, 0.875rem);
   position: fixed;
   top: 20px;
   right: 20px;

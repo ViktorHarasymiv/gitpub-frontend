@@ -198,8 +198,7 @@ export const getWeekFull = async (
   return data;
 };
 
-//========================TASKS API====================================
-//diary CRUD
+// diary CRUD
 
 export const getDiaries = async (page: number) => {
   const PARAMS = new URLSearchParams({
@@ -218,8 +217,8 @@ export async function createDiary(newDiary: NewDiaryData) {
   return resp.data;
 }
 
-export async function patchDiary(newDiary: NewDiaryData) {
-  const resp = await serverApi.post<DiaryEntry>('/diary', newDiary);
+export async function patchDiary(id: string, newDiary: NewDiaryData) {
+  const resp = await serverApi.patch<DiaryEntry>(`/diary/${id}`, newDiary);
   return resp.data;
 }
 

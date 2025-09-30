@@ -18,14 +18,14 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
   const [checkedData, setCheckedData] = useState(entryData);
   const { emotions } = useEmotionsStore();
   const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [isCreateModalOpen, setCreateModalOpen] = useState<boolean>(false);
+  const [isPatchModalOpen, setPatchModalOpen] = useState<boolean>(false);
   const { fetchDiaries } = useDiaryStore();
 
   const emotionMap = new Map(emotions.map(e => [e._id, e.title]));
 
-  const emotionsTags = entryData?.emotions
-    .map(id => emotionMap.get(id))
-    .filter(Boolean);
+  const emotionsTags = Array.isArray(entryData?.emotions)
+    ? entryData.emotions.map(id => emotionMap.get(id)).filter(Boolean)
+    : [];
 
   const handleDeleteDiary = async () => {
     if (!entryData?._id) return;
@@ -59,7 +59,7 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
         <div className={css.diary_note_header}>
           <div className={css.diary_noteHeader_titleBox}>
             <h2 className={css.diary_noteList_title}>{entryData?.title}</h2>
-            <Icon name="note" action={() => setCreateModalOpen(true)} />
+            <Icon name="note" action={() => setPatchModalOpen(true)} />
           </div>
 
           <div className={css.diary_note_date}>
@@ -99,15 +99,16 @@ function DiaryEntryDetails({ entryData }: DiaryEntryDetailsProps) {
         </ul>
       </div>
 
-      {isCreateModalOpen && (
+      {isPatchModalOpen && (
         <Modal
           title="Редагувати запис"
-          onClose={() => setCreateModalOpen(false)}
+          onClose={() => setPatchModalOpen(false)}
         >
           <AddDiaryEntryForm
+            patchMode={true}
             data={entryData}
             closeModal={() => {
-              setCreateModalOpen(false);
+              setPatchModalOpen(false);
             }}
           />
         </Modal>

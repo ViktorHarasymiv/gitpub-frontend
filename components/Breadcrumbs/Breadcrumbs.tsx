@@ -26,9 +26,11 @@ const Breadcrumbs = () => {
 
   return (
     <ul className={css.breadcrumbsContainer}>
-      <li>
-        <span className={css.path_label}>Лелека</span>
-        <Image className={css.arrow} src={Arrow} alt="" />
+      <li className={css.crumb_item}>
+        <Link href={'/'}>
+          <span className={css.path_label}>Лелека</span>
+        </Link>
+        <Image className={css.arrow} src={Arrow} alt="Icon" />
       </li>
       {segments.length === 0 && (
         <li
@@ -47,10 +49,17 @@ const Breadcrumbs = () => {
               ? 'var(--color-neutral)'
               : 'inherit',
           }}
+          className={css.crumb_item}
         >
-          <Link href={crumb.href}>{crumb.label}</Link>
+          <Link
+            href={crumb.href}
+            className={css.crumb_link}
+            title={crumb.label}
+          >
+            {crumb.label}
+          </Link>
           {index < breadcrumbs.length - 1 && (
-            <Image className={css.arrow} src={Arrow} alt="" />
+            <Image className={css.arrow} src={Arrow} alt="Icon" />
           )}
         </li>
       ))}

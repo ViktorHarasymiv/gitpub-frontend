@@ -81,7 +81,7 @@ const WeekSelector = ({
               }
             }}
           >
-            {weekNumber}
+            <span className={css.numm}>{weekNumber}</span>
             <span className={css.week}>Тиждень</span>
           </button>
         </li>
