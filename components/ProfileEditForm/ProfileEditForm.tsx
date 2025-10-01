@@ -19,6 +19,7 @@ import FormikSelect from '@/components/FormikSelect/FormikSelect';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { FormikDatePickerBirthday } from '@/components/FormikDatePicker/FormikDatePicker';
+import { justifyContent, maxWidth } from '@mui/system';
 
 type FormValues = {
   name: string;
@@ -34,7 +35,6 @@ const Profile = () => {
   // STATE
 
   const { user } = useAuthStore();
-  const setUser = useAuthStore(state => state.setUser);
 
   // FORMIK
 
@@ -92,9 +92,10 @@ const Profile = () => {
   };
 
   const styles = {
+    maxWidth: '70%',
     marginBottom: '32px',
     flexDirection: 'row',
-    alignItems: 'start',
+    justifyContent: 'start',
   };
 
   return (
