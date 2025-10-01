@@ -19,7 +19,7 @@ export default function DashboardPage() {
   const baby = useJourneyStore(s => s.baby);
   const isLoaded = useJourneyStore(s => s.isLoaded);
 
-  if (!isLoaded && user && isAuthenticated) return <Loader />;
+  if (!isLoaded) return <Loader />;
 
   return (
     <div className={styles.dashboardContainer}>
